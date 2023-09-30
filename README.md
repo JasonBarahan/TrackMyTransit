@@ -18,6 +18,10 @@ More features can be found <a href="https://github.com/JasonBarahan/csc207-proje
 The API we plan to use extensively in our application is a "Real-time Transit Information" Open API provided by TransLink (the agency responsible for managing bus operations in the Greater Vancouver area.) This API supports GET calls only (no posting allowed).
 
 ### Sample usage
+<ul>
+    <li>API call using Hoppscotch: <br>
+    <img src="img/hoppscotch_call.png"</li>
+</ul>
 [ screenshot of API calls using an online webpage goes here ] <br>
 [ screenshot of using Java code for an API call goes here ] <br>
 [ screenshot of Java API call output goes here ]
