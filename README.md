@@ -21,9 +21,8 @@ The API we plan to use extensively in our application is a "Real-time Transit In
 <ul>
     <li>API call using Hoppscotch: <br>
     <img src="img/hoppscotch_call.png"</li>
-    <li> API call using Java: (refer to pull request <a href=https://github.com/JasonBarahan/csc207-project/pull/10">#10</a>) <br></li>
+    <li> API call using Java: (refer to pull request <a href=https://github.com/JasonBarahan/csc207-project/pull/10>#10</a>) <br></li>
 
-    ```
     import okhttp3.HttpUrl;
     import okhttp3.OkHttpClient;
     import okhttp3.Request;
@@ -66,7 +65,6 @@ The API we plan to use extensively in our application is a "Real-time Transit In
             getStopInformation();
         }
     }
-    ```
 
 
 <li>Response: <br>
