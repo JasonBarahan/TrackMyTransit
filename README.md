@@ -4,6 +4,7 @@
 </div>
 
 ## Project Domain
+We plan to create a transit tracker within the area of ...
 
 ## The application
 
@@ -11,7 +12,9 @@
 The API we plan to use extensively in our application is 
 
 ### Sample usage
-[ screenshot of API calls using an online webpage goes here ] <br>
+
+Using https://www.postman.com/:
+![img.png](img.png)
 [ screenshot of using Java code for an API call goes here ] <br>
 [ screenshot of Java API call output goes here ]
 
