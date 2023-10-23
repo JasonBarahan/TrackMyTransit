@@ -12,7 +12,7 @@ Our project domain focuses on public transportation. We are developing a transit
 ## The application
 Our team plans to develop a GUI-based application that allows users to input the name of a GO Train station, and receive information such as:
 
-- The different available “features” at this station
+- The different available amenities at this station
 - A list that includes incoming trains and buses to that station
 
 Furthermore, users will be allowed to access more information about each individual incoming train and bus to the station they are viewing, this includes:
@@ -42,6 +42,10 @@ GET REQUEST input: `http://api.openmetrolinx.com/OpenDataAPI/api/V1/Stop/NextSer
 <!-- Some of the links here are empty and need to be filled. -->
 <ul>
     <li><a href="hthttp://api.openmetrolinx.com/OpenDataAPI/Help/Index/en">API documentation</a> courtesy of Metrolinx</li>
+</ul>
+
+## Disclaimers
+<ul>
     <li>Disclaimer #1: <br>"Route and arrival data used in this product or service is provided by permission of Metrolinx. Metrolinx assumes no responsibility for the accuracy or currency of the Data used in this product or service.”</li>
-    <li>Disclaimer #2: <br>"This application is for study purposes only.”</li>
+    <li>Disclaimer #2: <br>"This application is for study (educational) purposes only.”</li>
 </ul>
