@@ -1,2 +1,2 @@
-package view;public class SearchView {
+package view;public class SearchPanelView {
 }

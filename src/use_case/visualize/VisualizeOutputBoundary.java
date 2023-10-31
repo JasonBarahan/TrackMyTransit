@@ -1,2 +1,4 @@
-package use_case.visualize;public class VisualizeOutputBoundary {
+package use_case.visualize;
+
+public interface VisualizeOutputBoundary {
 }

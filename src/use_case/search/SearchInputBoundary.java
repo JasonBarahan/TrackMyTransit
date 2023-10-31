@@ -1,2 +1,4 @@
-package use_case.search;public class SearchInputBoundary {
+package use_case.search;
+
+public interface SearchInputBoundary {
 }

@@ -1,2 +1,3 @@
-package entity;public class StationFactory {
+package entity;
+public class StationFactory {
 }
