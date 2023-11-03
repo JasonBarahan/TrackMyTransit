@@ -38,9 +38,23 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
         stations.put("Union", mockUnionStation);
     }
     @Override
-    public String getStationName(String inputStationName) {
-        return (stations.get(inputStationName)).getName();
+    public Station getStation (String inputStationName) {
+
+        return stations.get(inputStationName);
     }
+
+    @Override
+    public String getStationParentLine(String inputStationName) {
+
+        return (stations.get(inputStationName)).getParentLine();
+    }
+
+    @Override
+    public List<String> getStationAmenities(String inputStationName) {
+
+        return (stations.get(inputStationName)).getAmenitiesList();
+    }
+
     public boolean stationExist(String identifier){
         return stations.containsKey(identifier); //NOTE: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
 
