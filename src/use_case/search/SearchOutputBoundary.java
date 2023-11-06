@@ -4,5 +4,5 @@ public interface SearchOutputBoundary {
     void prepareSuccessView(SearchOutputData searchOutputData);
 
     // TODO: Implement this later
-    //void prepareFailView(String error);
+    void prepareFailView(String error);
 }
