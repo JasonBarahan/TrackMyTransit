@@ -17,6 +17,7 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
     public final String viewName = "Search";
     private final SearchViewModel searchViewModel;
     private final JTextField stationInputField = new JTextField(25);
+    private final JLabel stationErrorField = new JLabel();
     private final SearchController searchController;
     private final JButton search;
 
@@ -42,7 +43,6 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(search)) {
-                            System.out.print(SearchViewModel.getState().getStationName());
                             SearchState currentState = searchViewModel.getState();
                             searchController.execute(currentState.getStationName());
                         }
@@ -76,6 +76,7 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
 
         this.add(title);
         this.add(stationInfo);
+        this.add(stationErrorField);
         this.add(buttons);
     }
 
@@ -83,14 +84,17 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
     @Override
     // Need implementation
     public void actionPerformed(ActionEvent e) {
+        System.out.println("Click " + e.getActionCommand());
     }
 
     @Override
-    // Search Error not implemented yet
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("state")) {
-            SearchState state = (SearchState) evt.getNewValue();
+        SearchState state = (SearchState) evt.getNewValue();
+        if (state.getStationName() != null) {
             JOptionPane.showMessageDialog(this, state.getStationName());
+        }
+        else if (state.getStationError() != null) {
+            JOptionPane.showMessageDialog(this, state.getStationError());
         }
     }
 }
