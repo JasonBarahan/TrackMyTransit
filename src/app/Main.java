@@ -30,7 +30,7 @@ public class Main {
         SearchViewModel searchViewModel = new SearchViewModel();
         FileStationDataAccessObject fileStationDataAccessObject;
 
-        fileStationDataAccessObject = new FileStationDataAccessObject("./stopData.txt", new StationFactory());
+        fileStationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory());
         //have problem reading stopData.txt
 
         SearchPanelView searchPanelView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, fileStationDataAccessObject);

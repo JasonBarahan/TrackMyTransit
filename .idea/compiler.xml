@@ -9,5 +9,8 @@
         <module name="grade-api" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="go-station-project" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
