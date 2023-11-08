@@ -1,2 +1,3 @@
-package view;public class StationInfoView {
+package view;
+public class StationInfoView {
 }

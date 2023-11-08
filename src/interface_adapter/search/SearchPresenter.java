@@ -26,4 +26,10 @@ public class SearchPresenter implements SearchOutputBoundary {
         viewManagerModel.setActiveView(searchViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
+    public void prepareFailView(String error) {
+        SearchState searchState = SearchViewModel.getState();
+        searchState.setStationError(error);
+        searchViewModel.firePropertyChanged();
+    }
 }

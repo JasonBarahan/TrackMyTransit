@@ -13,7 +13,7 @@ import java.io.IOException;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         JFrame application = new JFrame("Search Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -30,7 +30,8 @@ public class Main {
         SearchViewModel searchViewModel = new SearchViewModel();
         FileStationDataAccessObject fileStationDataAccessObject;
 
-        fileStationDataAccessObject = new FileStationDataAccessObject("./stations.txt", new StationFactory());
+        fileStationDataAccessObject = new FileStationDataAccessObject("./stopData.txt", new StationFactory());
+        //have problem reading stopData.txt
 
         SearchPanelView searchPanelView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, fileStationDataAccessObject);
         views.add(searchPanelView, searchPanelView.viewName);

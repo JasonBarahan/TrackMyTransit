@@ -16,15 +16,19 @@ public class SearchUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
             SearchDataAccessInterface stationDataAccessObject) {
-        SearchController searchController = creatSearchUseCase(
-                viewManagerModel, searchViewModel, stationDataAccessObject);
-        return new SearchPanelView(searchViewModel, searchController);
-
+        try {
+            SearchController searchController = creatSearchUseCase(
+                    viewManagerModel, searchViewModel, stationDataAccessObject);
+            return new SearchPanelView(searchViewModel, searchController);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Could not open user data file.");
+        }
+        return null;
     }
     private static SearchController creatSearchUseCase(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
-            SearchDataAccessInterface stationDataAccessObject) {
+            SearchDataAccessInterface stationDataAccessObject) throws IOException{
 
         SearchOutputBoundary searchOutputBoundary = new SearchPresenter(viewManagerModel, searchViewModel);
 
