@@ -6,8 +6,7 @@ public class SearchInteractor implements SearchInputBoundary {
     final SearchDataAccessInterface stationDataAccessObject;
     final SearchOutputBoundary stationPresenter;
 
-    //Might add a Factory object later, here is the one used for SignupInteractor for reference:
-    // final StationFactory stationFactory; (Not sure if we need to actually use this)
+    // Note: Unlike week5ca, we likely do not need to insert a Factory here since we are not constructing new data based on user input
 
     public SearchInteractor(SearchDataAccessInterface stationDataAccessInterface,
                             SearchOutputBoundary searchOutputBoundary) {
@@ -18,14 +17,12 @@ public class SearchInteractor implements SearchInputBoundary {
     @Override
     public void execute(SearchInputData searchInputData) {
         if (stationDataAccessObject.stationExist(searchInputData.getStationName())) {
-            // Creating a Station object using the station factory based on the name that the user input
-            Station station = stationDataAccessObject.getStation(searchInputData.getStationName());
-            // Do something with Output Data
-            SearchOutputData searchOutputData = new SearchOutputData(station.getName(), station.getParentLine(), station.getAmenitiesList(), false); // Question: Do we need the last parameter?
+            Station station = stationDataAccessObject.getStation(searchInputData.getStationName()); // Creating a Station object using the station factory based on the name that the user input
+            SearchOutputData searchOutputData = new SearchOutputData(station.getName(), station.getParentLine(), station.getAmenitiesList(), false);
+            // TODO [Implementation Note]: Week5ca's Output Data class introduced a False parameter... how was this used to generate the "Failed" View? Do we need the last parameter for our implementation?
             stationPresenter.prepareSuccessView(searchOutputData);
-        } else{
-            // Idea: Display a view with an error message... (need to refer to most recent comment on Github for more details)
-            ...
+        } else { // If reached this "if branch", the station the user entered does not exist in the text file. So, display error message.
+            stationPresenter.prepareFailView("ERROR: Station with the name [" +  searchInputData.getStationName() + "] does not exist");
         }
     }
 }

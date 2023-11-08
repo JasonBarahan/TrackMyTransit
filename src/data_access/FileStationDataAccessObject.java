@@ -1,12 +1,11 @@
 package data_access;
 
-import entity.Train;
 import entity.Vehicle;
 import entity.StationFactory;
 import use_case.search.SearchDataAccessInterface;
 
+import java.io.*;
 import java.util.*; // resolves import for List and ArrayList
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import entity.Station;
@@ -14,28 +13,40 @@ import entity.Station;
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
 public class FileStationDataAccessObject implements SearchDataAccessInterface {
+    private final File stationTxtFile;
     private final Map<String, Station> stations = new HashMap<>();
-    private StationFactory stationFactory;
+    private final StationFactory stationFactory;
 
-    public FileStationDataAccessObject(StationFactory stationFactory){
+    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory) throws IOException {
 
         this.stationFactory = stationFactory;
+        stationTxtFile = new File(txtFilePath);
 
-        // Filling the attribute "stations" with mock data
+        // Reading the provided txt file that has a path specified by attribute txtFilePath
+        try(BufferedReader reader = new BufferedReader(new FileReader(stationTxtFile))){
+           String line;
+           reader.readLine(); // call the readline() method once outside the loop as we do not want to read the first line of txt file, since that line contains just the headers.
+           while((line = reader.readLine()) != null)  {
 
-        List <String> mockAuroraStationAmenities = new ArrayList<String>();
-        mockAuroraStationAmenities.add("Wifi");
-        List <Vehicle> mockAuroraStationVehicles = new ArrayList<Vehicle>();
-        mockAuroraStationVehicles.add(new Vehicle());
-        Station mockAuroraStation = stationFactory.create("Aurora", "AU", "Barrie Line", 3.14f, 3.15f, mockAuroraStationAmenities, mockAuroraStationVehicles);
-        stations.put("Aurora", mockAuroraStation);
+               String[] parsedStationInfo = line.split(","); //splitting  by "," since information in txt file is seperated by ","
+               String parsedStationName = parsedStationInfo[1];
+               String parsedStationID = parsedStationInfo[0];
 
-        List <String> mockUnionStationAmenities = new ArrayList<String>();
-        mockUnionStationAmenities.add("Washrooms");
-        List <Vehicle> mockUnionStationVehicles = new ArrayList<Vehicle>();
-        mockUnionStationVehicles.add(new Vehicle());
-        Station mockUnionStation = stationFactory.create("Union", "UN", "Infinity Line", 2.00f, 1.00f, mockUnionStationAmenities, mockUnionStationVehicles);
-        stations.put("Union", mockUnionStation);
+               String parsedStationParentLine = parsedStationInfo[5];
+               Float parsedStationLatitude = Float.valueOf(parsedStationInfo[2]); // TODO: Converting entry type to Float (object type), not the float primitative type
+               Float parsedStationLongtitude = Float.valueOf(parsedStationInfo[3]);
+
+               List <String> parsedStationAmenities = new ArrayList<String>(); //TODO: empty at the time of reading txt file, this will be populated through API calls
+               List <Vehicle> parsedStationVehicles = new ArrayList<Vehicle>(); //TODO: empty at the time of reading txt file, this will be populated through API calls
+
+               // For reference, here are the order of arguments in order to pass into stationFactory.create():
+               //(name, stationId, parentLine, latitude, longitude, amenitiesList, incomingVehicles)
+               Station station = stationFactory.create(parsedStationName, parsedStationID, parsedStationParentLine, parsedStationLatitude, parsedStationLongtitude, parsedStationAmenities, parsedStationVehicles);
+
+               stations.put(parsedStationName, station);
+
+           }
+        }
     }
     @Override
     public Station getStation (String inputStationName) {
@@ -56,7 +67,8 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
     }
 
     public boolean stationExist(String identifier){
-        return stations.containsKey(identifier); //NOTE: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
+        return stations.containsKey(identifier); //TODO: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
+                                                 // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
 
     }
 

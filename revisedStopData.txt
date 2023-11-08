@@ -1,0 +1,73 @@
+stop_id,stop_name,stop_lat,stop_lon,line,line_name
+WR,West Harbour GO,43.266775,-79.866222,LW,Lakeshore West
+WH,Whitby GO,43.86484,-78.93818,LE,Lakeshore East
+WE,Weston GO,43.70022,-79.514671,GT,Kitchener
+UN,Union Station,43.645195,-79.3806,UN,Union
+UI,Unionville GO,43.851689,-79.314332,ST,Stouffville
+ST,Stouffville GO,43.970924,-79.249989,ST,Stouffville
+SR,Streetsville GO,43.575584,-79.70882,MI,Milton
+SM,St. Marys VIA,43.260416,-81.136373,GT,Kitchener
+SF,Stratford VIA,43.364342,-80.973929,GT,Kitchener
+SCTH,St. Catharines GO,43.1476135,-79.2549057,LW,Lakeshore West
+SC,Scarborough GO,43.716945,-79.254722,LE,Lakeshore East
+RU,Rutherford GO,43.838487,-79.498819,BR,Barrie
+RO,Rouge Hill GO,43.780375,-79.130646,LE,Lakeshore East
+RI,Richmond Hill GO,43.874307,-79.426167,RH,Richmond Hill
+PO,Port Credit GO,43.555999,-79.586881,LW,Lakeshore West
+PIN,Pickering GO,43.831576,-79.084594,LE,Lakeshore East
+PA,Pearson Airport Terminal 1,43.6821671,-79.6132584,UP,UP Express
+OS,Durham College Oshawa GO,43.871004,-78.884807,LE,Lakeshore East
+OR,Oriole GO,43.765518,-79.364275,RH,Richmond Hill
+OL,Old Cummer GO,43.793703,-79.371403,RH,Richmond Hill
+OA,Oakville GO,43.455594,-79.682242,LW,Lakeshore West
+NI,Niagara Falls GO,43.108882,-79.063319,LW,Lakeshore West
+NE,Newmarket GO,44.060426,-79.459289,BR,Barrie
+MR,Markham GO,43.882691,-79.262469,ST,Stouffville
+MP,Maple GO,43.859481,-79.506984,BR,Barrie
+MO,Mount Pleasant GO,43.6749763,-79.8221817,GT,Kitchener
+ML,Milton GO,43.52364,-79.867172,MI,Milton
+MK,Milliken GO,43.823227,-79.301785,ST,Stouffville
+MJ,Mount Joy GO,43.900521,-79.26313,ST,Stouffville
+MI,Mimico GO,43.616411,-79.497762,LW,Lakeshore West
+ME,Meadowvale GO,43.597566,-79.754328,MI,Milton
+MA,Malton GO,43.705153,-79.63823,GT,Kitchener
+LS,Lisgar GO,43.590791,-79.788539,MI,Milton
+LO,Long Branch GO,43.591317,-79.546149,LW,Lakeshore West
+LN,London VIA,42.981112,-81.245994,GT,Kitchener
+LI,Old Elm GO,43.995416,-79.233457,ST,Stouffville
+LA,Langstaff GO,43.838546,-79.423139,RH,Richmond Hill
+KP,Kipling GO,43.636955,-79.536287,MI,Milton
+KI,Kitchener GO,43.455686,-80.49313,GT,Kitchener
+KE,Kennedy GO,43.733045,-79.262706,ST,Stouffville
+KC,King City GO,43.920037,-79.526886,BR,Barrie
+HA,Hamilton GO Centre,43.253284,-79.869192,LW,Lakeshore West
+GU,Guildwood GO,43.755272,-79.198252,LE,Lakeshore East
+GO,Gormley GO,43.941617,-79.399033,RH,Richmond Hill
+GL,Guelph Central GO,43.544353,-80.246917,GT,Kitchener
+GE,Georgetown GO,43.655373,-79.919054,GT,Kitchener
+EX,Exhibition GO,43.635549,-79.418927,LW,Lakeshore West
+ET,Etobicoke North GO,43.706172,-79.563506,GT,Kitchener
+ER,Erindale GO,43.567235,-79.668506,MI,Milton
+EG,Eglinton GO,43.739621,-79.23231,LE,Lakeshore East
+EA,East Gwillimbury GO,44.077996,-79.455776,BR,Barrie
+DW,Downsview Park GO,43.7536333,-79.47835,BR,Barrie
+DI,Dixie GO,43.608022,-79.577762,MI,Milton
+DA,Danforth GO,43.686462,-79.300358,LE,Lakeshore East
+CO,Cooksville GO,43.582973,-79.623695,MI,Milton
+CL,Clarkson GO,43.513127,-79.633206,LW,Lakeshore West
+CE,Centennial GO,43.873601,-79.289211,ST,Stouffville
+BU,Burlington GO,43.341265,-79.809141,LW,Lakeshore West
+BR,Brampton Innovation District GO,43.6869087,-79.7628632,GT,Kitchener
+BO,Bronte GO,43.416774,-79.722294,LW,Lakeshore West
+BM,Bloomington GO,43.975949,-79.397258,RH,Richmond Hill
+BL,Bloor GO,43.656928,-79.450192,GT,Kitchener
+BE,Bramalea GO,43.7022591,-79.6887512,GT,Kitchener
+BD,Bradford GO,44.116513,-79.555394,BR,Barrie
+BA,Barrie South GO,44.35112,-79.627441,BR,Barrie
+AU,Aurora GO,44.000758,-79.459725,BR,Barrie
+AP,Appleby GO,43.379429,-79.760991,LW,Lakeshore West
+AL,Aldershot GO,43.313385,-79.855659,LW,Lakeshore West
+AJ,Ajax GO,43.847766,-79.041372,LE,Lakeshore East
+AG,Agincourt GO,43.78611,-79.284385,ST,Stouffville
+AD,Allandale Waterfront GO,44.374139,-79.687858,BR,Barrie
+AC,Acton GO,43.6338043,-80.034111,GT,Kitchener
