@@ -30,9 +30,7 @@ public class SearchPresenter implements SearchOutputBoundary {
         //  This line sets the state's station error attribute value to null.
         //  This happens ONLY IF the prepareSuccessView has been triggered
         //  This is because should there be an error message stored in the state, we want to CLEAR THAT to display the success view
-        //  Is there a better way of doing this?
-
-        // TODO #2: We don't need to call searchViewModel.firePropertyChanged(); right?
+        //  CONFIRMED BY PROFESSOR: This implementation is fine
 
         // Step 2: Setting values in the SearchPanelView
         StationInfoState stationInfoState = stationInfoViewModel.getState();
