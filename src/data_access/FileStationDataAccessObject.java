@@ -5,6 +5,7 @@ import entity.Vehicle;
 import entity.StationFactory;
 import use_case.search.SearchDataAccessInterface;
 
+import java.io.File;
 import java.util.*; // resolves import for List and ArrayList
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,12 +15,16 @@ import entity.Station;
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
 public class FileStationDataAccessObject implements SearchDataAccessInterface {
+
+    private final File txtFile;
     private final Map<String, Station> stations = new HashMap<>();
     private StationFactory stationFactory;
 
-    public FileStationDataAccessObject(StationFactory stationFactory){
+    public FileStationDataAccessObject(String txtPath, StationFactory stationFactory){
 
         this.stationFactory = stationFactory;
+
+        txtFile = new File(txtPath);
 
         // Filling the attribute "stations" with mock data
 

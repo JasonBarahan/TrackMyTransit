@@ -2,7 +2,7 @@ package entity;
 
 import java.util.List;
 
-public class StationFactory {
+public class StationFactory implements StationFactoryInterface{
     /*
         Notes about implementation:
 

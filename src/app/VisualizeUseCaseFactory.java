@@ -1,2 +1,3 @@
-package app;public class VisualizeUseCaseFactory {
+package app;
+public class VisualizeUseCaseFactory {
 }

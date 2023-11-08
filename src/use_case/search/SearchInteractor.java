@@ -16,16 +16,17 @@ public class SearchInteractor implements SearchInputBoundary {
     }
 
     @Override
+    //TODO: implement fail case
     public void execute(SearchInputData searchInputData) {
         if (stationDataAccessObject.stationExist(searchInputData.getStationName())) {
             // Creating a Station object using the station factory based on the name that the user input
             Station station = stationDataAccessObject.getStation(searchInputData.getStationName());
             // Do something with Output Data
             SearchOutputData searchOutputData = new SearchOutputData(station.getName(), station.getParentLine(), station.getAmenitiesList(), false); // Question: Do we need the last parameter?
-            stationPresenter.prepareSuccessView(searchOutputData);
-        } else{
-            // Idea: Display a view with an error message... (need to refer to most recent comment on Github for more details)
-            ...
-        }
+            stationPresenter.prepareSuccessView(searchOutputData);}
+//        } else{
+//            // Idea: Display a view with an error message... (need to refer to most recent comment on Github for more details)
+//            ...
+//        }
     }
 }
