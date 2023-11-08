@@ -90,11 +90,10 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         SearchState state = (SearchState) evt.getNewValue();
-        if (state.getStationName() != null) {
-            JOptionPane.showMessageDialog(this, state.getStationName());
-        }
-        else if (state.getStationError() != null) {
+        if (state.getStationError() != null) {
             JOptionPane.showMessageDialog(this, state.getStationError());
+        } else if (state.getStationName() != null) {
+            JOptionPane.showMessageDialog(this, state.getStationName());
         }
     }
 }

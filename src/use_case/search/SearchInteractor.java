@@ -17,7 +17,7 @@ public class SearchInteractor implements SearchInputBoundary {
 
     @Override
     public void execute(SearchInputData searchInputData) {
-        if (! stationDataAccessObject.stationExist(searchInputData.getStationName())) {
+        if (stationDataAccessObject.stationExist(searchInputData.getStationName()) == false) {
             // When station name doesn't exist, show error message
             stationPresenter.prepareFailView("Station doesn't exist, please enter a correct station name.");
         } else{
