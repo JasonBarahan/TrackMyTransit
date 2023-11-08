@@ -6,7 +6,7 @@ public class SearchOutputData {
     private final String stationName;
     private final String stationParentLine;
     private final boolean searchFailed;
-    //  Not sure if we want to implement search fail case (i.e.: station name doesnt exist) for search bar yet
+    //  Not sure if we want to implement search fail case (i.e.: station name doesn't exist) for search bar yet
     //  We will keep the instance for now and might go back to it if possible
 
     private final List<String> stationAmenities;

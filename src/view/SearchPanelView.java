@@ -2,10 +2,7 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -29,11 +26,11 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
         this.searchController = searchController;
         this.searchViewModel.addPropertyChangeListener(this); // Listening to changes in SearchViewModel.java
 
-        JLabel title = new JLabel("Find Station Info");
+        JLabel title = new JLabel(searchViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         LabelTextPanel stationInfo = new LabelTextPanel(
-                new JLabel("Station name: "), stationInputField);
+                new JLabel(searchViewModel.STATION_INPUT_LABEL), stationInputField);
 
         JPanel buttons = new JPanel();
         submit = new JButton(searchViewModel.SUBMIT_BUTTON_LABEL);
@@ -92,6 +89,7 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
         }
         else if (state.getStateStationName() != null) {
             JOptionPane.showMessageDialog(this, state.getStateStationName());
+
         }
     }
 

@@ -20,6 +20,10 @@ public class Main {
 
         // The main application window.
         JFrame application = new JFrame("FindMyStation");
+        application.setPreferredSize(new Dimension(325, 600));
+        application.pack();
+        application.setLocationRelativeTo(null);
+        application.setVisible(true);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
