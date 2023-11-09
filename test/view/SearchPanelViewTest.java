@@ -162,7 +162,7 @@ public class SearchPanelViewTest {
         assertEquals(testQuery, searchField.getText());
         assertEquals(testQuery, searchViewModel.getState().getStateStationName());
     }
-    {}
+
     @org.junit.Test
     public void testValidQueryFixedTypoAtEnd() {
         /**
@@ -210,6 +210,7 @@ public class SearchPanelViewTest {
 
         // user makes typo and needs to backspace
         panel.dispatchEvent(generateBackspaceEvent(searchField));
+        pause(10);
 
         // pause execution for a bit (1/5th of a second) to account for user typing speed
         try {
@@ -223,8 +224,79 @@ public class SearchPanelViewTest {
         System.out.println("Query: " + query);
         System.out.println("Printed query: " + searchField.getText());
         System.out.println("State data: " + searchViewModel.getState().getStateStationName());
+        // TODO: searchViewModel.getState().getStateStationName() is still "Port Credit GOO"
         assertEquals(query, searchField.getText());
         assertEquals(query, searchViewModel.getState().getStateStationName());
+    }
+
+    @org.junit.Test
+    public void testValidQueryFixedTypoAtEnd2() {
+        /**
+         * A typo occurs at the end, which is met by a backspace.
+         */
+        SearchInputBoundary sib = null;
+        SearchViewModel searchViewModel = new SearchViewModel();
+
+        // controller
+        SearchController searchController = new SearchController(sib);
+        JPanel searchPanelView = new SearchPanelView(searchViewModel, searchController);
+
+        // make the frame visible
+        JFrame jf = new JFrame();
+        jf.setContentPane(searchPanelView);
+        jf.pack();
+        jf.setVisible(true);
+
+        // obtain quick reference to search panel
+        LabelTextPanel panel = (LabelTextPanel) searchPanelView.getComponent(1);
+        JTextField searchField = (JTextField)  panel.getComponent(1);
+
+        // write down string
+        String query = "Port Credit go";
+        String[] querySegments = {query, "GO"};
+        for (String q : querySegments) {
+            for (int i = 0; i < q.length(); i++) {
+                // get character from test query at current index
+                char c = q.charAt(i);
+
+                // create a new key typed event and dispatch
+                panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
+
+                // pause for a bit
+                pause(10);
+
+                // move to the right in the field
+                panel.dispatchEvent(generateMoveRightEvent(searchField));
+
+                // pause execution for a bit (1/5th of a second) to account for user typing speed
+                pause(200);
+
+            }
+
+            // user deletes the last 2 letters with incorrect casing
+            if (q.equals(querySegments[0])) {
+                panel.dispatchEvent(generateBackspaceEvent(searchField));
+                pause(200);
+                panel.dispatchEvent(generateBackspaceEvent(searchField));
+            }
+        }
+
+
+        // pause execution for a bit (1/5th of a second) to account for user typing speed
+        try {
+            sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        // assert state data matches user query test string
+        System.out.println();
+        System.out.println("Query: " + "Port Credit GO");
+        System.out.println("Printed query: " + searchField.getText());
+        System.out.println("State data: " + searchViewModel.getState().getStateStationName());
+
+        assertEquals("Port Credit GO", searchField.getText());
+        assertEquals("Port Credit GO", searchViewModel.getState().getStateStationName());
     }
 
     @org.junit.Test
@@ -342,11 +414,14 @@ public class SearchPanelViewTest {
 
             for (int p = 0; p < 9; p++) {
                 panel.dispatchEvent(generateMoveLeftEvent(searchField));
-                pause(20);
+                pause(200);
             }
             panel.dispatchEvent(generateBackspaceEvent(searchField));
-            pause(20);
+            pause(1000);
+            panel.dispatchEvent(generateMoveLeftEvent(searchField));
+            pause(1000);
             panel.dispatchEvent(generateKeyTypedEvent(searchField, 'o'));
+            //TODO: "o" is attached to the end in searchViewModel.getState().getStateStationName()
         }
 
         // assert state data matches user query test string
@@ -356,6 +431,150 @@ public class SearchPanelViewTest {
         System.out.println("State data: " + searchViewModel.getState().getStateStationName());
         assertEquals(query, searchField.getText());
         assertEquals(query, searchViewModel.getState().getStateStationName());
+    }
+
+
+    @org.junit.Test
+    public void testValidQueryFixedTypoInMiddle3() {
+        /**
+         * A typo occurs in the middle, which is met by a backspace, before the rest of
+         * the input is typed correctly.
+         */
+        SearchInputBoundary sib = null;
+        SearchViewModel searchViewModel = new SearchViewModel();
+
+        // controller
+        SearchController searchController = new SearchController(sib);
+        JPanel searchPanelView = new SearchPanelView(searchViewModel, searchController);
+
+        // make the frame visible
+        JFrame jf = new JFrame();
+        jf.setContentPane(searchPanelView);
+        jf.pack();
+        jf.setVisible(true);
+
+        // obtain quick reference to search panel
+        LabelTextPanel panel = (LabelTextPanel) searchPanelView.getComponent(1);
+        JTextField searchField = (JTextField)  panel.getComponent(1);
+
+        // write down string
+        String query = "Milton GO";
+        String[] querySegments = {"Miltan", "on GO"};
+        for (String q : querySegments) {
+            for (int i = 0; i < q.length(); i++) {
+                // get character from test query at current index
+                char c = q.charAt(i);
+
+                // create a new key typed event and dispatch
+                panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
+
+                // pause for a bit
+                pause(10);
+
+                // move to the right in the field
+                panel.dispatchEvent(generateMoveRightEvent(searchField));
+
+                // pause execution for a bit (1/5th of a second) to account for user typing speed
+                pause(200);
+
+            }
+
+            // user removes the last two letters in "Miltan"
+            if (q.equals(querySegments[0])) {
+                panel.dispatchEvent(generateBackspaceEvent(searchField));
+                pause(20);
+                panel.dispatchEvent(generateBackspaceEvent(searchField));
+            }
+        }
+
+        // pause execution for a bit (1/5th of a second) to account for user typing speed
+        try {
+            sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        // assert state data matches user query test string
+        System.out.println();
+        System.out.println("Query: " + query);
+        System.out.println("Printed query: " + searchField.getText());
+        System.out.println("State data: " + searchViewModel.getState().getStateStationName());
+        assertEquals(query, searchField.getText());
+        assertEquals(query, searchViewModel.getState().getStateStationName());
+    }
+
+    @org.junit.Test
+    public void testValidQueryFixedCasingAtStart() {
+        /**
+         * A casing typo occurs at the start, but the user does not notice it until the end.
+         * The user then presses the 'left arrow' button until the caret reaches the typo, erases it,
+         * then inserts the correct character without modifying anything else.
+         */
+        SearchInputBoundary sib = null;
+        SearchViewModel searchViewModel = new SearchViewModel();
+
+        // controller
+        SearchController searchController = new SearchController(sib);
+        JPanel searchPanelView = new SearchPanelView(searchViewModel, searchController);
+
+        // make the frame visible
+        JFrame jf = new JFrame();
+        jf.setContentPane(searchPanelView);
+        jf.pack();
+        jf.setVisible(true);
+
+        // obtain quick reference to search panel
+        LabelTextPanel panel = (LabelTextPanel) searchPanelView.getComponent(1);
+        JTextField searchField = (JTextField)  panel.getComponent(1);
+
+        // write down string
+        String query = "Union Station";
+        String[] querySegments = {"union Station"};
+        for (String q : querySegments) {
+            for (int i = 0; i < q.length(); i++) {
+                // get character from test query at current index
+                char c = q.charAt(i);
+
+                // create a new key typed event and dispatch
+                panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
+
+                // pause for a bit
+                pause(20);
+
+                // move to the right in the field
+                panel.dispatchEvent(generateMoveRightEvent(searchField));
+
+                // pause execution for a bit (1/5th of a second) to account for user typing speed
+                pause(20);
+
+            }
+
+            // move cursor to the correct typo caret
+            for (int p = 0; p < 12; p++) {
+                panel.dispatchEvent(generateMoveLeftEvent(searchField));
+                pause(200);
+            }
+
+            // user deletes the typo and move cursor to the correct position
+            panel.dispatchEvent(generateBackspaceEvent(searchField));
+            pause(200);
+            panel.dispatchEvent(generateMoveLeftEvent(searchField));
+            pause(1000);
+            // user fixes the typo
+            panel.dispatchEvent(generateKeyTypedEvent(searchField, 'U'));
+            pause(1000);
+
+        }
+
+        // assert state data matches user query test string
+        System.out.println();
+        System.out.println("Query: " + query);
+        System.out.println("Printed query: " + searchField.getText());
+        System.out.println("State data: " + searchViewModel.getState().getStateStationName());
+        assertEquals(query, searchField.getText());
+        assertEquals(query, searchViewModel.getState().getStateStationName());
+        // TODO: the corrected typo "U" is attached to the end in searchViewModel.getState().getStateStationName()
+        //  instead of the start
     }
 
     /**
