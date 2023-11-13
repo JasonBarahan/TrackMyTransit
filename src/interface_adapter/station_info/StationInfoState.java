@@ -6,6 +6,7 @@ public class StationInfoState {
     //Purpose of class: Contains the information we need to have during the station info state (the state after successful user input is received)
     private String stationName;
 
+    //TODO: If this "copy" constructor is unused, delete in the final project implementation
     public StationInfoState(StationInfoState copy) {
         stationName = copy.stationName;
     }

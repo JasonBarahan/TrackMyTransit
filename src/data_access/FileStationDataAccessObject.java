@@ -33,11 +33,11 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
                String parsedStationID = parsedStationInfo[0];
 
                String parsedStationParentLine = parsedStationInfo[5];
-               Float parsedStationLatitude = Float.valueOf(parsedStationInfo[2]); // TODO: Converting entry type to Float (object type), not the float primitative type
+               Float parsedStationLatitude = Float.valueOf(parsedStationInfo[2]); // converting string type to float object type. Through potential autoboxing, this float object type is converted to primitative type.
                Float parsedStationLongtitude = Float.valueOf(parsedStationInfo[3]);
 
-               List <String> parsedStationAmenities = new ArrayList<String>(); //TODO: empty at the time of reading txt file, this will be populated through API calls
-               List <Vehicle> parsedStationVehicles = new ArrayList<Vehicle>(); //TODO: empty at the time of reading txt file, this will be populated through API calls
+               List <String> parsedStationAmenities = new ArrayList<String>(); //This is empty at the time of reading txt file, this will be populated through API calls
+               List <Vehicle> parsedStationVehicles = new ArrayList<Vehicle>(); //This is empty at the time of reading txt file, this will be populated through API calls
 
                // For reference, here are the order of arguments in order to pass into stationFactory.create():
                //(name, stationId, parentLine, latitude, longitude, amenitiesList, incomingVehicles)

@@ -41,7 +41,7 @@ public class Main {
 
         // Creating a DAO called stationDataAccessObject by reading from file revisedStopData.txt, with the creation of the object being done by StationFactory()
         // Note: This process is wrapped in a try-catch block since it is possible that the code throws out an IOException (occurs when the txt file being read does not exist)
-        // TODO [Implementation question]: Is there suppose to be NO ARGUMENT for the StationFactory() instance passed inside?
+        // Note #2: There is no argument passed in to StationFactory(), since we are creating new Stations from the text file
         FileStationDataAccessObject stationDataAccessObject;
         try {
             stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory());

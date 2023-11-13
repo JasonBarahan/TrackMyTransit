@@ -4,7 +4,8 @@ public class SearchState {
     private String stationName;
     private String stationError;
 
-    //TODO: Do we need to set up our constructors like this (where we have one that "copies" state)
+    //TODO: We will leave this "copy" constructor here for now (where we have one that "copies" state)
+    // If this is still unused at the end of the project, delete.
     public SearchState(SearchState copy) {
         stationName = copy.stationName;
         stationError = copy.stationError;
