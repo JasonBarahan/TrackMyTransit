@@ -469,30 +469,16 @@ public class SearchPanelViewTest {
      * A typo occurs in the middle, but the user does not notice it until the end.
      * The user then presses the 'left arrow' button until the caret reaches the typo, erases it,
      * then inserts the correct character without modifying anything else.
-     *
-     * Checks if the state matches the input data in this case.
+     * Checks if this query is considered 'valid'.
      */
     @org.junit.Test
     public void testValidQueryFixedTypoInMiddle2() {
-        SearchInputBoundary sib = null;
-        SearchViewModel searchViewModel = new SearchViewModel();
-
-        // controller
-        SearchController searchController = new SearchController(sib);
-        JPanel searchPanelView = new SearchPanelView(searchViewModel, searchController);
-
-        // make the frame visible
-        JFrame jf = new JFrame();
-        jf.setContentPane(searchPanelView);
-        jf.pack();
-        jf.setVisible(true);
-
-        // obtain quick reference to search panel
-        LabelTextPanel panel = (LabelTextPanel) searchPanelView.getComponent(1);
-        JTextField searchField = (JTextField)  panel.getComponent(1);
+        Main.main(null);
+        LabelTextPanel panel = getPanel();
+        JTextField searchField = getInputField(panel);
 
         // write down string
-        String query = "Union Station";
+        String finalQuery = "Union Station";
         String[] querySegments = {"Unian Station"};
         for (String q : querySegments) {
             for (int i = 0; i < q.length(); i++) {
@@ -526,13 +512,17 @@ public class SearchPanelViewTest {
             //TODO: "o" is attached to the end in searchViewModel.getState().getStateStationName()
         }
 
-        // assert state data matches user query test string
-        System.out.println();
-        System.out.println("Query: " + query);
-        System.out.println("Printed query: " + searchField.getText());
-        System.out.println("State data: " + searchViewModel.getState().getStateStationName());
-        assertEquals(query, searchField.getText());
-        assertEquals(query, searchViewModel.getState().getStateStationName());
+        // click the button (empty string is invalid query)
+        JButton button = getButton();
+        button.doClick();
+
+        // check that a popup did not occur
+        assert !(popUpDiscovered);
+
+        // check that the view is returned and data matches
+        // TODO: This only checks the station name. May need to change this in the future
+        String stationName = getStationName().getText();
+        assertEquals(stationName, finalQuery);
     }
 
     /**
@@ -610,30 +600,16 @@ public class SearchPanelViewTest {
      * A casing typo occurs at the start, but the user does not notice it until the end.
      * The user then presses the 'left arrow' button until the caret reaches the typo, erases it,
      * then inserts the correct character without modifying anything else.
-     *
-     * Checks if the state matches the input data in this case.
+     * Checks if this query is considered 'valid'.
      */
     @org.junit.Test
     public void testValidQueryFixedCasingAtStart() {
-        SearchInputBoundary sib = null;
-        SearchViewModel searchViewModel = new SearchViewModel();
-
-        // controller
-        SearchController searchController = new SearchController(sib);
-        JPanel searchPanelView = new SearchPanelView(searchViewModel, searchController);
-
-        // make the frame visible
-        JFrame jf = new JFrame();
-        jf.setContentPane(searchPanelView);
-        jf.pack();
-        jf.setVisible(true);
-
-        // obtain quick reference to search panel
-        LabelTextPanel panel = (LabelTextPanel) searchPanelView.getComponent(1);
-        JTextField searchField = (JTextField)  panel.getComponent(1);
+        Main.main(null);
+        LabelTextPanel panel = getPanel();
+        JTextField searchField = getInputField(panel);
 
         // write down string
-        String query = "Union Station";
+        String finalQuery = "Union Station";
         String[] querySegments = {"union Station"};
         for (String q : querySegments) {
             for (int i = 0; i < q.length(); i++) {
@@ -671,15 +647,17 @@ public class SearchPanelViewTest {
 
         }
 
-        // assert state data matches user query test string
-        System.out.println();
-        System.out.println("Query: " + query);
-        System.out.println("Printed query: " + searchField.getText());
-        System.out.println("State data: " + searchViewModel.getState().getStateStationName());
-        assertEquals(query, searchField.getText());
-        assertEquals(query, searchViewModel.getState().getStateStationName());
-        // TODO: the corrected typo "U" is attached to the end in searchViewModel.getState().getStateStationName()
-        // instead of the start
+        // click the button (empty string is invalid query)
+        JButton button = getButton();
+        button.doClick();
+
+        // check that a popup did not occur
+        assert !(popUpDiscovered);
+
+        // check that the view is returned and data matches
+        // TODO: This only checks the station name. May need to change this in the future
+        String stationName = getStationName().getText();
+        assertEquals(stationName, finalQuery);
     }
 
     /**
