@@ -66,6 +66,4 @@ public class Station implements StationInterface{
     public List<Vehicle> getIncomingVehicles() {
         return incomingVehicles;
     }
-
-
 }
