@@ -20,8 +20,8 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
     /**
      * A window with a title and a JButton.
      */
-    public StationInfoView(StationInfoViewModel loggedInViewModel) {
-        this.stationInfoViewModel = loggedInViewModel;
+    public StationInfoView(StationInfoViewModel stationInfoViewModel) {
+        this.stationInfoViewModel = stationInfoViewModel;
         this.stationInfoViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Station info screen");

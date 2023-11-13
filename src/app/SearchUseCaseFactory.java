@@ -28,8 +28,8 @@ public class SearchUseCaseFactory {
             StationInfoViewModel stationInfoViewModel) {
 
         try {
-            SearchController loginController = createSearchUseCase(viewManagerModel, searchViewModel, searchDataAccessObject, stationInfoViewModel);
-            return new SearchPanelView(searchViewModel, loginController);
+            SearchController searchController = createSearchUseCase(viewManagerModel, searchViewModel, searchDataAccessObject, stationInfoViewModel);
+            return new SearchPanelView(searchViewModel, searchController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
