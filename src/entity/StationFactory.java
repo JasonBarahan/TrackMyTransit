@@ -16,5 +16,4 @@ public class StationFactory {
     public Station create (String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Vehicle> incomingVehicles) {
         return new Station (name, stationId, parentLine, latitude, longitude, amenitiesList, incomingVehicles);
     }
-
 }

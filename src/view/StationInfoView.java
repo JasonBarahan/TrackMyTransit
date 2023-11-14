@@ -49,5 +49,4 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
         StationInfoState state = (StationInfoState) evt.getNewValue();
         stationName.setText(state.getStateStationName());
     }
-
 }

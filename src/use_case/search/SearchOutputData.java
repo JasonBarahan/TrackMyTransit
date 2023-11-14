@@ -5,13 +5,12 @@ import java.util.List;
 public class SearchOutputData {
     private final String stationName;
     private final String stationParentLine;
-
     private final List<String> stationAmenities;
     //  After clicking "Find Info" button, the app directs us to Panel #2
     //  We still need to figure out Amenities output
 
     /**
-     * Requirement: TBD
+     * TODO: Requirement: TBD
      * @param stationName
      * @param stationParentLine
      * @param stationAmenities

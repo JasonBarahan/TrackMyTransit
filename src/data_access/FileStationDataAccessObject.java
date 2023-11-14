@@ -44,7 +44,6 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
                 Station station = stationFactory.create(parsedStationName, parsedStationID, parsedStationParentLine, parsedStationLatitude, parsedStationLongtitude, parsedStationAmenities, parsedStationVehicles);
 
                 stations.put(parsedStationName, station);
-
             }
         }
     }
@@ -68,8 +67,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
 
     public boolean stationExist(String identifier){
         return stations.containsKey(identifier); //TODO: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
-        // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
+                                                 // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
 
     }
-
 }

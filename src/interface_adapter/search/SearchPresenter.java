@@ -20,25 +20,26 @@ public class SearchPresenter implements SearchOutputBoundary {
     public void prepareSuccessView(SearchOutputData response){
         String retrieveStationName = response.getStationName();
         // TODO: Left NOTE FOR TESTING PURPOSES ONLY. Delete in final implementation
+
         // In the above, changing the arguments to String retrieveStationParentLine = response.getStationParentLine(); would display the Parent line of station
 
         // Step 1: Resetting the station error value in the searchState to be null (in case any failed search attempts came before this "successful" attempt)
         SearchState searchState = searchViewModel.getState();
         searchState.setStateStationName(retrieveStationName);
-        searchState.setStateStationError(null);
-        // Explanation of the above line
+      
         //  This line sets the state's station error attribute value to null.
         //  This happens ONLY IF the prepareSuccessView has been triggered
         //  This is because should there be an error message stored in the state, we want to CLEAR THAT to display the success view
+        searchState.setStateStationError(null);        
 
         // Step 2: Setting values in the SearchPanelView
         StationInfoState stationInfoState = stationInfoViewModel.getState();
         stationInfoState.setStateStationName(retrieveStationName);
+
         stationInfoViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(stationInfoViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
-
     }
 
     public void prepareFailView(String stationRetrievalError){
@@ -46,5 +47,4 @@ public class SearchPresenter implements SearchOutputBoundary {
         searchState.setStateStationError(stationRetrievalError);
         searchViewModel.firePropertyChanged();
     }
-
 }

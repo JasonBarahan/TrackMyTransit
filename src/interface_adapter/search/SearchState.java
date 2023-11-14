@@ -28,6 +28,4 @@ public class SearchState {
     public void setStateStationError(String stationError) {
         this.stationError = stationError;
     }
-
-
 }
