@@ -30,11 +30,13 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
     private final JLabel mperpLabelName;
     private final JLabel mperpLabelValue;
 
+    private final Style defaultStyle  = new Style();
+
     public visualizationProofOfConcept() {
-        super("JMapViewer Demo");
+        super("TrackMyTransit");
         setSize(100, 100);
 
-        treeMap = new JMapViewerTree("Zones");
+        treeMap = new JMapViewerTree("Vehicles");
 
         // Listen to the map viewer for user operations so components will
         // receive events and update
@@ -48,12 +50,15 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         JPanel panelBottom = new JPanel();
         JPanel helpPanel = new JPanel();
 
+        // meters per pixels data displayed on top of window
         mperpLabelName = new JLabel("Meters/Pixels: ");
         mperpLabelValue = new JLabel(String.format("%s", map().getMeterPerPixel()));
 
+        // zoom value displayed on top of window
         zoomLabel = new JLabel("Zoom: ");
         zoomValue = new JLabel(String.format("%s", map().getZoom()));
 
+        // usage instructions added below
         add(panel, BorderLayout.NORTH);
         add(helpPanel, BorderLayout.SOUTH);
         panel.add(panelTop, BorderLayout.NORTH);
@@ -70,6 +75,7 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
                 map().setDisplayToFitMapMarkers();
             }
         });
+        panelBottom.add(button);
 
         // a mechanism to change the satellite imagery provider. Replaced by a checkbox (can change to button).
         // Not needed, kept here for reference.
@@ -161,6 +167,7 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         add(treeMap, BorderLayout.CENTER);
 
         // Generate Train objects
+        // TODO: this is temporary. We'll depend on API calls.
         Train[] trains = new Train[]{
                 new Train(653, 43.871004, -78.884807),
                 new Train(644, 43.765518,-79.364275),
@@ -171,6 +178,7 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         LayerGroup vehicles = new LayerGroup("Vehicles");
         Layer trainsLayer = vehicles.addLayer("Trains");
 
+        // add vehicles to map
         for (Train train : trains) {
             MapMarkerDot marker = new MapMarkerDot(
                     trainsLayer,
@@ -181,36 +189,8 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
             map().addMapMarker(marker);
         }
 
-        LayerGroup germanyGroup = new LayerGroup("Germany");
-        Layer germanyWestLayer = germanyGroup.addLayer("Germany West");
-        Layer germanyEastLayer = germanyGroup.addLayer("Germany East");
-        MapMarkerDot eberstadt = new MapMarkerDot(germanyEastLayer, "Eberstadt", 49.814284999, 8.642065999);
-        MapMarkerDot ebersheim = new MapMarkerDot(germanyWestLayer, "Ebersheim", 49.91, 8.24);
-        MapMarkerDot empty = new MapMarkerDot(germanyEastLayer, 49.71, 8.64);
-        MapMarkerDot darmstadt = new MapMarkerDot(germanyEastLayer, "Darmstadt", 49.8588, 8.643);
-        map().addMapMarker(eberstadt);
-        map().addMapMarker(ebersheim);
-        map().addMapMarker(empty);
-        Layer franceLayer = treeMap.addLayer("France");
-        map().addMapMarker(new MapMarkerDot(franceLayer, "La Gallerie", 48.71, -1));
-        map().addMapMarker(new MapMarkerDot(43.604, 1.444));
-        map().addMapMarker(new MapMarkerCircle(53.343, -6.267, 0.666));
-        map().addMapRectangle(new MapRectangleImpl(new Coordinate(53.343, -6.267), new Coordinate(43.604, 1.444)));
-        map().addMapMarker(darmstadt);
-        treeMap.addLayer(germanyWestLayer);
-        treeMap.addLayer(germanyEastLayer);
-
-        MapPolygon bermudas = new MapPolygonImpl(c(49, 1), c(45, 10), c(40, 5));
-        map().addMapPolygon(bermudas);
-        map().addMapPolygon(new MapPolygonImpl(germanyEastLayer, "Riedstadt", ebersheim, darmstadt, eberstadt, empty));
-
-        map().addMapMarker(new MapMarkerCircle(germanyWestLayer, "North of Suisse", new Coordinate(48, 7), .5));
-        Layer spain = treeMap.addLayer("Spain");
-        map().addMapMarker(new MapMarkerCircle(spain, "La Garena", new Coordinate(40.4838, -3.39), .002));
-        spain.setVisible(Boolean.FALSE);
-
-        Layer wales = treeMap.addLayer("UK");
-        map().addMapRectangle(new MapRectangleImpl(wales, "Wales", c(53.35, -4.57), c(51.64, -2.63)));
+        // resize map on first init
+        map().setDisplayToFitMapMarkers();
 
         // detects mouse click events
         map().addMouseListener(new MouseAdapter() {
