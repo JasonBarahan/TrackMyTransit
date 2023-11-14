@@ -43,9 +43,10 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(submit)) {
-                            //TODO: REVIEW PROPOSED CHANGE. Liens 46 -47 fetches the current CORRECT user input from the text box, so that the correct, up-to-date user input is fetched from the search bar for processing in the controller.
-                           SearchState currentStateOfInput = searchViewModel.getState();
-                           currentStateOfInput.setStateStationName(stationInputField.getText());
+                            // Lines 46 -47 fetches the current CORRECT user input from the text box...
+                            // ... so that the correct, up-to-date user input is fetched from the search bar for processing in the controller.
+                            SearchState currentStateOfInput = searchViewModel.getState();
+                            currentStateOfInput.setStateStationName(stationInputField.getText());
 
                             SearchState currentState = searchViewModel.getState();
                             searchController.execute(
@@ -99,5 +100,3 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
     }
 
 }
-
-

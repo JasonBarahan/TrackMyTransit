@@ -19,30 +19,27 @@ public class SearchPresenter implements SearchOutputBoundary {
 
     public void prepareSuccessView(SearchOutputData response){
         String retrieveStationName = response.getStationName();
-        // NOTE: FOR TESTING PURPOSES ONLY:
+        // TODO: Left NOTE FOR TESTING PURPOSES ONLY. Delete in final implementation
+
         // In the above, changing the arguments to String retrieveStationParentLine = response.getStationParentLine(); would display the Parent line of station
 
         // Step 1: Resetting the station error value in the searchState to be null (in case any failed search attempts came before this "successful" attempt)
         SearchState searchState = searchViewModel.getState();
         searchState.setStateStationName(retrieveStationName);
-        searchState.setStateStationError(null);
-        // TODO [Polish implementation...]: Explanation of the above line
+      
         //  This line sets the state's station error attribute value to null.
         //  This happens ONLY IF the prepareSuccessView has been triggered
         //  This is because should there be an error message stored in the state, we want to CLEAR THAT to display the success view
-        //  CONFIRMED BY PROFESSOR: This implementation is fine
+        searchState.setStateStationError(null);        
 
         // Step 2: Setting values in the SearchPanelView
         StationInfoState stationInfoState = stationInfoViewModel.getState();
         stationInfoState.setStateStationName(retrieveStationName);
-        //System.out.println("Station info state station name" + stationInfoState.getStateStationName()); //(For debugging purpose)
+
         stationInfoViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(stationInfoViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
-
-        //TODO #3: Do we need to call setState() methods in general?
-
     }
 
     public void prepareFailView(String stationRetrievalError){
@@ -50,5 +47,4 @@ public class SearchPresenter implements SearchOutputBoundary {
         searchState.setStateStationError(stationRetrievalError);
         searchViewModel.firePropertyChanged();
     }
-
 }

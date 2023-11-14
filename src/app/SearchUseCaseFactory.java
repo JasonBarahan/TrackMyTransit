@@ -28,8 +28,8 @@ public class SearchUseCaseFactory {
             StationInfoViewModel stationInfoViewModel) {
 
         try {
-            SearchController loginController = createSearchUseCase(viewManagerModel, searchViewModel, searchDataAccessObject, stationInfoViewModel);
-            return new SearchPanelView(searchViewModel, loginController);
+            SearchController searchController = createSearchUseCase(viewManagerModel, searchViewModel, searchDataAccessObject, stationInfoViewModel);
+            return new SearchPanelView(searchViewModel, searchController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
@@ -45,8 +45,6 @@ public class SearchUseCaseFactory {
 
         // Notice how we pass this method's parameters to the Presenter.
         SearchOutputBoundary searchOutputBoundary = new SearchPresenter(searchViewModel, stationInfoViewModel, viewManagerModel);
-
-        // TODO [Implementation question]: No need to use an instance of SearchUseCaseFactory right?
 
         SearchInputBoundary searchInteractor = new SearchInteractor(
                 searchDataAccessObject, searchOutputBoundary);
