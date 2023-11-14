@@ -10,6 +10,7 @@ import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import javax.swing.*;
+import javax.swing.border.StrokeBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
     private final JLabel mperpLabelName;
     private final JLabel mperpLabelValue;
 
-    private final Style defaultStyle  = new Style();
+    private final Style defaultStyle = new Style(
+            Color.cyan, new Color(245, 128, 37), new BasicStroke(10), Font.getFont("Serif"))  ;
 
     public visualizationProofOfConcept() {
         super("TrackMyTransit");
@@ -179,12 +181,31 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         Layer trainsLayer = vehicles.addLayer("Trains");
 
         // add vehicles to map
+        //
+        // TODO: Read me
+        // - Each marker denotes a vehicle (train/bus).
+        // - The "style" of each marker has been modified to take an rgb value. This allows for vehicles to
+        //   be coloured according to their parent line, and should be relatively easy to implement
+        //   by usage of (yet another) file.
+        // - The outline of each marker can be modified according to their adherence to scheduled departure time.
+        //   It shows red if late (dark red if very late) and green if early/on time (dark green if very early).
+        //   This can be implemented with API calls.
+        // - Right now the text associated with the marker is the vehicle ID. If I recall correctly most information
+        //   will be displayed separately from the map. Adding this information to the map (proper) may be unnecessary.
+        // - TODO: I will read the documentation to see if hovering over the marker to display additional information
+        //   TODO: is possible. (If not, I may need to modify the code itself if necessary.)
+        //   Implementation notes: set a small radius around each vehicle marker and have it so, if the cursor is
+        //   within the marker's radius, additional details (like direction, destination, exact lateness) is
+        //   displayed on the tooltip.
+        // - TODO: Fix the text so it becomes legible (or not include it at all, use a tooltip)
+        //   Implementation notes: black background (or background depends on lateness), white font colour.
+        //
         for (Train train : trains) {
             MapMarkerDot marker = new MapMarkerDot(
                     trainsLayer,
                     String.valueOf(train.getVehicleID()),
-                    train.getLatitude(),
-                    train.getLongitude()
+                    c(train.getLatitude(), train.getLongitude()),
+                    defaultStyle
             );
             map().addMapMarker(marker);
         }
