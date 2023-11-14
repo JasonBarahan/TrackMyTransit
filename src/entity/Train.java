@@ -5,10 +5,15 @@ public class Train {
     private double longitude;
     private double latitude;
 
-    public Train(int vehicleID, double latitude, double longitude) {
+    private String routeDestination;
+    private String routeName;
+
+    public Train(int vehicleID, double latitude, double longitude, String routeName, String routeDestination) {
         this.vehicleID = vehicleID;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.routeDestination = routeDestination;
+        this.routeName = routeName;
     }
 
     public void setLatitude(double latitude) {
@@ -29,5 +34,21 @@ public class Train {
 
     public int getVehicleID() {
         return vehicleID;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
+    }
+
+    public String getRouteDestination() {
+        return routeDestination;
+    }
+
+    public void setRouteDestination(String routeDestination) {
+        this.routeDestination = routeDestination;
     }
 }

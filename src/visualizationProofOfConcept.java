@@ -175,9 +175,13 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         // Generate Train objects
         // TODO: this is temporary. We'll depend on API calls.
         Train[] trains = new Train[]{
-                new Train(653, 43.871004, -78.884807),
-                new Train(644, 43.765518,-79.364275),
-                new Train(558, 43.733045,-79.262706)
+                new Train(653, 43.871004, -78.884807, "LE", "Durham College Oshawa GO"),
+                new Train(644, 43.765518,-79.364275, "RH", "Somewhere"),
+                new Train(558, 43.733045,-79.262706, "ST", "Nowhere"),
+                // these are actually buses, their IDs are length 4
+                new Train(8551,43.666071, -79.356378, "76C", "Bahen Center"),
+                new Train(8427,43.668853, -79.357046, "76K", "Nunavut"),
+                new Train(8332, 43.627299, -79.396932, "N/A", "??? It's a plane")
         };
 
         // layer management (show buses and trains)
@@ -205,9 +209,12 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         //   Implementation notes: black background (or background depends on lateness), white font colour.
         //
         for (Train train : trains) {
+            String str = new String(
+                    "[" + train.getVehicleID() + "] " + train.getRouteName() + " to " + train.getRouteDestination()
+            );
             MapMarkerDot marker = new MapMarkerDot(
                     trainsLayer,
-                    String.valueOf(train.getVehicleID()),
+                    str,
                     c(train.getLatitude(), train.getLongitude()),
                     defaultStyle
             );
