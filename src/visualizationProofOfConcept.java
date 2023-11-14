@@ -16,6 +16,10 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: JMapViewer is not listed on Maven. I added the .jar file manually after downloading it from
+// TODO: the repository Jonathan Calver linked. You may need to add this dependency yourself.
+// TODO: Try manually adding a local dependency to the pom.xml file so Maven recognizes it (yet to try this)
+
 /**
  * Proof of concept for map-based visualization of vehicle positioning.
  *
