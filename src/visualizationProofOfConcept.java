@@ -176,13 +176,26 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         // TODO: this is temporary. We'll depend on API calls.
         Train[] trains = new Train[]{
                 new Train(653, 43.871004, -78.884807, "LE", "Durham College Oshawa GO"),
-                new Train(644, 43.765518,-79.364275, "RH", "Somewhere"),
-                new Train(558, 43.733045,-79.262706, "ST", "Nowhere"),
+                new Train(644, 43.765518,-79.364275, "RH", "Bloomington GO"),
+                new Train(558, 43.733045,-79.262706, "ST", "Mount Joy GO"),
                 // these are actually buses, their IDs are length 4
-                new Train(8551,43.666071, -79.356378, "76C", "Bahen Center"),
-                new Train(8427,43.668853, -79.357046, "76K", "Nunavut"),
-                new Train(8332, 43.627299, -79.396932, "N/A", "??? It's a plane")
+                new Train(8551,43.666071, -79.356378, "65", "Union Station"),
+                new Train(8427,43.668853, -79.357046, "65E", "Aurora GO"),
+                new Train(2580, 43.765939, -79.364240, "94", "Pickering GO")
         };
+
+        // vehicle selection screen
+        // TODO: have route data be displayed within the combo box instead
+        JComboBox<Train> vehicleSelector;
+        vehicleSelector = new JComboBox<>(trains);
+        vehicleSelector.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Train data = (Train) e.getItem();
+                map().setDisplayPosition(c(data.getLatitude(), data.getLongitude()), map().getZoom());
+            }
+        });
+        panelTop.add(vehicleSelector);
 
         // layer management (show buses and trains)
         LayerGroup vehicles = new LayerGroup("Vehicles");
