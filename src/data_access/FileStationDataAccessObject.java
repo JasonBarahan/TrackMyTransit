@@ -1,5 +1,6 @@
 package data_access;
 
+import api.GoStationAPI;
 import entity.Vehicle;
 import entity.StationFactory;
 import use_case.search.SearchDataAccessInterface;
@@ -36,6 +37,8 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
                 Float parsedStationLatitude = Float.valueOf(parsedStationInfo[2]); // converting string type to float object type. Through potential autoboxing, this float object type is converted to primitative type.
                 Float parsedStationLongtitude = Float.valueOf(parsedStationInfo[3]);
 
+                // We want to minimize API calls (even though we have unlimited quota) so such information
+                // will only be displayed after a specific station is queried
                 List <String> parsedStationAmenities = new ArrayList<String>(); //This is empty at the time of reading txt file, this will be populated through API calls
                 List <Vehicle> parsedStationVehicles = new ArrayList<Vehicle>(); //This is empty at the time of reading txt file, this will be populated through API calls
 
@@ -49,8 +52,12 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
     }
     @Override
     public Station getStation (String inputStationName) {
+        Station station = stations.get(inputStationName);
 
-        return stations.get(inputStationName);
+        // We will obtain the station amenities
+        station.setAmenitiesList(getStationAmenities(station.getId()));
+
+        return station;
     }
 
     @Override
@@ -61,8 +68,8 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
 
     @Override
     public List<String> getStationAmenities(String inputStationName) {
-
-        return (stations.get(inputStationName)).getAmenitiesList();
+        GoStationAPI api = new GoStationAPI();
+        return api.getStationAmenities(inputStationName);
     }
 
     public boolean stationExist(String identifier){

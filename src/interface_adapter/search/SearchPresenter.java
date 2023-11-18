@@ -6,6 +6,8 @@ import interface_adapter.station_info.StationInfoViewModel;
 import use_case.search.SearchOutputBoundary;
 import use_case.search.SearchOutputData;
 
+import java.util.List;
+
 public class SearchPresenter implements SearchOutputBoundary {
     private final SearchViewModel searchViewModel;
     private final StationInfoViewModel stationInfoViewModel;
@@ -19,6 +21,8 @@ public class SearchPresenter implements SearchOutputBoundary {
 
     public void prepareSuccessView(SearchOutputData response){
         String retrieveStationName = response.getStationName();
+        List<String> retrieveStationAmenities = response.getStationAmenities();
+
         // TODO: Left NOTE FOR TESTING PURPOSES ONLY. Delete in final implementation
 
         // In the above, changing the arguments to String retrieveStationParentLine = response.getStationParentLine(); would display the Parent line of station
@@ -35,6 +39,7 @@ public class SearchPresenter implements SearchOutputBoundary {
         // Step 2: Setting values in the SearchPanelView
         StationInfoState stationInfoState = stationInfoViewModel.getState();
         stationInfoState.setStateStationName(retrieveStationName);
+        stationInfoState.setStateStationAmenities(retrieveStationAmenities.toString());
 
         stationInfoViewModel.firePropertyChanged();
 

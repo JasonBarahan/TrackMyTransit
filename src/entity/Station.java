@@ -8,8 +8,8 @@ public class Station implements StationInterface{
     private final String parentLine;
     private final float latitude;
     private final float longitude;
-    private final List<String> amenitiesList;
-    private final List<Vehicle> incomingVehicles;
+    private List<String> amenitiesList;
+    private List<Vehicle> incomingVehicles;
 
     /**
      * Requirement: stationId and name exist.
@@ -65,5 +65,24 @@ public class Station implements StationInterface{
     @Override
     public List<Vehicle> getIncomingVehicles() {
         return incomingVehicles;
+    }
+
+    /**
+     * This sets the amenities list through an API call.
+     *
+     * @param amenitiesList: a list of amenities obtained through an API call
+     */
+    public void setAmenitiesList(List<String> amenitiesList) {
+        this.amenitiesList = amenitiesList;
+    }
+
+    /**
+     * This sets the incoming vehicles for a particular station.
+     * This is needed as a user may refresh the list of incoming vehicles manually, or through a new query.
+     *
+     * @param incomingVehicles: list of incoming vehicles as per API call
+     */
+    public void setIncomingVehicles(List<Vehicle> incomingVehicles) {
+        this.incomingVehicles = incomingVehicles;
     }
 }
