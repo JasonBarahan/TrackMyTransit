@@ -1,5 +1,6 @@
 package data_access;
 
+import data_access.API.GOStationApiClass;
 import entity.Vehicle;
 import entity.StationFactory;
 import use_case.search.SearchDataAccessInterface;

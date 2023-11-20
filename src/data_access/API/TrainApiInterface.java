@@ -1,4 +1,4 @@
-package data_access;
+package data_access.API;
 
 public interface TrainApiInterface {
     // This is an interface defining all the shared attributes and methods that all Api classes should have
