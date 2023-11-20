@@ -4,21 +4,20 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class GOStationApiClass implements ApiClassInterface{
 
-    private final String PARTIAL_API_URL;
-    private final String API_KEY;
-
-    public GOStationApiClass (String partialApiUrl, String apiKey) {
-        //private static final String PARTIAL_API_URL = "OpenDataAPI/api/V1"; // denotes "common portion" of API url across all possible calls
-        //private static final String API_KEY = System.getenv("API_KEY");
-        this.PARTIAL_API_URL = partialApiUrl;
-        this.API_KEY = apiKey;
+    private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
+    public GOStationApiClass () {
     }
-
-    public void retrieveStationAmenities(String stationId){
+    public List<String> retrieveStationAmenities(String stationId){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -36,8 +35,19 @@ public class GOStationApiClass implements ApiClassInterface{
                 .addHeader("content-type", "application/json")
                 .build();
         try {
+            // TODO: Do we need additional error checking based on error codes in Metadata?
             Response response = client.newCall(request).execute();
-            System.out.println(response.body().string());
+            String fullStopJsonData = response.body().string();
+            JSONObject fullStopJsonObj = new JSONObject(fullStopJsonData); // This is where the metadata is located at
+            JSONObject stopJsonDataObj = fullStopJsonObj.getJSONObject("Stop");
+            JSONArray amenitiesJsonArray = stopJsonDataObj.getJSONArray("Facilities");
+            List<String> amenitiesList = new ArrayList<String>();
+            for (int i = 0; i < amenitiesJsonArray.length(); i++) {
+                JSONObject currAmenitiesEntry = amenitiesJsonArray.getJSONObject(i);
+                amenitiesList.add(currAmenitiesEntry.getString("Description"));
+                //System.out.println(currAmenitiesEntry.getString("Description")); // For debugging purposes
+            }
+            return amenitiesList;
 
         } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
