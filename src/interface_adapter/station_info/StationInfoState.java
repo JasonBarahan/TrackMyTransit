@@ -5,6 +5,7 @@ import interface_adapter.search.SearchState;
 public class StationInfoState {
     //Purpose of class: Contains the information we need to have during the station info state (the state after successful user input is received)
     private String stationName;
+    private String stationAmenities; //TODO: Tentatively, it is a String type
 
     //TODO: If this "copy" constructor is unused, delete in the final project implementation
     public StationInfoState(StationInfoState copy) {
@@ -20,6 +21,13 @@ public class StationInfoState {
     }
     public void setStateStationName(String stationName) {
         this.stationName = stationName;
+    }
+
+    //TODO: This is a MOCK change to the state, where the stationAmenitiesList is converted to a string format
+    // Ideally, we want to seperate and print each entry
+    public String getStateStationAmenities() {return stationAmenities;}
+    public void setStateStationAmenities(String stationAmenities) {
+        this.stationAmenities = stationAmenities;
     }
 
 }

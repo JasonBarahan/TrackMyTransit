@@ -16,6 +16,7 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
     private final StationInfoViewModel stationInfoViewModel;
 
     JLabel stationName;
+    JLabel stationAmenities;
 
     /**
      * A window with a title and a JButton.
@@ -27,13 +28,17 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
         JLabel title = new JLabel("Station info screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel stationInfo = new JLabel("Station name: ");
+        JLabel stationNameLabel = new JLabel("Station name: ");
         stationName = new JLabel();
+        JLabel stationAmenitiesLabel = new JLabel("Station amenities: ");
+        stationAmenities = new JLabel();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
-        this.add(stationInfo);
+        this.add(stationNameLabel);
         this.add(stationName);
+        this.add(stationAmenitiesLabel);
+        this.add(stationAmenities);
     }
 
     /**
@@ -48,5 +53,6 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
         //System.out.println("Reached"); //Commented out for testing purposes
         StationInfoState state = (StationInfoState) evt.getNewValue();
         stationName.setText(state.getStateStationName());
+        stationAmenities.setText(state.getStateStationAmenities());
     }
 }

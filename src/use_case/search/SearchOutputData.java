@@ -5,7 +5,7 @@ import java.util.List;
 public class SearchOutputData {
     private final String stationName;
     private final String stationParentLine;
-    private final List<String> stationAmenities;
+    private final String stationAmenities; //TODO: TEMP CHANGE TO STRING TYPE
     //  After clicking "Find Info" button, the app directs us to Panel #2
     //  We still need to figure out Amenities output
 
@@ -15,7 +15,7 @@ public class SearchOutputData {
      * @param stationParentLine
      * @param stationAmenities
      */
-    public SearchOutputData(String stationName, String stationParentLine, List<String> stationAmenities) {
+    public SearchOutputData(String stationName, String stationParentLine, String stationAmenities) {
         this.stationName = stationName;
         this.stationParentLine = stationParentLine;
         this.stationAmenities = stationAmenities;
@@ -25,5 +25,5 @@ public class SearchOutputData {
 
     public String getStationParentLine() {return stationParentLine;}
 
-    public List<String> getStationAmenities() {return stationAmenities;}
+    public String getStationAmenities() {return stationAmenities;}
 }

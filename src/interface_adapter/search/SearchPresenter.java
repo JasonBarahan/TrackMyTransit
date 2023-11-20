@@ -19,8 +19,8 @@ public class SearchPresenter implements SearchOutputBoundary {
 
     public void prepareSuccessView(SearchOutputData response){
         String retrieveStationName = response.getStationName();
-        // TODO: Left NOTE FOR TESTING PURPOSES ONLY. Delete in final implementation
-
+        String retrieveStationAmenities = response.getStationAmenities();
+        // TODO: Left NOTE BELOW FOR TESTING PURPOSES ONLY. Delete in final implementation
         // In the above, changing the arguments to String retrieveStationParentLine = response.getStationParentLine(); would display the Parent line of station
 
         // Step 1: Resetting the station error value in the searchState to be null (in case any failed search attempts came before this "successful" attempt)
@@ -33,8 +33,13 @@ public class SearchPresenter implements SearchOutputBoundary {
         searchState.setStateStationError(null);        
 
         // Step 2: Setting values in the SearchPanelView
+
+        // Setting the station name value and updating state with change
         StationInfoState stationInfoState = stationInfoViewModel.getState();
         stationInfoState.setStateStationName(retrieveStationName);
+
+        // Setting the station amenities list and updating state with change
+        stationInfoState.setStateStationAmenities(retrieveStationAmenities);
 
         stationInfoViewModel.firePropertyChanged();
 
