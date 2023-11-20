@@ -1,4 +1,4 @@
 package data_access;
 
-public class GOApiClass {
+public class GOStationApiClass {
 }
