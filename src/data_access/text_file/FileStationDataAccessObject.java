@@ -1,4 +1,4 @@
-package data_access;
+package data_access.text_file;
 
 import data_access.API.GOStationApiClass;
 import entity.Vehicle;

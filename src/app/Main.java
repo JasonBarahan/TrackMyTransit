@@ -1,7 +1,7 @@
 package app;
 
-import data_access.FileStationDataAccessObject;
-import data_access.GOStationApiClass;
+import data_access.text_file.FileStationDataAccessObject;
+import data_access.API.GOStationApiClass;
 import entity.StationFactory;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.ViewManagerModel;
