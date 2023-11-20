@@ -17,9 +17,12 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
     private final Map<String, Station> stations = new HashMap<>();
     private final StationFactory stationFactory;
 
-    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory) throws IOException {
+    private final GOStationApiClass goStationApiClass;
+
+    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, GOStationApiClass goStationApiClass) throws IOException {
 
         this.stationFactory = stationFactory;
+        this.goStationApiClass = goStationApiClass;
         stationTxtFile = new File(txtFilePath);
 
         // Reading the provided txt file that has a path specified by attribute txtFilePath
@@ -59,10 +62,17 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
         return (stations.get(inputStationName)).getParentLine();
     }
 
+    public String getStationID (String inputStationName) {
+
+        return (stations.get(inputStationName)).getId();
+    }
+
     @Override
     public List<String> getStationAmenities(String inputStationName) {
-
-        return (stations.get(inputStationName)).getAmenitiesList();
+        //TODO: Need to save this information in the actual Station objects such that we don't duplicate API calls
+        String stationID = getStationID(inputStationName);
+        List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);
+        return stationAmenitiesList;
     }
 
     public boolean stationExist(String identifier){
