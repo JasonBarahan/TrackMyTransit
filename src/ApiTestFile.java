@@ -8,19 +8,19 @@ import java.io.IOException;
 
 
 public class ApiTestFile {
-    private static final String API_URL = "https://api.translink.ca/rttiapi/v1/stops/55612?";
+    private static final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
 
     public static void getStopInformation() {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("https")
-                .host("api.translink.ca")
-                .addPathSegment("rttiapi")
-                .addPathSegment("v1")
-                .addPathSegment("stops")
-                .addPathSegment("55612?")
-                .addQueryParameter("apikey", System.getenv("API_KEY"))
+                .scheme("http")
+                .host("api.openmetrolinx.com")
+                .addPathSegment(PARTIAL_API_URL)
+                .addPathSegment("Stop")
+                .addPathSegment("Details")
+                .addPathSegment("UN") //getting station information for UN, which denotes Union Station
+                .addQueryParameter("key", System.getenv("API_KEY"))
                 .build();
 
         Request request = new Request.Builder()
