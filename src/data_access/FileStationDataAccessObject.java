@@ -52,6 +52,13 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
     }
     @Override
     public Station getStation (String inputStationName) {
+        Station incompleteStationObj = stations.get(inputStationName);
+
+        // Assigning the Station obj's amenitiesList attribute to a valid value
+        List<String> retrievedStationAmenities = getStationAmenities(inputStationName);
+        incompleteStationObj.setAmenitiesList(retrievedStationAmenities);
+
+        //TODO: Do something similar for incomingVehicles?
 
         return stations.get(inputStationName);
     }
