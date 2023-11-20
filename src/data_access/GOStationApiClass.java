@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GOStationApiClass implements ApiClassInterface{
+public class GOStationApiClass implements TrainApiInterface{
 
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
     public GOStationApiClass () {
