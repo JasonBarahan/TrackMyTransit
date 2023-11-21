@@ -10,12 +10,14 @@ public class SearchOutputData {
     //  We still need to figure out Amenities output
 
     /**
-     * TODO: Requirement: TBD
+     * Requirement: Fail case considers the user misspells(spells the wrong letter) the station name.
+     * Incorrect capitalization is not considered in fail cases. In other words, we assume the user will not capitalize
+     * letters incorrectly.
      * @param stationName
      * @param stationParentLine
      * @param stationAmenities
      */
-    public SearchOutputData(String stationName, String stationParentLine, List<String> stationAmenities) {
+    public SearchOutputData(String stationName, String stationParentLine, List<String> stationAmenities, boolean searchFailed) {
         this.stationName = stationName;
         this.stationParentLine = stationParentLine;
         this.stationAmenities = stationAmenities;

@@ -7,8 +7,8 @@ import java.beans.PropertyChangeSupport;
 
 public class SearchViewModel extends ViewModel {
 
-    public final String TITLE_LABEL = "Station Search View";
-    public final String STATION_INPUT_LABEL = "Enter station name";
+    public final String TITLE_LABEL = "Find Station Info";
+    public final String STATION_INPUT_LABEL = "Station name: ";
 
     public static final String SUBMIT_BUTTON_LABEL = "Submit";
 
