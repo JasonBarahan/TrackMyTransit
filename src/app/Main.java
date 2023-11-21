@@ -1,6 +1,7 @@
 package app;
 
-import data_access.FileStationDataAccessObject;
+import data_access.text_file.FileStationDataAccessObject;
+import data_access.API.GOStationApiClass;
 import entity.StationFactory;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.ViewManagerModel;
@@ -41,10 +42,13 @@ public class Main {
 
         // Creating a DAO called stationDataAccessObject by reading from file revisedStopData.txt, with the creation of the object being done by StationFactory()
         // Note: This process is wrapped in a try-catch block since it is possible that the code throws out an IOException (occurs when the txt file being read does not exist)
+        
+      
+        // Note #2: There is no argument passed in to StationFactory(), since we are creating new Stations from the text file
         // TODO [Implementation question]: Is there suppose to be NO ARGUMENT for the StationFactory() instance passed inside?
         FileStationDataAccessObject stationDataAccessObject;
         try {
-            stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory());
+            stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new GOStationApiClass());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

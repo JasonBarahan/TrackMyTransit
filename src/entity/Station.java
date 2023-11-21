@@ -8,7 +8,7 @@ public class Station implements StationInterface{
     private final String parentLine;
     private final float latitude;
     private final float longitude;
-    private final List<String> amenitiesList;
+    private List<String> amenitiesList; //TODO: Due to this variable being assigned a valid value AFTER initial text file is read, we need to make this non-final. But this violates CAE?
     private final List<Vehicle> incomingVehicles;
 
     /**
@@ -60,6 +60,10 @@ public class Station implements StationInterface{
     @Override
     public List<String> getAmenitiesList() {
         return amenitiesList;
+    }
+
+    public void setAmenitiesList(List<String> stationAmenitiesList) {
+        this.amenitiesList = stationAmenitiesList;
     }
 
     @Override
