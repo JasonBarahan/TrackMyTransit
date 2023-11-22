@@ -79,5 +79,3 @@ public class Train implements TrainInterface{
     @Override
     public String getDelay() {
         return delay;
-    }
-}
