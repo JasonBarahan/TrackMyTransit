@@ -17,7 +17,7 @@ public class SearchOutputData {
      * @param stationParentLine
      * @param stationAmenities
      */
-    public SearchOutputData(String stationName, String stationParentLine, List<String> stationAmenities, boolean searchFailed) {
+    public SearchOutputData(String stationName, String stationParentLine, List<String> stationAmenities) {
         this.stationName = stationName;
         this.stationParentLine = stationParentLine;
         this.stationAmenities = stationAmenities;
