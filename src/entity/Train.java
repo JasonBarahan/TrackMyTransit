@@ -1,2 +1,3 @@
-package entity;public class Train {
+package entity;
+public class Train {
 }
