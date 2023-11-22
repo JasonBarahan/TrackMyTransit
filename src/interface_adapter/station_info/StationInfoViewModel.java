@@ -9,6 +9,8 @@ import java.beans.PropertyChangeSupport;
 public class StationInfoViewModel extends ViewModel {
     public final String TITLE_LABEL = "Station Info View";
 
+    public final String SHOW_INCOMING_VEHICLES_BUTTON_LABEL = "Show Incoming Vehicles";
+
     private StationInfoState state = new StationInfoState();
 
     public StationInfoViewModel() {
