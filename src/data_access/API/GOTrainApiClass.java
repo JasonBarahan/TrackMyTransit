@@ -48,7 +48,7 @@ public class GOTrainApiClass {
                 JSONObject currtripEntry = tripJsonArray.getJSONObject(i);
                 List<String> trainInfoList = new ArrayList<>();
                 trainInfoList.add(currtripEntry.getString("TripNumber")); // "TripNumber" is a String for Train Number
-                trainInfoList.add(currtripEntry.getString("LineCode")); // second item of trainInfoList is its Line Code
+                trainInfoList.add(currtripEntry.getString("LineCode")); // second item of trainInfoList is its Parent Line Code
                 trainInfoList.add(currtripEntry.getString("Display")); // 3rd item of trainInfoList is Train Name
                 trainInfoList.add(currtripEntry.getString("DelaySeconds")); //4th item is train delay (in seconds)
 

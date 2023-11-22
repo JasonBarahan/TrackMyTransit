@@ -39,7 +39,7 @@ public class GOTrainScheduledTimeApiClass {
                 .addPathSegment("Schedule")
                 .addPathSegment("Trip")
                 .addPathSegment(sdf.format(c1.getTime())) //date
-                .addPathSegment(tripNumber) //tripNumber retrieved in GOTrainsApiClass
+                .addPathSegment(tripNumber) //tripNumber for a certain trip(train)
                 .addQueryParameter("key", API_KEY)
                 .build();
 
