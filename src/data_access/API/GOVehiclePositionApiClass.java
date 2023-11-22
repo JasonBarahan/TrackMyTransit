@@ -24,7 +24,6 @@ public class GOVehiclePositionApiClass implements TrainApiInterface {
                 .scheme("http")
                 .host("api.openmetrolinx.com")
                 .addPathSegment(PARTIAL_API_URL)
-                .addPathSegment("UP")
                 .addPathSegment("Gtfs")
                 .addPathSegment("Feed")
                 .addPathSegment("VehiclePosition")
