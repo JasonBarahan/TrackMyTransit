@@ -39,9 +39,9 @@ public class GOVehiclePositionApiClass implements TrainApiInterface {
         try {
             Response response = client.newCall(request).execute();
             String vehiclePositionJsonData = response.body().string();
-            JSONObject vehiclePositionJsonObj = new JSONObject(vehiclePositionJsonData); // This is where the header is located at
+            JSONObject headerPositionJsonObj = new JSONObject(vehiclePositionJsonData); // This is where the header is located at
             // JSONObject vehiclePositionJsonDataObj = vehiclePositionJsonObj.getJSONObject("entity");
-            JSONArray entityJsonArray = vehiclePositionJsonObj.getJSONArray("entity");
+            JSONArray entityJsonArray = headerPositionJsonObj.getJSONArray("entity");
             List<String> entityList = new ArrayList<String>();
             for (int i = 0; i < entityJsonArray.length(); i++) {
                 JSONObject currEntityEntry = entityJsonArray.getJSONObject(i);
