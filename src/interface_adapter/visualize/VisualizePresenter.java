@@ -9,6 +9,7 @@ import use_case.visualize.VisualizeOutputData;
  */
 public class VisualizePresenter implements VisualizeOutputBoundary {
 
+    // Since this is a pop-up window additional views need not be introduced here
     private final VisualizeViewModel visualizeViewModel;
     private final ViewManagerModel viewManagerModel;
 
@@ -35,13 +36,18 @@ public class VisualizePresenter implements VisualizeOutputBoundary {
 
         // gets the data
         visualizeState.setTrains(data.getTrains());
+
         // sets the data into the view model's state
+        visualizeViewModel.setVisualizationState(visualizeState);
 
         // fire changed property
+        visualizeViewModel.firePropertyChanged();
 
         // tells the view manager to set the state as the active view
+        viewManagerModel.setActiveView(visualizeViewModel.getViewName());
 
         // fire changed property
+        viewManagerModel.firePropertyChanged();
     }
 
     /**
