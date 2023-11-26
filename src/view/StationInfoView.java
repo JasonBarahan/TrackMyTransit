@@ -16,6 +16,7 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
     private final StationInfoViewModel stationInfoViewModel;
 
     JLabel stationName;
+    JLabel stationParentLine;
     JLabel stationAmenities;
 
     /**
@@ -30,6 +31,10 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
 
         JLabel stationNameLabel = new JLabel("Station name: ");
         stationName = new JLabel();
+
+        JLabel stationParentLineLabel = new JLabel("Station parent line: ");
+        stationParentLine = new JLabel();
+
         JLabel stationAmenitiesLabel = new JLabel("Station amenities: ");
         stationAmenities = new JLabel();
 
@@ -37,6 +42,8 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
         this.add(title);
         this.add(stationNameLabel);
         this.add(stationName);
+        this.add(stationParentLineLabel);
+        this.add(stationParentLine);
         this.add(stationAmenitiesLabel);
         this.add(stationAmenities);
     }
@@ -54,5 +61,6 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
         StationInfoState state = (StationInfoState) evt.getNewValue();
         stationName.setText(state.getStateStationName());
         stationAmenities.setText(state.getStateStationAmenities());
+        stationParentLine.setText(state.getStateStationParentLine());
     }
 }

@@ -20,6 +20,7 @@ public class SearchPresenter implements SearchOutputBoundary {
     public void prepareSuccessView(SearchOutputData response){
         String retrieveStationName = response.getStationName();
         String retrieveStationAmenities = response.getStationAmenities();
+        String retrieveParentLine = response.getStationParentLine();
         // TODO: Left NOTE BELOW FOR TESTING PURPOSES ONLY. Delete in final implementation
         // In the above, changing the arguments to String retrieveStationParentLine = response.getStationParentLine(); would display the Parent line of station
 
@@ -40,6 +41,9 @@ public class SearchPresenter implements SearchOutputBoundary {
 
         // Setting the station amenities list and updating state with change
         stationInfoState.setStateStationAmenities(retrieveStationAmenities);
+
+        // Setting the station amenities list and updating state with change
+        stationInfoState.setStateStationParentLine(retrieveParentLine);
 
         stationInfoViewModel.firePropertyChanged();
 

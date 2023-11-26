@@ -7,6 +7,8 @@ public class StationInfoState {
     private String stationName;
     private String stationAmenities; //TODO: Tentatively, it is a String type
 
+    private String stationParentLine;
+
     //TODO: If this "copy" constructor is unused, delete in the final project implementation
     public StationInfoState(StationInfoState copy) {
         stationName = copy.stationName;
@@ -29,6 +31,13 @@ public class StationInfoState {
     // ... then, wrapped around HTML tags to format the content as a "paragraph"
     public void setStateStationAmenities(String stationAmenities) {
         this.stationAmenities = "<html>" + stationAmenities + "<html>";
+    }
+
+    public String getStateStationParentLine() {
+        return stationParentLine;
+    }
+    public void setStateStationParentLine(String stationParentLine) {
+        this.stationParentLine = stationParentLine;
     }
 
 }
