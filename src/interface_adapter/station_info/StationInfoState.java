@@ -26,9 +26,9 @@ public class StationInfoState {
     public String getStateStationAmenities() {return stationAmenities;}
 
     //TODO: This is a MOCK change to the state, where the stationAmenitiesList is first converted to a string format
-    // ... then, wrapped around HTML tags to mimick a bullet point list (which enables us to clearly see each entry
+    // ... then, wrapped around HTML tags to format the content as a "paragraph"
     public void setStateStationAmenities(String stationAmenities) {
-        this.stationAmenities = stationAmenities;
+        this.stationAmenities = "<html>" + stationAmenities + "<html>";
     }
 
 }
