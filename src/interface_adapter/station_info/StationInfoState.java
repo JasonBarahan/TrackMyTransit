@@ -23,9 +23,10 @@ public class StationInfoState {
         this.stationName = stationName;
     }
 
-    //TODO: This is a MOCK change to the state, where the stationAmenitiesList is converted to a string format
-    // Ideally, we want to seperate and print each entry
     public String getStateStationAmenities() {return stationAmenities;}
+
+    //TODO: This is a MOCK change to the state, where the stationAmenitiesList is first converted to a string format
+    // ... then, wrapped around HTML tags to mimick a bullet point list (which enables us to clearly see each entry
     public void setStateStationAmenities(String stationAmenities) {
         this.stationAmenities = stationAmenities;
     }
