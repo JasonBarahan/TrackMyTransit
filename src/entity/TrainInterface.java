@@ -1,17 +1,19 @@
 package entity;
 
 public interface TrainInterface {
-    String getNumber();
+    String getLineNumber();
 
-    String getName();
+    String getLineName();
 
     float getLatitude();
 
     float getLongitude();
 
-    String getParentLine();
+    String getTrainName();
 
     String getScheduledTime();
+    String getDepartureTime();
+    String getTripNumber();
 
     String getDelay();
 }

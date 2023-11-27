@@ -1,44 +1,51 @@
 package entity;
 public class Train implements TrainInterface{
 
-    private final String name;
-    private final String trainNumber;  //trainNumber = tripNumber
-    private final String parentLine;
-    // Will have to decide if we need to have parentLine for a certain train
+    private final String lineName; //parent line name
+    private final String lineNumber;  //lineNumber = lineCode
+    private final String trainName;
+    // train display name
     private final float latitude;
     private final float longitude;
     private final String scheduledTime;
+    private final String departureTime;
+    private final String tripNumber;
     private final String delay;
 
     /**
      * Requirement: Train name and trainNumber exist.
      * Note: trainNumber is tripNumber in GOtrainApiClass
-     * @param name
-     * @param trainNumber
-     * @param parentLine
+     * @param lineName
+     * @param lineNumber
+     * @param trainName
      * @param latitude
      * @param longitude
      * @param scheduledTime
+     * @param departureTime
+     * @param tripNumber
      * @param delay
      */
-    Train(String name, String trainNumber, String parentLine, float latitude, float longitude, String scheduledTime, String delay) {
-        this.name = name;
-        this.trainNumber = trainNumber;
-        this.parentLine = parentLine;
+    Train(String lineName, String lineNumber, String trainName, float latitude, float longitude,
+          String scheduledTime, String departureTime, String tripNumber, String delay) {
+        this.lineName = lineName;
+        this.lineNumber = lineNumber;
+        this.trainName = trainName;
         this.latitude = latitude;
         this.longitude = longitude;
         this.scheduledTime = scheduledTime;
+        this.departureTime = departureTime;
+        this.tripNumber = tripNumber;
         this.delay = delay;
     }
 
     @Override
-    public String getNumber() {
-        return trainNumber;
+    public String getLineNumber() {
+        return lineNumber;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getLineName() {
+        return lineName;
     }
 
     @Override
@@ -52,15 +59,22 @@ public class Train implements TrainInterface{
     }
 
     @Override
-    public String getParentLine() {
-        return parentLine;
+    public String getTrainName() {
+        return trainName;
     }
-    // We don't really need parentLine for a train?
 
     @Override
     public String getScheduledTime() {
         return scheduledTime;
     }
+
+    @Override
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    @Override
+    public String getTripNumber(){return tripNumber;}
 
     @Override
     public String getDelay() {
