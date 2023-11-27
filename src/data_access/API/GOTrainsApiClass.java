@@ -17,6 +17,13 @@ public class GOTrainsApiClass implements TrainApiInterface {
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
     public GOTrainsApiClass () {
     }
+
+    /**
+     * Searches for all trains and their information including ID and position.
+     *
+     * @param stationId ID of station for incoming trains
+     * @return      API information
+     */
     public List<String> retrieveTrains(String stationId){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -36,6 +43,10 @@ public class GOTrainsApiClass implements TrainApiInterface {
                 .url(httpUrl)
                 .addHeader("content-type", "application/json")
                 .build();
+
+        /**
+         * Search for information
+         */
         try {
             Response response = client.newCall(request).execute();
             String trainJsonData = response.body().string();
