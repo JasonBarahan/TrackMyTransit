@@ -27,7 +27,7 @@ import java.util.List;
  * Modified by Jason Barahan
  */
 public class visualizationProofOfConcept extends JFrame implements JMapViewerEventListener {
-    private final JMapViewerTree treeMap;
+    private final JMapViewer treeMap;
 
     private final JLabel zoomLabel;
     private final JLabel zoomValue;
@@ -44,7 +44,8 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         super("TrackMyTransit");
         setSize(50, 50);
 
-        treeMap = new JMapViewerTree("Vehicles");
+//        treeMap = new JMapViewerTree("Vehicles");
+        treeMap = new JMapViewer();
 
         // Listen to the map viewer for user operations so components will
         // receive events and update
@@ -269,7 +270,7 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
     }
 
     private JMapViewer map() {
-        return treeMap.getViewer();
+        return treeMap;
     }
 
     private void updateZoomParameters() {
