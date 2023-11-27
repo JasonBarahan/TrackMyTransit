@@ -1,5 +1,6 @@
 package data_access;
 
+import entity.Train;
 import entity.Vehicle;
 import entity.StationFactory;
 import use_case.StationInfo.StationInfoDataAccessInterface;
@@ -38,7 +39,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
                Float parsedStationLongtitude = Float.valueOf(parsedStationInfo[3]);
 
                List <String> parsedStationAmenities = new ArrayList<String>(); //TODO: empty at the time of reading txt file, this will be populated through API calls
-               List <Vehicle> parsedStationVehicles = new ArrayList<Vehicle>(); //TODO: empty at the time of reading txt file, this will be populated through API calls
+               List <Train> parsedStationVehicles = new ArrayList<Train>(); //TODO: empty at the time of reading txt file, this will be populated through API calls
 
                // For reference, here are the order of arguments in order to pass into stationFactory.create():
                //(name, stationId, parentLine, latitude, longitude, amenitiesList, incomingVehicles)

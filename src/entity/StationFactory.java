@@ -13,7 +13,7 @@ public class StationFactory {
         without having us to call the actual Station class constructor. That way, we can keep the constructor as "default access" rather than making it "public"
         for files like FileStationDataAccessObject.java to use (making it public will break CAE principles).
     */
-    public Station create (String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Vehicle> incomingVehicles) {
+    public Station create (String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Train> incomingVehicles) {
         return new Station (name, stationId, parentLine, latitude, longitude, amenitiesList, incomingVehicles);
     }
 
