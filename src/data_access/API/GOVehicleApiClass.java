@@ -47,7 +47,7 @@ public class GOVehicleApiClass {
             for (int i = 0; i < vehiclesJsonArray.length(); i++) {
                 JSONObject currtripEntry = vehiclesJsonArray.getJSONObject(i);
                 List<String> vehiclesInfoList = new ArrayList<>();
-                vehiclesInfoList.add(currtripEntry.getString("LineCode")); // parent line id of the station
+                vehiclesInfoList.add(currtripEntry.getString("LineCode")); // parent line id
                 vehiclesInfoList.add(currtripEntry.getString("LineName")); // parent line full name
                 vehiclesInfoList.add(currtripEntry.getString("ServiceType"));
                 // indicates if vehicle is a train or a bus. Train is "T", Bus is "B"
@@ -58,6 +58,8 @@ public class GOVehicleApiClass {
                 // vehicle actual departure time from this station
                 vehiclesInfoList.add(currtripEntry.getString("TripNumber"));
                 // We could calculate delay based on Computed Departure time and Scheduled departure time of a Certain Vehicle
+                vehiclesInfoList.add(currtripEntry.getString("Latitude")); // vehicle latitude
+                vehiclesInfoList.add(currtripEntry.getString("Longitude")); // vehicle longitude
 
                 vehiclesList.add(vehiclesInfoList); //add trainInfoList in trainList
 
