@@ -2,6 +2,7 @@ package data_access;
 
 import entity.Vehicle;
 import entity.StationFactory;
+import use_case.StationInfo.StationInfoDataAccessInterface;
 import use_case.search.SearchDataAccessInterface;
 
 import java.io.*;
@@ -12,7 +13,7 @@ import entity.Station;
 
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
-public class FileStationDataAccessObject implements SearchDataAccessInterface {
+public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface {
     private final File stationTxtFile;
     private final Map<String, Station> stations = new HashMap<>();
     private final StationFactory stationFactory;
@@ -52,6 +53,11 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
     public Station getStation (String inputStationName) {
 
         return stations.get(inputStationName);
+    }
+
+    @Override
+    public String getStationId(String inputStationName) {
+        return stations.get(inputStationName).getId();
     }
 
     @Override
