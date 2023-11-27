@@ -10,7 +10,7 @@ import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import javax.swing.*;
-import javax.swing.border.StrokeBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -35,12 +35,14 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
     private final JLabel mperpLabelName;
     private final JLabel mperpLabelValue;
 
+    // denotes the default style for map markers
+    // TODO: Make different types for trains? Buses? Have the colour change based on the line the vehicle is operating?
     private final Style defaultStyle = new Style(
             Color.cyan, new Color(245, 128, 37), new BasicStroke(10), Font.getFont("Serif"))  ;
 
     public visualizationProofOfConcept() {
         super("TrackMyTransit");
-        setSize(100, 100);
+        setSize(50, 50);
 
         treeMap = new JMapViewerTree("Vehicles");
 
@@ -142,14 +144,14 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         // Tooltips which display text near cursor when hovering.
         // May use this to display bus information.
         // Problem: not friendly for mobile/tablet/touchscreen users.
-//        final JCheckBox showToolTip = new JCheckBox("ToolTip visible");
-//        showToolTip.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                map().setToolTipText(null);
-//            }
-//        });
-//        panelBottom.add(showToolTip);
+        final JCheckBox showToolTip = new JCheckBox("ToolTip visible");
+        showToolTip.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                map().setToolTipText(null);
+            }
+        });
+        panelBottom.add(showToolTip);
 
         ///
 
@@ -188,6 +190,7 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         // TODO: have route data be displayed within the combo box instead
         JComboBox<Train> vehicleSelector;
         vehicleSelector = new JComboBox<>(trains);
+        vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
         vehicleSelector.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -220,6 +223,7 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         //   displayed on the tooltip.
         // - TODO: Fix the text so it becomes legible (or not include it at all, use a tooltip)
         //   Implementation notes: black background (or background depends on lateness), white font colour.
+        // - TODO: How to handle refresh calls?
         //
         for (Train train : trains) {
             String str = new String(
@@ -233,9 +237,6 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
             );
             map().addMapMarker(marker);
         }
-
-        // resize map on first init
-        map().setDisplayToFitMapMarkers();
 
         // detects mouse click events
         map().addMouseListener(new MouseAdapter() {
@@ -262,6 +263,9 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
 //                if (showToolTip.isSelected()) map().setToolTipText(map().getPosition(p).toString());
             }
         });
+
+        // resize map on first init
+        map().setDisplayToFitMapMarkers();
     }
 
     private JMapViewer map() {
@@ -289,5 +293,53 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
 
     public static void main(String[] args) {
         new visualizationProofOfConcept().setVisible(true);
+    }
+}
+
+// Creating a custom renderer to have
+class myRenderer extends DefaultListCellRenderer {
+
+    /**
+     * Return a component that has been configured to display the specified
+     * value. That component's <code>paint</code> method is then called to
+     * "render" the cell.  If it is necessary to compute the dimensions
+     * of a list because the list cells do not have a fixed size, this method
+     * is called to generate a component on which <code>getPreferredSize</code>
+     * can be invoked.
+     *
+     * @param list         The JList we're painting.
+     * @param value        The value returned by list.getModel().getElementAt(index).
+     * @param index        The cells index.
+     * @param isSelected   True if the specified cell was selected.
+     * @param cellHasFocus True if the specified cell has the focus.
+     * @return A component whose paint() method will render the specified value.
+     * @see JList
+     * @see ListSelectionModel
+     * @see ListModel
+     */
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        // TODO: Fix handling for bus objects. Here we've type casted the value to display in the list.
+        Train train = (Train) value;
+
+        // if cell selected
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        }
+
+        // if cell not selected
+        else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
+
+        // set text displayed
+        setIcon(null);
+        setText("[" + train.getVehicleID() + "] " + train.getRouteName() + " to " + train.getRouteDestination());
+
+        setEnabled(list.isEnabled());
+        setFont(list.getFont());
+        return this;
     }
 }
