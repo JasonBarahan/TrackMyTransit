@@ -12,15 +12,12 @@ import java.util.List;
 public class StationInfoInteractor implements StationInfoInputBoundary{
     final StationInfoDataAccessInterface stationInfoDataAccessObject;
     final StationInfoOutputBoundary stationInfoPresenter;
-    final VehicleFactory vehicleFactory;
 
     //TODO: need to consider if we need vehicleFactory
     public StationInfoInteractor(StationInfoDataAccessInterface stationInfoDataAccessInterface,
-                                 StationInfoOutputBoundary stationInfoOutputBoundary,
-                                 VehicleFactory vehicleFactory) {
+                                 StationInfoOutputBoundary stationInfoOutputBoundary) {
         this.stationInfoDataAccessObject = stationInfoDataAccessInterface;
         this.stationInfoPresenter = stationInfoOutputBoundary;
-        this.vehicleFactory = vehicleFactory;
     }
 
     @Override

@@ -8,27 +8,30 @@ import use_case.StationInfo.StationInfoOutputData;
 
 public class StationInfoPresenter implements StationInfoOutputBoundary {
     private final StationInfoViewModel stationInfoViewModel;
-    private final ShowIncomingVehiclesViewModel showIncomingVehiclesoViewModel;
+    private final ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public StationInfoPresenter(StationInfoViewModel stationInfoViewModel,
                                 ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel,
                                 ViewManagerModel viewManagerModel) {
         this.stationInfoViewModel = stationInfoViewModel;
-        this.showIncomingVehiclesoViewModel = showIncomingVehiclesViewModel;
+        this.showIncomingVehiclesViewModel = showIncomingVehiclesViewModel;
         this.viewManagerModel = viewManagerModel;
     }
     @Override
     public void prepareSuccessView(StationInfoOutputData response) {
+        StationInfoState stationInfoState = stationInfoViewModel.getState();
+        stationInfoState.setStateStationName(response.getStationName());
+
         // On success, switch to show incoming vehicles view.
 
-        ShowIncomingVehiclesState showIncomingVehiclesState = ShowIncomingVehiclesViewModel.getState();
-//        loginState.setUsername(response.getUsername());
-//        this.loginViewModel.setState(loginState);
-//        loginViewModel.firePropertyChanged();
-//
-//        viewManagerModel.setActiveView(loginViewModel.getViewName());
-//        viewManagerModel.firePropertyChanged();
-        //TODO: implement show incoming vehicles first
+        ShowIncomingVehiclesState showIncomingVehiclesState = showIncomingVehiclesViewModel.getState();
+        showIncomingVehiclesState.setStateStationName(response.getStationName());
+        showIncomingVehiclesState.setStateIncomingVehiclesList(response.getStationIncomingVehiclesInfo());
+        this.showIncomingVehiclesViewModel.setState(showIncomingVehiclesState);
+        showIncomingVehiclesViewModel.firePropertyChanged();
+
+        viewManagerModel.setActiveView(showIncomingVehiclesViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

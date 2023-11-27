@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
+import interface_adapter.station_info.StationInfoController;
 import interface_adapter.station_info.StationInfoState;
 import interface_adapter.station_info.StationInfoViewModel;
 
@@ -22,8 +22,9 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
     /**
      * A window with a title and a JButton.
      */
-    public StationInfoView(StationInfoViewModel stationInfoViewModel) {
+    public StationInfoView(StationInfoViewModel stationInfoViewModel, StationInfoController stationInfoController) {
         this.stationInfoViewModel = stationInfoViewModel;
+        this.stationInfoController = stationInfoController;
         this.stationInfoViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Station info screen");
@@ -44,7 +45,7 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
                         if (e.getSource().equals(show_incoming_vehicles)) {
                             StationInfoState currentState = stationInfoViewModel.getState();
 
-                            stationInfoController.execute(
+                            StationInfoView.this.stationInfoController.execute(
                                     currentState.getStateStationName()
                             );
                         }
