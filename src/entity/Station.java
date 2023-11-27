@@ -9,7 +9,10 @@ public class Station implements StationInterface{
     private final float latitude;
     private final float longitude;
     private List<String> amenitiesList; //TODO: Due to this variable being assigned a valid value AFTER initial text file is read, we need to make this non-final. But this violates CAE?
-    private final List<Vehicle> incomingVehicles;
+
+    private final List<Train> incomingVehicles;
+    // used to be:    private final List<Vehicle> incomingVehicles;
+    // will change to the original one after implementing Vehicle class.
 
     /**
      * Requirement: stationId and name exist.
@@ -22,7 +25,8 @@ public class Station implements StationInterface{
      * @param incomingVehicles
      */
 
-    Station(String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Vehicle> incomingVehicles) {
+    Station(String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Train> incomingVehicles) {
+        //String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Vehicle> incomingVehicles
         this.stationId = stationId;
         this.name = name;
         this.parentLine = parentLine;
@@ -67,7 +71,10 @@ public class Station implements StationInterface{
     }
 
     @Override
-    public List<Vehicle> getIncomingVehicles() {
+    public List<Train> getIncomingVehicles() {
         return incomingVehicles;
     }
+//    public List<Vehicle> getIncomingVehicles() {
+//        return incomingVehicles;
+//    }
 }
