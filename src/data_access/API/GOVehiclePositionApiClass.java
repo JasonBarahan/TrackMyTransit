@@ -17,6 +17,13 @@ public class GOVehiclePositionApiClass implements TrainApiInterface {
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
     public GOVehiclePositionApiClass () {
     }
+
+    /**
+     * Searches for the current position of a train.
+     *
+     * @param stationId
+     * @return      return the longitude and latitude
+     */
     public List<String> retrieveVehiclePosition(String stationId){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -35,6 +42,10 @@ public class GOVehiclePositionApiClass implements TrainApiInterface {
                 .url(httpUrl)
                 .addHeader("content-type", "application/json")
                 .build();
+
+        /**
+         * Search for longitude and latitude
+         */
         try {
             Response response = client.newCall(request).execute();
             String vehiclePositionJsonData = response.body().string();
