@@ -5,6 +5,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.JMapViewerEventListener;
 import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
+import resources.map.MapFont;
 
 import javax.swing.*;
 
@@ -34,22 +35,9 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
     private final JLabel mperpLabelName;
     private final JLabel mperpLabelValue;
 
-//    Font font = Font.getFont("Serif");
-
-    // This is a mapping denoting attributes for a custom font class.
-    // TODO: Split to separate class
-    Map<Attribute, Object> map = Map.of(
-            FAMILY, "Sans_Serif",
-            SWAP_COLORS, true,
-            WEIGHT, 5,
-            SIZE, 13
-            );
-
-    Font font = new Font(map);
-    // denotes the default style for map markers
     // TODO: Make different types for trains? Buses? Have the colour change based on the line the vehicle is operating?
     private final Style defaultStyle = new Style(
-            Color.cyan, new Color(245, 128, 37), new BasicStroke(10), font)  ;
+            Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont())  ;
 
     public visualizationProofOfConcept() {
         super("TrackMyTransit");
