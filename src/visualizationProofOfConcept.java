@@ -2,9 +2,6 @@ import entity.Train;
 import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.events.JMVCommandEvent;
 import org.openstreetmap.gui.jmapviewer.interfaces.JMapViewerEventListener;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
-import org.openstreetmap.gui.jmapviewer.interfaces.TileLoader;
-import org.openstreetmap.gui.jmapviewer.interfaces.TileSource;
 import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
@@ -13,8 +10,10 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.AttributedCharacterIterator.Attribute;
+import java.util.Map;
+
+import static java.awt.font.TextAttribute.*;
 
 // TODO: JMapViewer is not listed on Maven. I added the .jar file manually after downloading it from
 // TODO: the repository Jonathan Calver linked. You may need to add this dependency yourself.
@@ -35,10 +34,22 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
     private final JLabel mperpLabelName;
     private final JLabel mperpLabelValue;
 
+//    Font font = Font.getFont("Serif");
+
+    // This is a mapping denoting attributes for a custom font class.
+    // TODO: Split to separate class
+    Map<Attribute, Object> map = Map.of(
+            FAMILY, "Sans_Serif",
+            SWAP_COLORS, true,
+            WEIGHT, 5,
+            SIZE, 13
+            );
+
+    Font font = new Font(map);
     // denotes the default style for map markers
     // TODO: Make different types for trains? Buses? Have the colour change based on the line the vehicle is operating?
     private final Style defaultStyle = new Style(
-            Color.cyan, new Color(245, 128, 37), new BasicStroke(10), Font.getFont("Serif"))  ;
+            Color.cyan, new Color(245, 128, 37), new BasicStroke(10), font)  ;
 
     public visualizationProofOfConcept() {
         super("TrackMyTransit");
@@ -149,7 +160,7 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         showToolTip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                map().setToolTipText(null);
+                map().setToolTipText("a");
             }
         });
         panelBottom.add(showToolTip);
@@ -226,9 +237,12 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
         //   Implementation notes: black background (or background depends on lateness), white font colour.
         // - TODO: How to handle refresh calls?
         //
+        // The below for loop access entities directly, so this violates CA. Will need to modify accordingly.
+        // TODO: Have the interactor make map points instead of calling APIs directly
         for (Train train : trains) {
             String str = new String(
                     "[" + train.getVehicleID() + "] " + train.getRouteName() + " to " + train.getRouteDestination()
+                    + " - On Time"
             );
             MapMarkerDot marker = new MapMarkerDot(
                     trainsLayer,
@@ -265,8 +279,8 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
             }
         });
 
-        // resize map on first init
-        map().setDisplayToFitMapMarkers();
+        // On initialization, map is focused on the first vehicle within the list
+        map().setDisplayPosition(c(trains[0].getLatitude(), trains[0].getLongitude()), 13);
     }
 
     private JMapViewer map() {
@@ -297,7 +311,8 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
     }
 }
 
-// Creating a custom renderer to have
+// Creating a custom renderer which overrides getListCellRendererComponent to change displayed strings in tje
+// jComboBox.
 class myRenderer extends DefaultListCellRenderer {
 
     /**
