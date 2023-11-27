@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.visualize.VisualizeController;
 import interface_adapter.visualize.VisualizeViewModel;
+import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
@@ -25,8 +26,10 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
     // JSwing elements
     private final JMapViewer map;
-    private final JLabel zoomLabel;
-    private final JLabel zoomValue;
+
+    private Coordinate c(double lat, double lon) {
+        return new Coordinate(lat, lon);
+    }
 
     public MapVisualizationView(VisualizeViewModel visualizeViewModel, VisualizeController visualizeController) {
         this.visualizeViewModel = visualizeViewModel;
@@ -45,10 +48,6 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         JPanel panel = new JPanel(new BorderLayout());
         JPanel panelTop = new JPanel();
         JPanel helpPanel = new JPanel();
-
-        // zoom value labels
-        zoomLabel = new JLabel("Zoom: ");
-        zoomValue = new JLabel(String.format("%s", map.getZoom()));
 
         // attach borders
         add(panel, BorderLayout.NORTH);
@@ -79,9 +78,8 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         });
         panelTop.add(showImageryCheckBox);
 
-        // add zoom labels to top
-        panelTop.add(zoomLabel);
-        panelTop.add(zoomValue);
+        // add the actual map
+        add(map, BorderLayout.CENTER);
 
         // detects mouse click events
         map.addMouseListener(new MouseAdapter() {
@@ -137,5 +135,4 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     public static void main(String[] args) {
         new MapVisualizationView(new VisualizeViewModel(), null).setVisible(true);
     }
-
 }
