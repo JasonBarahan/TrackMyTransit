@@ -1,36 +1,37 @@
 package use_case.visualize;
 
-import entity.Train;
+import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import java.util.List;
 
+// TODO: unit tests: coordinate data and string data are of same length, and match size
 public class VisualizeOutputData {
-    private final List<List<String>> data;
-
-    /*
-        There's no changes to the data passed into this use case. Why bother with input/output data objects?
-
-        In case the implementation of the map visualization changes, particularly with regard to the data required,
-        we can implement these changes in their own use case files.
-
-        Single Responsibility Principle
-     */
+    private final List<Coordinate> coordinateData;
+    private final List<String> stringData;
+    private final int size;
 
     /**
      * Constructor.
      *
-     * @param data: an array of Train objects
+     * @param coordinateData the list of coordinates associated with the vehicle
+     * @param stringData the list of vehicle metadata output as a string
+     * @param size the size of both lists
      */
-    public VisualizeOutputData(List<List<String>> data) {
-        this.data = data;
+    public VisualizeOutputData(List<Coordinate> coordinateData, List<String> stringData, int size) {
+        this.coordinateData = coordinateData;
+        this.stringData = stringData;
+        this.size = size;
     }
 
-    /**
-     * Getter for the array of train objects.
-     *
-     * @return the train array Train[]
-     */
-    public List<List<String>> getData() {
-        return data;
+    public List<Coordinate> getCoordinateData() {
+        return coordinateData;
+    }
+
+    public List<String> getStringData() {
+        return stringData;
+    }
+
+    public int getSize() {
+        return size;
     }
 }
