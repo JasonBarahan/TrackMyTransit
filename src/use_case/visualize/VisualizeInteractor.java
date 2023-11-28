@@ -30,40 +30,11 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
     @Override
     public void execute(VisualizeInputData visualizeInputData) {
         // get data
-//        List<List<String>> inputData = visualizeInputData.getTrains();
-        // TODO: What should the program do to the array of vehicle objects when input data is passed in?
-        // TODO: Usually more code goes here...
+        List<List<String>> inputData = visualizeInputData.getVehicleData();
 
-        // TODO: Commented out the above line and placed mock data for testing purposes.
-        List<List<String>> inputData = new ArrayList<>();
+        // create new ArrayList objects for coordinates and strings
         List<Coordinate> coordinateList = new ArrayList<>();
         List<String> stringList = new ArrayList<>();
-
-        // TODO: Transfer mock data to a unit test
-        List<String> vehicle1 = new ArrayList<>();
-        vehicle1.add("LW");
-        vehicle1.add("Lakeshore West");
-        vehicle1.add("T");
-        vehicle1.add("LW - Union Station");
-        vehicle1.add("2023-11-27 16:31:00");
-        vehicle1.add("2023-11-27 16:31:00");
-        vehicle1.add("1026");
-        vehicle1.add("43.3419870");
-        vehicle1.add("-79.8076960");
-
-        List<String> vehicle2 = new ArrayList<>();
-        vehicle2.add("LW");
-        vehicle2.add("Lakeshore West");
-        vehicle2.add("T");
-        vehicle2.add("LW - Union Station");
-        vehicle2.add("2023-11-27 16:31:00");
-        vehicle2.add("2023-11-27 16:31:00");
-        vehicle2.add("1026");
-        vehicle2.add("43.6448050");
-        vehicle2.add("-79.3777040");
-
-        inputData.add(vehicle1);
-        inputData.add(vehicle2);
 
         // ArrayList for processedVehicleData:
         // Obtain relevant data for marker creation
