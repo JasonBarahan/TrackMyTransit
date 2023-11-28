@@ -1,13 +1,18 @@
 package view;
 
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class test {
-    private final List<List<String>> outputData;
+    private final List<Coordinate> coordinateList;
+    private final List<String> stringList;
+    private final int size;
     public test() {
         List<List<String>> inputData = new ArrayList<>();
-        List<List<String>> outputData = new ArrayList<>();
+        List<Coordinate> coordinateList = new ArrayList<>();
+        List<String> stringList = new ArrayList<>();
 
 
         List<String> vehicle1 = new ArrayList<>();
@@ -38,14 +43,13 @@ public class test {
         // ArrayList for processedVehicleData:
         // Obtain relevant data for marker creation
         for (List<String> vehicle : inputData) {
-            List<String> processedVehicleData = new ArrayList<>();
 
-            // Get lat (top) and long (bottom)
-            processedVehicleData.add(vehicle.get(7));
-            processedVehicleData.add(vehicle.get(8));
+            // Get lat (top) and long (bottom), then add to coordinates list
+            coordinateList.add(new Coordinate(Double.parseDouble(vehicle.get(7)), Double.parseDouble(vehicle.get(8))));
 
             // String data - used to identify a vehicle to the user.
-            StringBuilder vehicleData = new StringBuilder(new String());
+            StringBuilder vehicleData = new StringBuilder();
+
             // Get the scheduled time of departure
             vehicleData
                     .append("[")
@@ -70,15 +74,23 @@ public class test {
                     .append(vehicle.get(3));
 
             // add this finished string to processed vehicle data list
-            processedVehicleData.add(String.valueOf(vehicleData));
-
-            // add to output data list
-            outputData.add(processedVehicleData);
+            stringList.add(String.valueOf(vehicleData));
         }
-        this.outputData = outputData;
+        this.coordinateList = coordinateList;
+        this.stringList = stringList;
+        this.size = coordinateList.size();
+        assert coordinateList.size() == stringList.size();
     }
 
-    public List<List<String>> getData() {
-        return this.outputData;
+    public List<Coordinate> getCoordinateData() {
+        return coordinateList;
+    }
+
+    public List<String> getStringData() {
+        return stringList;
+    }
+
+    public int getSize() {
+        return size;
     }
 }
