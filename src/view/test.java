@@ -27,7 +27,7 @@ public class test {
         vehicle2.add("T");
         vehicle2.add("LW - Union Station");
         vehicle2.add("2023-11-27 16:31:00");
-        vehicle2.add("2023-11-27 16:31:00");
+        vehicle2.add("2023-11-27 16:34:00");
         vehicle2.add("1026");
         vehicle2.add("43.6448050");
         vehicle2.add("-79.3777040");
@@ -40,18 +40,39 @@ public class test {
         for (List<String> vehicle : inputData) {
             List<String> processedVehicleData = new ArrayList<>();
 
-            // Get the scheduled time of departure
-            processedVehicleData.add(vehicle.get(4).substring(10));
-
-            // Get the service name
-            processedVehicleData.add(vehicle.get(3));
-
             // Get lat (top) and long (bottom)
             processedVehicleData.add(vehicle.get(7));
             processedVehicleData.add(vehicle.get(8));
 
-            // Get the estimated time of departure
-            processedVehicleData.add("Scheduled at " + vehicle.get(5).substring(10));
+            // String data - used to identify a vehicle to the user.
+            StringBuilder vehicleData = new StringBuilder(new String());
+            // Get the scheduled time of departure
+            vehicleData
+                    .append("[")
+                    .append(vehicle.get(4).substring(11));
+
+            // Get the estimated time of departure.
+            // Only displays a value if scheduled time and estimate time aren't equivalent
+            if (vehicle.get(4).substring(11).equals(vehicle.get(5).substring(11))) {
+                vehicleData
+                        .append("]");
+            }
+            else {
+                vehicleData
+                        .append(", estimated ")
+                        .append(vehicle.get(5).substring(11))
+                        .append("]");
+            }
+
+            // Get the service name
+            vehicleData
+                    .append(" ")
+                    .append(vehicle.get(3));
+
+            // add this finished string to processed vehicle data list
+            processedVehicleData.add(String.valueOf(vehicleData));
+
+            // add to output data list
             outputData.add(processedVehicleData);
         }
         this.outputData = outputData;
