@@ -1,20 +1,26 @@
 package view;
 
+import entity.Train;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.visualize.VisualizeController;
+import interface_adapter.visualize.VisualizePresenter;
+import interface_adapter.visualize.VisualizeState;
 import interface_adapter.visualize.VisualizeViewModel;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
-import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
+import resources.map.MapFont;
+import use_case.visualize.VisualizeInteractor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Double.parseDouble;
 
 public class MapVisualizationView extends JFrame implements PropertyChangeListener, ActionListener {
     // Internal strings
@@ -31,11 +37,17 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         return new Coordinate(lat, lon);
     }
 
+    // denote default style for markers
+    private final Style defaultStyle = new Style(
+            Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont())  ;
+
     public MapVisualizationView(VisualizeViewModel visualizeViewModel, VisualizeController visualizeController) {
         this.visualizeViewModel = visualizeViewModel;
         visualizeViewModel.addPropertyChangeListener(this);
 
         this.visualizeController = visualizeController;
+        // todo: debug
+        visualizeController.execute(new Train[3]);
 
         // create the map object
         map = new JMapViewer();
@@ -105,9 +117,48 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
             }
         });
 
+        // layer management (show buses and trains)
+        LayerGroup vehicles = new LayerGroup("Vehicles");
+        Layer trainsLayer = vehicles.addLayer("Trains");
+
+        // vehicle selection screen
+//        List<List<String>> stuff = visualizeViewModel.getVisualizationState().getData();
+        test test = new test();
+        List<List<String>> stuff = test.getData();
+
+        List[] data = new ArrayList[stuff.size()];
+        for (int i = 0; i < stuff.size(); i++) {
+            data[i] = stuff.get(i);
+        }
+
+        JComboBox<List<String>> vehicleSelector;
+        vehicleSelector = new JComboBox<>(data);
+//        vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
+        vehicleSelector.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                List<String> data = (List<String>) e.getItem();
+                map.setDisplayPosition(c(parseDouble(data.get(2)), parseDouble(data.get(3))), map.getZoom());
+            }
+        });
+        panelTop.add(vehicleSelector);
+
+        // add markers
+        for (List<String> vehicle : data) {
+            String str = "[" + vehicle.get(0) + "] " + vehicle.get(1) + " - " + vehicle.get(4);
+            MapMarkerDot marker = new MapMarkerDot(
+                    trainsLayer,
+                    str,
+                    c(parseDouble(vehicle.get(2)), parseDouble(vehicle.get(3))),
+                    this.defaultStyle
+            );
+            map.addMapMarker(marker);
+        }
+
         // On initialization, map is focused on the first vehicle within the list
-        // TODO: Implement
-//        map().setDisplayPosition(c(trains[0].getLatitude(), trains[0].getLongitude()), 13);
+        // TODO: Implement properly
+        List vehicle = data[0];
+        map.setDisplayPosition(c(parseDouble((String) vehicle.get(2)), parseDouble((String) vehicle.get(3))), 13);
     }
 
     /**
@@ -133,6 +184,7 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
     // TODO: Debug, remove when done
     public static void main(String[] args) {
-        new MapVisualizationView(new VisualizeViewModel(), null).setVisible(true);
+        VisualizeController controller = new VisualizeController(new VisualizeInteractor(new VisualizePresenter(new VisualizeViewModel(), new ViewManagerModel())));
+        new MapVisualizationView(new VisualizeViewModel(), controller).setVisible(true);
     }
 }
