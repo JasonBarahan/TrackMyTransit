@@ -1,7 +1,6 @@
 package use_case.visualize;
 
-import entity.Train;
-
+import org.openstreetmap.gui.jmapviewer.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +23,7 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
 
     /**
      * Takes the input data and executes the desired actions of the use case.
-     * Output data consists of a list of list of strings where:
-     *  - the first index denotes the latitude
-     *  - the second index denotes the longitude
-     *  - the third index denotes the string containing all the relevant information
-     *    which will be attached to the appropriate marker
+     * TODO: complete me
      *
      * @param visualizeInputData : the input data for the visualization use case.
      */
@@ -41,7 +36,8 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
 
         // TODO: Commented out the above line and placed mock data for testing purposes.
         List<List<String>> inputData = new ArrayList<>();
-        List<List<String>> outputData = new ArrayList<>();
+        List<Coordinate> coordinateList = new ArrayList<>();
+        List<String> stringList = new ArrayList<>();
 
         // TODO: Transfer mock data to a unit test
         List<String> vehicle1 = new ArrayList<>();
@@ -72,14 +68,13 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
         // ArrayList for processedVehicleData:
         // Obtain relevant data for marker creation
         for (List<String> vehicle : inputData) {
-            List<String> processedVehicleData = new ArrayList<>();
 
-            // Get lat (top) and long (bottom)
-            processedVehicleData.add(vehicle.get(7));
-            processedVehicleData.add(vehicle.get(8));
+            // Get lat (top) and long (bottom), then add to coordinates list
+            coordinateList.add(new Coordinate(Double.parseDouble(vehicle.get(7)), Double.parseDouble(vehicle.get(8))));
 
             // String data - used to identify a vehicle to the user.
-            StringBuilder vehicleData = new StringBuilder(new String());
+            StringBuilder vehicleData = new StringBuilder();
+
             // Get the scheduled time of departure
             vehicleData
                     .append("[")
@@ -104,14 +99,15 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
                     .append(vehicle.get(3));
 
             // add this finished string to processed vehicle data list
-            processedVehicleData.add(String.valueOf(vehicleData));
-
-            // add to output data list
-            outputData.add(processedVehicleData);
+            stringList.add(String.valueOf(vehicleData));
         }
 
+        // get size
+        // TODO: make this a test
+        assert stringList.size() == coordinateList.size();
+
         // Generate the output data
-        VisualizeOutputData visualizeOutputData = new VisualizeOutputData(outputData);
+        VisualizeOutputData visualizeOutputData = new VisualizeOutputData(coordinateList, stringList, stringList.size());
 
         // pass it into the presenter (and through the output boundary)
         visualizePresenter.prepareSuccessView(visualizeOutputData);

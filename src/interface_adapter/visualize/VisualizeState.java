@@ -3,6 +3,7 @@ package interface_adapter.visualize;
 import entity.Train;
 import entity.Bus;
 import entity.Vehicle;
+import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import java.util.List;
 
@@ -13,28 +14,12 @@ import java.util.List;
  */
 public class VisualizeState {
     // Train data
-    private List<List<String>> data;
+    private List<Coordinate> coordinateList;
+    private List<String> stringList;
+    private int size;
 
     // Error string
     private String errorString = null;
-
-    /**
-     * Gets the train objects in the state.
-     *
-     * @return an array of Train objects.
-     */
-    public List<List<String>> getData() {
-        return data;
-    }
-
-    /**
-     * Sets the train objects in the state.
-     *
-     * @param data: an array of Vehicle objects.
-     */
-    public void setData(List<List<String>> data) {
-        this.data = data;
-    }
 
     /**
      * Gets the error string for the visualization state, in case data visualization fails.
@@ -52,5 +37,29 @@ public class VisualizeState {
      */
     public void setErrorString(String errorString) {
         this.errorString = errorString;
+    }
+
+    public List<Coordinate> getCoordinateList() {
+        return coordinateList;
+    }
+
+    public void setCoordinateList(List<Coordinate> coordinateList) {
+        this.coordinateList = coordinateList;
+    }
+
+    public List<String> getStringList() {
+        return stringList;
+    }
+
+    public void setStringList(List<String> stringList) {
+        this.stringList = stringList;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }
