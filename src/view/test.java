@@ -82,15 +82,19 @@ public class test {
         assert coordinateList.size() == stringList.size();
     }
 
-    public List<Coordinate> getCoordinateData() {
+    public List<Coordinate> getCoordinateList() {
         return coordinateList;
     }
 
-    public List<String> getStringData() {
+    public List<String> getStringList() {
         return stringList;
     }
 
     public int getSize() {
         return size;
+    }
+
+    public static void main(String[] args) {
+        test test = new test();
     }
 }
