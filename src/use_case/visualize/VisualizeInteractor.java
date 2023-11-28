@@ -12,6 +12,14 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
     // invoke presenter as output boundary
     final VisualizeOutputBoundary visualizePresenter;
 
+    private String boxText (String str) {
+        return "[" + str + "]";
+    }
+
+    private String hyphenText () {
+        return " - ";
+    }
+
     /**
      * Constructor.
      *
@@ -46,22 +54,18 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
             // String data - used to identify a vehicle to the user.
             StringBuilder vehicleData = new StringBuilder();
 
-            // Get the scheduled time of departure
-            vehicleData
-                    .append("[")
-                    .append(vehicle.get(4).substring(11));
-
-            // Get the estimated time of departure.
+            // Get the scheduled time of departure and estimated time of departure.
             // Only displays a value if scheduled time and estimate time aren't equivalent
             if (vehicle.get(4).substring(11).equals(vehicle.get(5).substring(11))) {
                 vehicleData
-                        .append("]");
+                        .append(boxText(vehicle.get(4).substring(11)));
             }
             else {
                 vehicleData
-                        .append(", estimated ")
-                        .append(vehicle.get(5).substring(11))
-                        .append("]");
+                        .append(boxText(
+                                vehicle.get(4).substring(11)
+                                + ", estimated "
+                                + vehicle.get(5).substring(11)));
             }
 
             // Get the service name
