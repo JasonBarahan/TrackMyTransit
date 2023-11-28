@@ -2,19 +2,21 @@ package use_case.visualize;
 
 import entity.Train;
 
+import java.util.List;
+
 /**
  * Input data for the visualization use case. Data is an array of Train objects.
  */
 public class VisualizeInputData {
-    final private Train[] trains;
+    final private List<List<String>> vehicleData;
 
     /**
      * Constructor.
      *
-     * @param trains: an array of train objects
+     * @param vehicleData: an array of vehicle (bus/train) objects
      */
-    public VisualizeInputData(Train[] trains) {
-        this.trains = trains;
+    public VisualizeInputData(List<List<String>> vehicleData) {
+        this.vehicleData = vehicleData;
     }
 
     /**
@@ -22,7 +24,7 @@ public class VisualizeInputData {
      *
      * @return an array of train objects.
      */
-    public Train[] getTrains() {
-        return trains;
+    public List<List<String>> getVehicleData() {
+        return vehicleData;
     }
 }
