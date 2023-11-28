@@ -10,9 +10,10 @@ import java.beans.PropertyChangeSupport;
  */
 public class VisualizeViewModel extends ViewModel {
 
-    // Final labels for internal use
-    private final String WINDOW_LABEL = "TrackMyTransit";
-
+    /* User guidance strings */
+    public static final String WINDOW_LABEL = "TrackMyTransit";
+    public static final String HELP_LABEL = "Hold the right mouse button while moving it to move the map. Double-click to zoom.";
+    public static final String RESIZE_BUTTON_LABEL = "Fit markers to screen";
 
 
     // The application state; needed to alert the View on what to present.
