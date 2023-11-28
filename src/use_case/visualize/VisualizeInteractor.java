@@ -43,7 +43,7 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
         List<List<String>> inputData = new ArrayList<>();
         List<List<String>> outputData = new ArrayList<>();
 
-
+        // TODO: Transfer mock data to a unit test
         List<String> vehicle1 = new ArrayList<>();
         vehicle1.add("LW");
         vehicle1.add("Lakeshore West");
