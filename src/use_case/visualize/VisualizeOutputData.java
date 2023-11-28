@@ -2,8 +2,10 @@ package use_case.visualize;
 
 import entity.Train;
 
+import java.util.List;
+
 public class VisualizeOutputData {
-    private final Train[] trains;
+    private final List<List<String>> data;
 
     /*
         There's no changes to the data passed into this use case. Why bother with input/output data objects?
@@ -17,10 +19,10 @@ public class VisualizeOutputData {
     /**
      * Constructor.
      *
-     * @param trains: an array of Train objects
+     * @param data: an array of Train objects
      */
-    public VisualizeOutputData(Train[] trains) {
-        this.trains = trains;
+    public VisualizeOutputData(List<List<String>> data) {
+        this.data = data;
     }
 
     /**
@@ -28,7 +30,7 @@ public class VisualizeOutputData {
      *
      * @return the train array Train[]
      */
-    public Train[] getTrains() {
-        return trains;
+    public List<List<String>> getData() {
+        return data;
     }
 }
