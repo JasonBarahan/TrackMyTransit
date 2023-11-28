@@ -58,8 +58,8 @@ public class GOVehicleApiClass {
                 // vehicle actual departure time from this station
                 vehiclesInfoList.add(currtripEntry.getString("TripNumber"));
                 // We could calculate delay based on Computed Departure time and Scheduled departure time of a Certain Vehicle
-                vehiclesInfoList.add(currtripEntry.getString("Latitude")); // vehicle latitude
-                vehiclesInfoList.add(currtripEntry.getString("Longitude")); // vehicle longitude
+                vehiclesInfoList.add(String.valueOf(currtripEntry.get("Latitude"))); // vehicle latitude
+                vehiclesInfoList.add(String.valueOf(currtripEntry.get("Longitude"))); // vehicle longitude
 
                 vehiclesList.add(vehiclesInfoList); //add trainInfoList in trainList
 

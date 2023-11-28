@@ -1,5 +1,6 @@
 package interface_adapter.show_incoming_vehicles;
 
+import entity.Train;
 import interface_adapter.station_info.StationInfoState;
 
 import java.util.List;

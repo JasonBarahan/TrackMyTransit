@@ -1,9 +1,8 @@
 package data_access.text_file;
 
 import data_access.API.GOStationApiClass;
-import entity.Train;
-import entity.Vehicle;
-import entity.StationFactory;
+import data_access.API.GOVehicleApiClass;
+import entity.*;
 import use_case.StationInfo.StationInfoDataAccessInterface;
 import use_case.search.SearchDataAccessInterface;
 
@@ -11,7 +10,6 @@ import java.io.*;
 import java.util.*; // resolves import for List and ArrayList
 import java.util.HashMap;
 import java.util.Map;
-import entity.Station;
 
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
@@ -19,13 +17,18 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     private final File stationTxtFile;
     private final Map<String, Station> stations = new HashMap<>();
     private final StationFactory stationFactory;
+    private final TrainFactory trainFactory;
 
     private final GOStationApiClass goStationApiClass;
+    private final GOVehicleApiClass goVehicleApiClass;
 
-    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, GOStationApiClass goStationApiClass) throws IOException {
+    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, TrainFactory trainFactory,
+                                       GOStationApiClass goStationApiClass, GOVehicleApiClass goVehicleApiClass) throws IOException {
 
         this.stationFactory = stationFactory;
+        this.trainFactory = trainFactory;
         this.goStationApiClass = goStationApiClass;
+        this.goVehicleApiClass = goVehicleApiClass;
         stationTxtFile = new File(txtFilePath);
 
         // Reading the provided txt file that has a path specified by attribute txtFilePath
@@ -60,10 +63,25 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
         // Assigning the Station obj's amenitiesList attribute to a valid value
         List<String> retrievedStationAmenities = getStationAmenities(inputStationName);
         incompleteStationObj.setAmenitiesList(retrievedStationAmenities);
+        List<Train> retrievedIncomingVehicles = getIncomingVehicles(inputStationName);
+        incompleteStationObj.setIncomingVehiclesList(retrievedIncomingVehicles);
 
         //TODO: Do something similar for incomingVehicles?
 
         return stations.get(inputStationName);
+    }
+
+    @Override
+    public List<Train> getIncomingVehicles(String inputStationName) {
+        String stationId = getStationId(inputStationName);
+        List<Train> incomingVehiclesList = new ArrayList<>();
+        for (List<String> vehicles: goVehicleApiClass.retrieveVehicleInfo(stationId)) {
+            Train vehicle = trainFactory.create(vehicles.get(0), vehicles.get(1),vehicles.get(2),vehicles.get(3),vehicles.get(4),
+                    vehicles.get(5),vehicles.get(6),Float.parseFloat(vehicles.get(7)),Float.parseFloat(vehicles.get(8)));
+            incomingVehiclesList.add(vehicle);
+        }
+//        List<Train> incomingVehiclesList = goVehicleApiClass.retrieveVehicleInfo(stationId);
+        return incomingVehiclesList;
     }
 
     @Override

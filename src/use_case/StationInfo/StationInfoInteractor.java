@@ -1,10 +1,7 @@
 package use_case.StationInfo;
 
-import entity.Station;
-import entity.Vehicle;
-import entity.VehicleFactory;
+import entity.*;
 import use_case.search.SearchOutputData;
-import entity.Train;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
 
             // Packaging key details from the above Station object into a SearchOutputData object
             List<Train> incomingVehicles = station.getIncomingVehicles();
-            // List<Train> will change into List<Vehicle> after implementing Vehicle class.
+//             List<Train> will change into List<Vehicle> after implementing Vehicle class.
             List<List<String>> incomingVehiclesInfo = new ArrayList<>();
 
             // We want to show train display name, scheduled time, departure time and delay

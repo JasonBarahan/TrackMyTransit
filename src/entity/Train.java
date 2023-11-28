@@ -25,8 +25,8 @@ public class Train implements TrainInterface{
      * @param tripNumber
      * @param delay
      */
-    Train(String lineName, String lineNumber, String trainName, float latitude, float longitude,
-          String scheduledTime, String departureTime, String tripNumber, String delay) {
+    Train(String lineName, String lineNumber, String trainName, String scheduledTime, String departureTime,
+          String tripNumber, String delay, float latitude, float longitude) {
         this.lineName = lineName;
         this.lineNumber = lineNumber;
         this.trainName = trainName;

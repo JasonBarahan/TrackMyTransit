@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ShowIncomingVehiclesView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "show_incoming_vehicles";
@@ -46,7 +49,13 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
         //System.out.println("Reached"); //Commented out for testing purposes
         ShowIncomingVehiclesState state = (ShowIncomingVehiclesState) evt.getNewValue();
         stationName.setText(state.getStateStationName());
-        stationIncomingVehicles.setText(state.getStateIncomingVehiclesList().toString());
+        List<String> vehiclesInfo = new ArrayList<>();
+        for (java.util.List<String> vehicleInfo : state.getStateIncomingVehiclesList()) {
+            String vehicleInfoListAsString = String.join(", ", vehicleInfo);
+            vehiclesInfo.add(vehicleInfoListAsString);
+        }
+        String vehiclesInfoListAsString = String.join(", ", vehiclesInfo);
+        stationIncomingVehicles.setText(vehiclesInfoListAsString);
         //TODO: Should we make incoming vehicles a String instead of a list?
     }
 
