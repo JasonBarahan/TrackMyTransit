@@ -1,5 +1,6 @@
 package view;
 
+import entity.Train;
 import interface_adapter.visualize.VisualizeViewModel;
 import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
@@ -11,7 +12,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,23 +44,6 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     // TODO: Depending on parent line info, change the color of the inner point
     private final Style defaultStyle = new Style(
             Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont())  ;
-
-    // map keys in output data to keywords for clarity
-    private String retrieveData(List<String> data, String str) {
-        String val = null;
-        switch(str.toLowerCase()) {
-            case "lat":
-                val = data.get(0);
-                break;
-            case "lon":
-                val = data.get(1);
-                break;
-            case "infostring":
-                val = data.get(2);
-                break;
-        }
-        return val;
-    }
 
     public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
         this.visualizeViewModel = visualizeViewModel;
@@ -138,31 +121,27 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         Layer trainsLayer = vehicles.addLayer("Trains");
 
         // vehicle selection screen
-//        List<List<String>> stuff = visualizeViewModel.getVisualizationState().getData();
-        test test = new test();
-        List<List<String>> stuff = test.getData();
+//        List<List<String>> vehicleData = visualizeViewModel.getVisualizationState().getData();
+        test vehicleData = new test();
 
-        List<String>[] data = new ArrayList[stuff.size()];
-        for (int i = 0; i < stuff.size(); i++) {
-            data[i] = stuff.get(i);
-        }
-
-        JComboBox<List<String>> vehicleSelector = new JComboBox<>(data);
+        JComboBox<Coordinate> vehicleSelector =
+                new JComboBox<>(vehicleData.getCoordinateData().toArray(new Coordinate[vehicleData.getSize()]));
+        vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
         vehicleSelector.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                List<String> data = (List<String>) e.getItem();
-                map.setDisplayPosition(c(retrieveData(data, "lat"), retrieveData(data, "lon")), map.getZoom());
+                Coordinate coordinate = (Coordinate) e.getItem();
+                map.setDisplayPosition(coordinate, map.getZoom());
             }
         });
         panelTop.add(vehicleSelector);
 
         // add markers
-        for (List<String> vehicle : data) {
+        for (int i = 0; i < vehicleData.getSize(); i++) {
             MapMarkerDot marker = new MapMarkerDot(
                     trainsLayer,
-                    retrieveData(vehicle, "infoString"),
-                    c(retrieveData(vehicle, "lat"), retrieveData(vehicle, "lon")),
+                    vehicleData.getStringData().get(i),
+                    vehicleData.getCoordinateData().get(i),
                     this.defaultStyle
             );
             map.addMapMarker(marker);
@@ -171,8 +150,8 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         // On initialization, map is focused on the first vehicle within the list
         // TODO: Implement properly
         // TODO: What happens if there are no vehicles in the list? Throw an error?
-        List<String> vehicle = data[0];
-        map.setDisplayPosition(c(retrieveData(vehicle, "lat"), retrieveData(vehicle, "lon")), 13);
+        Coordinate coordinate = vehicleData.getCoordinateData().get(0);
+        map.setDisplayPosition(coordinate, 13);
     }
 
     /**
@@ -200,4 +179,57 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     public static void main(String[] args) {
         new MapVisualizationView(new VisualizeViewModel()).setVisible(true);
     }
+
+    class myRenderer extends DefaultListCellRenderer {
+
+        /**
+         * Return a component that has been configured to display the specified
+         * value. That component's <code>paint</code> method is then called to
+         * "render" the cell.  If it is necessary to compute the dimensions
+         * of a list because the list cells do not have a fixed size, this method
+         * is called to generate a component on which <code>getPreferredSize</code>
+         * can be invoked.
+         *
+         * @param list         The JList we're painting.
+         * @param value        The value returned by list.getModel().getElementAt(index).
+         * @param index        The cells index.
+         * @param isSelected   True if the specified cell was selected.
+         * @param cellHasFocus True if the specified cell has the focus.
+         * @return A component whose paint() method will render the specified value.
+         * @see JList
+         * @see ListSelectionModel
+         * @see ListModel
+         */
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            // TODO: Fix handling for bus objects. Here we've type casted the value to display in the list.
+            Coordinate selectedCoordinate = (Coordinate) value;
+
+            // if cell selected
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+            }
+
+            // if cell not selected
+            else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+
+            // set text displayed
+            setIcon(null);
+//            setText(visualizeViewModel.getVisualizationState().getStringList().get(
+//                    (visualizeViewModel.getVisualizationState().getCoordinateList().indexOf(selectedCoordinate);
+            setText(new test().getStringData().get(
+                    (new test().getCoordinateData().indexOf(selectedCoordinate)
+            )));
+
+            setEnabled(list.isEnabled());
+            setFont(list.getFont());
+            return this;
+        }
+    }
 }
+
+

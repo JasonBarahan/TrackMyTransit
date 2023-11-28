@@ -34,8 +34,10 @@ public class VisualizePresenter implements VisualizeOutputBoundary {
         // gets the state from the view model
         VisualizeState visualizeState = visualizeViewModel.getVisualizationState();
 
-        // gets the data
-        visualizeState.setData(data.getData());
+        // gets the data and sets it into state
+        visualizeState.setCoordinateList(data.getCoordinateData());
+        visualizeState.setStringList(data.getStringData());
+        visualizeState.setSize(data.getSize());
 
         // sets the data into the view model's state
         visualizeViewModel.setVisualizationState(visualizeState);
