@@ -4,6 +4,8 @@ import entity.Train;
 import entity.Bus;
 import entity.Vehicle;
 
+import java.util.List;
+
 // TODO: Add list of bus objects to the state
 
 /**
@@ -11,7 +13,7 @@ import entity.Vehicle;
  */
 public class VisualizeState {
     // Train data
-    private Train[] trains;
+    private List<List<String>> data;
 
     // Error string
     private String errorString = null;
@@ -21,17 +23,17 @@ public class VisualizeState {
      *
      * @return an array of Train objects.
      */
-    public Train[] getTrains() {
-        return trains;
+    public List<List<String>> getData() {
+        return data;
     }
 
     /**
      * Sets the train objects in the state.
      *
-     * @param trains: an array of Train objects.
+     * @param data: an array of Vehicle objects.
      */
-    public void setTrains(Train[] trains) {
-        this.trains = trains;
+    public void setData(List<List<String>> data) {
+        this.data = data;
     }
 
     /**
