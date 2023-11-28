@@ -123,7 +123,6 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
         // vehicle selection screen
         VisualizeState vehicleData = visualizeViewModel.getVisualizationState();
-//        test vehicleData = new test();
 
         JComboBox<Coordinate> vehicleSelector =
                 new JComboBox<>(vehicleData.getCoordinateList().toArray(new Coordinate[vehicleData.getSize()]));
@@ -152,7 +151,7 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         // TODO: Implement properly
         // TODO: What happens if there are no vehicles in the list? Throw an error?
         Coordinate coordinate = vehicleData.getCoordinateList().get(0);
-        map.setDisplayPosition(coordinate, 13);
+        map.setDisplayPosition(coordinate, 16);
     }
 
     /**
@@ -222,8 +221,6 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
             setIcon(null);
             setText(visualizeViewModel.getVisualizationState().getStringList().get(
                     (visualizeViewModel.getVisualizationState().getCoordinateList().indexOf(selectedCoordinate))));
-//            setText(new test().getStringList().get(
-//                    (new test().getCoordinateList().indexOf(selectedCoordinate))));
 
             setEnabled(list.isEnabled());
             setFont(list.getFont());
