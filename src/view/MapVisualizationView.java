@@ -1,16 +1,10 @@
 package view;
 
-import entity.Train;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.visualize.VisualizeController;
-import interface_adapter.visualize.VisualizePresenter;
-import interface_adapter.visualize.VisualizeState;
 import interface_adapter.visualize.VisualizeViewModel;
 import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 import resources.map.MapFont;
-import use_case.visualize.VisualizeInteractor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,9 +29,6 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
      so not too sure about how to handle this. Will discuss with team.
     */
 
-    /* User guidance string */
-    private final String HELP_LABEL = "Hold the right mouse button while moving it to move the map. Double-click to zoom.";
-
     /* JSwing elements */
     private final JMapViewer map;
 
@@ -50,10 +41,11 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     }
 
     // denote default style for markers
+    // TODO: Depending on parent line info, change the color of the inner point
     private final Style defaultStyle = new Style(
             Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont())  ;
 
-    // map keys to keywords
+    // map keys in output data to keywords for clarity
     private String retrieveData(List<String> data, String str) {
         String val = null;
         switch(str.toLowerCase()) {
@@ -69,13 +61,13 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         }
         return val;
     }
+
     public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
         this.visualizeViewModel = visualizeViewModel;
         visualizeViewModel.addPropertyChangeListener(this);
 
         // create the map object
         map = new JMapViewer();
-        // TODO: check if this works
         map.addPropertyChangeListener(this);
 
         setLayout(new BorderLayout());
@@ -89,10 +81,10 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         add(panel, BorderLayout.NORTH);
         add(helpPanel, BorderLayout.SOUTH);
         panel.add(panelTop, BorderLayout.NORTH);
-        helpPanel.add(new JLabel(HELP_LABEL));
+        helpPanel.add(new JLabel(VisualizeViewModel.HELP_LABEL));
 
         // resize all markers to fit screen
-        final JButton fitButton = new JButton("Fit markers to screen");
+        final JButton fitButton = new JButton(VisualizeViewModel.RESIZE_BUTTON_LABEL);
         fitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -155,8 +147,7 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
             data[i] = stuff.get(i);
         }
 
-        JComboBox<List<String>> vehicleSelector;
-        vehicleSelector = new JComboBox<>(data);
+        JComboBox<List<String>> vehicleSelector = new JComboBox<>(data);
         vehicleSelector.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -167,7 +158,6 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         panelTop.add(vehicleSelector);
 
         // add markers
-        // TODO: util stringBuilder
         for (List<String> vehicle : data) {
             MapMarkerDot marker = new MapMarkerDot(
                     trainsLayer,
@@ -180,6 +170,7 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
         // On initialization, map is focused on the first vehicle within the list
         // TODO: Implement properly
+        // TODO: What happens if there are no vehicles in the list? Throw an error?
         List<String> vehicle = data[0];
         map.setDisplayPosition(c(retrieveData(vehicle, "lat"), retrieveData(vehicle, "lon")), 13);
     }
