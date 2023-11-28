@@ -13,8 +13,7 @@ public class VisualizeViewModel extends ViewModel {
     // Final labels for internal use
     private final String WINDOW_LABEL = "TrackMyTransit";
 
-    // User guidance string
-    private final String HELP_LABEL = "Hold the right mouse button while moving it to move the map. Double-click to zoom.";
+
 
     // The application state; needed to alert the View on what to present.
     private VisualizeState visualizationState = new VisualizeState();
