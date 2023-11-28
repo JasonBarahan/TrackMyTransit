@@ -1,6 +1,7 @@
 package view;
 
 import entity.Train;
+import interface_adapter.visualize.VisualizeState;
 import interface_adapter.visualize.VisualizeViewModel;
 import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
@@ -121,11 +122,11 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         Layer trainsLayer = vehicles.addLayer("Trains");
 
         // vehicle selection screen
-//        List<List<String>> vehicleData = visualizeViewModel.getVisualizationState().getData();
-        test vehicleData = new test();
+        VisualizeState vehicleData = visualizeViewModel.getVisualizationState();
+//        test vehicleData = new test();
 
         JComboBox<Coordinate> vehicleSelector =
-                new JComboBox<>(vehicleData.getCoordinateData().toArray(new Coordinate[vehicleData.getSize()]));
+                new JComboBox<>(vehicleData.getCoordinateList().toArray(new Coordinate[vehicleData.getSize()]));
         vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
         vehicleSelector.addItemListener(new ItemListener() {
             @Override
@@ -140,8 +141,8 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         for (int i = 0; i < vehicleData.getSize(); i++) {
             MapMarkerDot marker = new MapMarkerDot(
                     trainsLayer,
-                    vehicleData.getStringData().get(i),
-                    vehicleData.getCoordinateData().get(i),
+                    vehicleData.getStringList().get(i),
+                    vehicleData.getCoordinateList().get(i),
                     this.defaultStyle
             );
             map.addMapMarker(marker);
@@ -150,7 +151,7 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         // On initialization, map is focused on the first vehicle within the list
         // TODO: Implement properly
         // TODO: What happens if there are no vehicles in the list? Throw an error?
-        Coordinate coordinate = vehicleData.getCoordinateData().get(0);
+        Coordinate coordinate = vehicleData.getCoordinateList().get(0);
         map.setDisplayPosition(coordinate, 13);
     }
 
@@ -219,11 +220,10 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
             // set text displayed
             setIcon(null);
-//            setText(visualizeViewModel.getVisualizationState().getStringList().get(
-//                    (visualizeViewModel.getVisualizationState().getCoordinateList().indexOf(selectedCoordinate);
-            setText(new test().getStringData().get(
-                    (new test().getCoordinateData().indexOf(selectedCoordinate)
-            )));
+            setText(visualizeViewModel.getVisualizationState().getStringList().get(
+                    (visualizeViewModel.getVisualizationState().getCoordinateList().indexOf(selectedCoordinate))));
+//            setText(new test().getStringList().get(
+//                    (new test().getCoordinateList().indexOf(selectedCoordinate))));
 
             setEnabled(list.isEnabled());
             setFont(list.getFont());
