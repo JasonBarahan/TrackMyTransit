@@ -4,6 +4,8 @@ import entity.Train;
 import use_case.visualize.VisualizeInputBoundary;
 import use_case.visualize.VisualizeInputData;
 
+import java.util.List;
+
 /**
  * The controller for the visualization use case.
  */
@@ -23,10 +25,10 @@ public class VisualizeController {
     /**
      * Executes the use case interactor.
      *
-     * @param trainData: an array of train objects
+     * @param vehicleData: an array of vehicle (bus/train) objects
      */
-    public void execute(Train[] trainData) {
-        VisualizeInputData visualizeInputData = new VisualizeInputData(trainData);
+    public void execute(List<List<String>> vehicleData) {
+        VisualizeInputData visualizeInputData = new VisualizeInputData(vehicleData);
 
         // execute
         visualizeInteractor.execute(visualizeInputData);
