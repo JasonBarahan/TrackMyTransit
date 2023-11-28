@@ -287,12 +287,7 @@ public class visualizationProofOfConcept extends JFrame implements JMapViewerEve
     }
 
     @Override
-    public void processCommand(JMVCommandEvent jmvCommandEvent) {
-        if (jmvCommandEvent.getCommand().equals(JMVCommandEvent.COMMAND.ZOOM) ||
-                jmvCommandEvent.getCommand().equals(JMVCommandEvent.COMMAND.MOVE)) {
-            updateZoomParameters();
-        }
-    }
+    public void processCommand(JMVCommandEvent jmvCommandEvent) {}
 
     public static void main(String[] args) {
         new visualizationProofOfConcept().setVisible(true);
