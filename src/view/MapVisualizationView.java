@@ -20,34 +20,58 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Double.parseDouble;
 
 public class MapVisualizationView extends JFrame implements PropertyChangeListener, ActionListener {
-    // Internal strings
+    /* Internal strings */
     private final String viewName = "visualize";
     private final VisualizeViewModel visualizeViewModel;
-    private final VisualizeController visualizeController;
-    // User guidance string
+
+    /*
+     I got rid of the controller since no entity/external data needs to be retrieved or modified once this view
+     is displayed. This will change should a refresh button be implemented.
+
+     In regard to a refresh button, query data would need to be resent again through the APi (i.e. call
+     ShowIncomingVehicles use case files, then route the output through MapVisualization use case files)
+     so not too sure about how to handle this. Will discuss with team.
+    */
+
+    /* User guidance string */
     private final String HELP_LABEL = "Hold the right mouse button while moving it to move the map. Double-click to zoom.";
 
-    // JSwing elements
+    /* JSwing elements */
     private final JMapViewer map;
 
     private Coordinate c(double lat, double lon) {
         return new Coordinate(lat, lon);
     }
 
+    private Coordinate c(String lat, String lon) {
+        return new Coordinate(Double.parseDouble(lat), Double.parseDouble(lon));
+    }
+
     // denote default style for markers
     private final Style defaultStyle = new Style(
             Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont())  ;
 
-    public MapVisualizationView(VisualizeViewModel visualizeViewModel, VisualizeController visualizeController) {
+    // map keys to keywords
+    private String retrieveData(List<String> data, String str) {
+        String val = null;
+        switch(str.toLowerCase()) {
+            case "lat":
+                val = data.get(0);
+                break;
+            case "lon":
+                val = data.get(1);
+                break;
+            case "infostring":
+                val = data.get(2);
+                break;
+        }
+        return val;
+    }
+    public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
         this.visualizeViewModel = visualizeViewModel;
         visualizeViewModel.addPropertyChangeListener(this);
-
-        this.visualizeController = visualizeController;
-        // todo: debug
-        visualizeController.execute(new Train[3]);
 
         // create the map object
         map = new JMapViewer();
@@ -126,30 +150,29 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         test test = new test();
         List<List<String>> stuff = test.getData();
 
-        List[] data = new ArrayList[stuff.size()];
+        List<String>[] data = new ArrayList[stuff.size()];
         for (int i = 0; i < stuff.size(); i++) {
             data[i] = stuff.get(i);
         }
 
         JComboBox<List<String>> vehicleSelector;
         vehicleSelector = new JComboBox<>(data);
-//        vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
         vehicleSelector.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 List<String> data = (List<String>) e.getItem();
-                map.setDisplayPosition(c(parseDouble(data.get(2)), parseDouble(data.get(3))), map.getZoom());
+                map.setDisplayPosition(c(retrieveData(data, "lat"), retrieveData(data, "lon")), map.getZoom());
             }
         });
         panelTop.add(vehicleSelector);
 
         // add markers
+        // TODO: util stringBuilder
         for (List<String> vehicle : data) {
-            String str = "[" + vehicle.get(0) + "] " + vehicle.get(1) + " - " + vehicle.get(4);
             MapMarkerDot marker = new MapMarkerDot(
                     trainsLayer,
-                    str,
-                    c(parseDouble(vehicle.get(2)), parseDouble(vehicle.get(3))),
+                    retrieveData(vehicle, "infoString"),
+                    c(retrieveData(vehicle, "lat"), retrieveData(vehicle, "lon")),
                     this.defaultStyle
             );
             map.addMapMarker(marker);
@@ -157,8 +180,8 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
         // On initialization, map is focused on the first vehicle within the list
         // TODO: Implement properly
-        List vehicle = data[0];
-        map.setDisplayPosition(c(parseDouble((String) vehicle.get(2)), parseDouble((String) vehicle.get(3))), 13);
+        List<String> vehicle = data[0];
+        map.setDisplayPosition(c(retrieveData(vehicle, "lat"), retrieveData(vehicle, "lon")), 13);
     }
 
     /**
@@ -184,7 +207,6 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
     // TODO: Debug, remove when done
     public static void main(String[] args) {
-        VisualizeController controller = new VisualizeController(new VisualizeInteractor(new VisualizePresenter(new VisualizeViewModel(), new ViewManagerModel())));
-        new MapVisualizationView(new VisualizeViewModel(), controller).setVisible(true);
+        new MapVisualizationView(new VisualizeViewModel()).setVisible(true);
     }
 }
