@@ -48,10 +48,11 @@ public class GOVehicleApiClass {
                 JSONObject currtripEntry = vehiclesJsonArray.getJSONObject(i);
                 List<String> vehiclesInfoList = new ArrayList<>();
                 vehiclesInfoList.add(currtripEntry.getString("LineCode")); // parent line id
-                vehiclesInfoList.add(currtripEntry.getString("LineName")); // parent line full name
+                vehiclesInfoList.add(currtripEntry.getString("LineName")); // line full name
                 vehiclesInfoList.add(currtripEntry.getString("ServiceType"));
                 // indicates if vehicle is a train or a bus. Train is "T", Bus is "B"
-                vehiclesInfoList.add(currtripEntry.getString("DirectionName")); // Vehicle display name
+                vehiclesInfoList.add(currtripEntry.getString("DirectionName"));
+                // Vehicle direction (Departure - Destination)
                 vehiclesInfoList.add(currtripEntry.getString("ScheduledDepartureTime"));
                 // vehicle scheduled departure time from this station
                 vehiclesInfoList.add(currtripEntry.getString("ComputedDepartureTime"));

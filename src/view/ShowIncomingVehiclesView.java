@@ -17,7 +17,7 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
     public final String viewName = "show_incoming_vehicles";
     private final ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel;
     JLabel stationName;
-    JLabel stationIncomingVehicles;
+    JTextArea stationIncomingVehicles;
 
     public ShowIncomingVehiclesView(ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel) {
         this.showIncomingVehiclesViewModel = showIncomingVehiclesViewModel;
@@ -30,7 +30,7 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
         stationName = new JLabel();
 
         JLabel stationIncomingVehiclesLabel = new JLabel("Incoming Vehicles: ");
-        stationIncomingVehicles = new JLabel();
+        stationIncomingVehicles = new JTextArea();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -53,9 +53,14 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
         for (java.util.List<String> vehicleInfo : state.getStateIncomingVehiclesList()) {
             String vehicleInfoListAsString = String.join(", ", vehicleInfo);
             vehiclesInfo.add(vehicleInfoListAsString);
+            vehiclesInfo.add("\n");
         }
         String vehiclesInfoListAsString = String.join(", ", vehiclesInfo);
-        stationIncomingVehicles.setText(vehiclesInfoListAsString);
+        StringBuilder incomingVehicles = new StringBuilder();
+        for (String vehicleinfo : vehiclesInfoListAsString.split(",")) {
+            incomingVehicles.append(vehicleinfo).append("\n");
+        }
+        stationIncomingVehicles.setText(incomingVehicles.toString());
         //TODO: Should we make incoming vehicles a String instead of a list?
     }
 

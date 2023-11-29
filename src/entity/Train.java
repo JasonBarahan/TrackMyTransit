@@ -3,7 +3,7 @@ public class Train implements TrainInterface{
 
     private final String lineName; //parent line name
     private final String lineNumber;  //lineNumber = lineCode
-    private final String trainName;
+    private final String trainDirection;
     // train display name
     private final float latitude;
     private final float longitude;
@@ -17,7 +17,7 @@ public class Train implements TrainInterface{
      * Note: trainNumber is tripNumber in GOtrainApiClass
      * @param lineName
      * @param lineNumber
-     * @param trainName
+     * @param trainDirection
      * @param latitude
      * @param longitude
      * @param scheduledTime
@@ -25,11 +25,11 @@ public class Train implements TrainInterface{
      * @param tripNumber
      * @param delay
      */
-    Train(String lineName, String lineNumber, String trainName, String scheduledTime, String departureTime,
+    Train(String lineName, String lineNumber, String trainDirection, String scheduledTime, String departureTime,
           String tripNumber, String delay, float latitude, float longitude) {
         this.lineName = lineName;
         this.lineNumber = lineNumber;
-        this.trainName = trainName;
+        this.trainDirection = trainDirection;
         this.latitude = latitude;
         this.longitude = longitude;
         this.scheduledTime = scheduledTime;
@@ -59,8 +59,8 @@ public class Train implements TrainInterface{
     }
 
     @Override
-    public String getTrainName() {
-        return trainName;
+    public String getTrainDirection() {
+        return trainDirection;
     }
 
     @Override

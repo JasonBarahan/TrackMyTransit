@@ -9,7 +9,7 @@ public interface TrainInterface {
 
     float getLongitude();
 
-    String getTrainName();
+    String getTrainDirection();
 
     String getScheduledTime();
     String getDepartureTime();

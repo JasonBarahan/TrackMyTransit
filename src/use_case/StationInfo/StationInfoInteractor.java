@@ -30,11 +30,13 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
             // We want to show train display name, scheduled time, departure time and delay
             for (int i = 0; i < incomingVehicles.size(); i++) {
                 List<String> vehicleinfo = new ArrayList<>();
-                String vehicleName = incomingVehicles.get(i).getTrainName();
+                String vehicleName = incomingVehicles.get(i).getLineName();
+                String vehicleDirection = incomingVehicles.get(i).getTrainDirection();
                 String vehicleScheduledTime = incomingVehicles.get(i).getScheduledTime();
                 String vehicleDepartureTime = incomingVehicles.get(i).getDepartureTime();
                 String vehicleDelay = incomingVehicles.get(i).getDelay();
                 vehicleinfo.add(vehicleName);
+                vehicleinfo.add(vehicleDirection);
                 vehicleinfo.add(vehicleScheduledTime);
                 vehicleinfo.add(vehicleDepartureTime);
                 vehicleinfo.add(vehicleDelay);
