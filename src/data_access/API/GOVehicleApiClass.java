@@ -71,7 +71,9 @@ public class GOVehicleApiClass {
             return vehiclesList; // do not print this yet, wait for full change
 
         } catch (IOException | JSONException e) {
-            throw new RuntimeException(e);
+            System.out.println("Retrieve Vehicle Info Failed...");
+//            throw new RuntimeException(e);
+            return null;
         }
 
     }

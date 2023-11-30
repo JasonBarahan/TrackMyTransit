@@ -71,6 +71,9 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
     public void propertyChange(PropertyChangeEvent evt) {
         //System.out.println("Reached"); //Commented out for testing purposes
         StationInfoState state = (StationInfoState) evt.getNewValue();
+        if (state.getIncomingVehiclesError() != null) {
+            JOptionPane.showMessageDialog(this, state.getIncomingVehiclesError());
+        }
         stationName.setText(state.getStateStationName());
     }
 

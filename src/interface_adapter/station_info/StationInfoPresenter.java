@@ -22,6 +22,7 @@ public class StationInfoPresenter implements StationInfoOutputBoundary {
     public void prepareSuccessView(StationInfoOutputData response) {
         StationInfoState stationInfoState = stationInfoViewModel.getState();
         stationInfoState.setStateStationName(response.getStationName());
+        stationInfoState.setIncomingVehiclesError(null);
 
         // On success, switch to show incoming vehicles view.
 
@@ -33,5 +34,12 @@ public class StationInfoPresenter implements StationInfoOutputBoundary {
 
         viewManagerModel.setActiveView(showIncomingVehiclesViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void parepareFailView(String incomingVehiclesRetrievalError) {
+        StationInfoState stationInfoState = stationInfoViewModel.getState();
+        stationInfoState.setIncomingVehiclesError(incomingVehiclesRetrievalError);
+        stationInfoViewModel.firePropertyChanged();
     }
 }

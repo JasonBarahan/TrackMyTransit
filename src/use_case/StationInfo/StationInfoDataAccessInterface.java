@@ -6,6 +6,7 @@ import entity.Train;
 import java.util.*;
 
 public interface StationInfoDataAccessInterface {
+    boolean incomingVehiclesNotEmpty(String stationName);
 
     Station getStation(String inputStationName);
 
