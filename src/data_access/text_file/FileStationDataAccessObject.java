@@ -1,6 +1,7 @@
 package data_access.text_file;
 
 import data_access.API.GOStationApiClass;
+import data_access.API.GOStationCoordinatesApiClass;
 import data_access.API.GOVehicleApiClass;
 import entity.*;
 import use_case.StationInfo.StationInfoDataAccessInterface;
@@ -21,14 +22,16 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     private final GOStationApiClass goStationApiClass;
     private final GOVehicleApiClass goVehicleApiClass;
+    private final GOStationCoordinatesApiClass goStationCoordinatesApiClass;
 
     public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, TrainFactory trainFactory,
-                                       GOStationApiClass goStationApiClass, GOVehicleApiClass goVehicleApiClass) throws IOException {
+                                       GOStationApiClass goStationApiClass, GOVehicleApiClass goVehicleApiClass, GOStationCoordinatesApiClass goStationCoordinatesApiClass) throws IOException {
 
         this.stationFactory = stationFactory;
         this.trainFactory = trainFactory;
         this.goStationApiClass = goStationApiClass;
         this.goVehicleApiClass = goVehicleApiClass;
+        this.goStationCoordinatesApiClass = goStationCoordinatesApiClass;
         stationTxtFile = new File(txtFilePath);
 
         // Reading the provided txt file that has a path specified by attribute txtFilePath
