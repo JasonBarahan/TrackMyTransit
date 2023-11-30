@@ -37,11 +37,13 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
             String vehicleScheduledTime = incomingVehicles.get(i).getScheduledTime();
             String vehicleDepartureTime = incomingVehicles.get(i).getDepartureTime();
             String vehicleDelay = incomingVehicles.get(i).getDelay();
-            vehicleinfo.add(vehicleName);
-            vehicleinfo.add(vehicleDirection);
+            vehicleinfo.add("Vehicle Name: " + vehicleName);
+            vehicleinfo.add("Vehicle direction: " + vehicleDirection);
+            vehicleinfo.add("Scheduled Departure Time: ");
             vehicleinfo.add(vehicleScheduledTime);
+            vehicleinfo.add("Computed Departure Time: ");  //TODO: tentative name, might rename it as "Actual Departure Time"
             vehicleinfo.add(vehicleDepartureTime);
-            vehicleinfo.add(vehicleDelay);
+            vehicleinfo.add("Delay: " + vehicleDelay);
             incomingVehiclesInfo.add(vehicleinfo);
         }
         sortByDateTime(incomingVehiclesInfo);
@@ -66,8 +68,8 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
 
     private static void sortByDateTime(List<List<String>> incomingVehiclesInfo) {
         Collections.sort(incomingVehiclesInfo, (list1, list2) -> {
-            String dateTimeStr1 = list1.get(3);
-            String dateTimeStr2 = list2.get(3);
+            String dateTimeStr1 = list1.get(5);
+            String dateTimeStr2 = list2.get(5);
 
             LocalDateTime dateTime1 = parseDateTime(dateTimeStr1);
             LocalDateTime dateTime2 = parseDateTime(dateTimeStr2);
