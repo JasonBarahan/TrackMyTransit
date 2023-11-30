@@ -27,9 +27,12 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel stationNameLabel = new JLabel("Station name: ");
+        stationNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         stationName = new JLabel();
+        stationName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel stationIncomingVehiclesLabel = new JLabel("Incoming Vehicles: ");
+        stationIncomingVehiclesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         stationIncomingVehicles = new JTextArea();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
