@@ -23,9 +23,8 @@ public class ShowIncomingVehiclesState {
         this.stationName = stationName;
     }
 
-    //TODO: This is a MOCK change to the state, where the incomingVehiclesList is converted to a string format
-    // Ideally, we want to seperate and print each entry
     public List<List<String>> getStateIncomingVehiclesList() {return incomingVehiclesInfo;}
+
     public void setStateIncomingVehiclesList(List<List<String>> incomingVehiclesInfoList){
         this.incomingVehiclesInfo = incomingVehiclesInfoList;
     }

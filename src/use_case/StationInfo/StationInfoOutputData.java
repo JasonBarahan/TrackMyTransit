@@ -5,8 +5,8 @@ import java.util.List;
 public class StationInfoOutputData {
     private final String stationName;
     private final List<List<String>> stationIncomingVehiclesInfo;
-    // the nested List<String> is a list including parent line code, parent line name, vehicle type,
-    // vehicle display name, scheduled departure time, actual departure time, trip number and delay
+    // the nested List<String> is a list including line name, vehicle type, vehicle direction,
+    // scheduled departure time, actual departure time and delay
 
     public StationInfoOutputData(String stationName,
                                  List<List<String>> stationIncomingVehiclesInfo) {
