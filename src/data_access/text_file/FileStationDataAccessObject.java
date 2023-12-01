@@ -145,6 +145,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     public boolean stationExist(String identifier){
         return stations.containsKey(identifier); //TODO: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
                                                  // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
+                                                // TODO #2: What happens if the text file contains a station that the API no longer supports
     }
 
 }
