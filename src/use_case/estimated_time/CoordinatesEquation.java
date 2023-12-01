@@ -44,6 +44,12 @@ public class CoordinatesEquation {
         return distance / speed;
     }
 
+    static double delayTimeFormula() {
+        double time = 0;
+
+        return time;
+    }
+
     // testing purposes
     public static void main(String[] args) {
         double unionStationGOLat = 43.6454; // N
