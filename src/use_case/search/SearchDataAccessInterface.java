@@ -11,7 +11,8 @@ public interface SearchDataAccessInterface {
 
     String getStationID (String inputStationName);
     Station getStation(String inputStationName); // attempting to only get proper station name for base implementation of team use case
-    // used to be: Station getStation(); above
+
+    public String getStationName (Station stationObj);
     String getStationParentLine(String inputStationName);
 
     List<String> getStationAmenities(String inputStationName);

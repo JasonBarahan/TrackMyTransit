@@ -75,6 +75,11 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
+    public String getStationName (Station stationObj) {
+        return stationObj.getName();
+    }
+
+    @Override
     public String getStationParentLine(String inputStationName) {
 
         return (stations.get(inputStationName)).getParentLine();
