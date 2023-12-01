@@ -97,7 +97,6 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     @Override
     public List<String> getStationAmenities(String inputStationName) {
-        //TODO: Need to save this information in the actual Station objects such that we don't duplicate API calls
         String stationID = getStationID(inputStationName);
         List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);
         return stationAmenitiesList;
