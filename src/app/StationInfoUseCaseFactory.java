@@ -5,10 +5,10 @@ import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
 import interface_adapter.station_info.StationInfoController;
 import interface_adapter.station_info.StationInfoPresenter;
 import interface_adapter.station_info.StationInfoViewModel;
-import use_case.StationInfo.StationInfoDataAccessInterface;
-import use_case.StationInfo.StationInfoInputBoundary;
-import use_case.StationInfo.StationInfoInteractor;
-import use_case.StationInfo.StationInfoOutputBoundary;
+import use_case.station_info.StationInfoDataAccessInterface;
+import use_case.station_info.StationInfoInputBoundary;
+import use_case.station_info.StationInfoInteractor;
+import use_case.station_info.StationInfoOutputBoundary;
 import view.StationInfoView;
 
 import javax.swing.*;

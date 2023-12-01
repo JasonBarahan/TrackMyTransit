@@ -3,8 +3,8 @@ package interface_adapter.station_info;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
-import use_case.StationInfo.StationInfoOutputBoundary;
-import use_case.StationInfo.StationInfoOutputData;
+import use_case.station_info.StationInfoOutputBoundary;
+import use_case.station_info.StationInfoOutputData;
 
 public class StationInfoPresenter implements StationInfoOutputBoundary {
     private final StationInfoViewModel stationInfoViewModel;

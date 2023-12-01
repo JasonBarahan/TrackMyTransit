@@ -1,13 +1,17 @@
 package use_case.station_info;
 
 import entity.Station;
+import entity.Train;
 
-import java.util.List;
+import java.util.*;
 
 public interface StationInfoDataAccessInterface {
-    Station getStation(String inputStationName); // user input station name for retrieving information
+    boolean incomingVehiclesNotEmpty(String stationName);
 
-    // TODO: unused in search, not sure if needed right now either
-    String getStationParentLine(String inputStationName);
-    List<String> getStationAmenities(String inputStationName);
+    Station getStation(String inputStationName);
+
+    List<Train> getIncomingVehicles(String inputStationName);
+
+    String getStationId(String inputStationName);
+    // We might not need this since we could get station id from getStation().
 }

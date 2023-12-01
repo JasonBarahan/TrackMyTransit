@@ -1,7 +1,7 @@
 package interface_adapter.station_info;
 
-import use_case.StationInfo.StationInfoInputBoundary;
-import use_case.StationInfo.StationInfoInputData;
+import use_case.station_info.StationInfoInputBoundary;
+import use_case.station_info.StationInfoInputData;
 
 public class StationInfoController {
     final StationInfoInputBoundary stationInfoUseCaseInteractor;
