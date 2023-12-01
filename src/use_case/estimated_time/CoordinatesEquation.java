@@ -1,8 +1,8 @@
 package use_case.estimated_time;
 
-public class CoordinatesFunction {
+public class CoordinatesEquation {
 
-    private final double GOTRAINSPEED = 38.88; // 140(km/hr) = 38.88(m/s)
+    // public final double GOTRAINSPEED = 38.88; // 140(km/hr) = 38.88(m/s)
 
     /**
      * Takes the Longitude and Latitude of two points and solves for distance.
@@ -44,4 +44,21 @@ public class CoordinatesFunction {
         return distance / speed;
     }
 
+    // testing purposes
+    public static void main(String[] args) {
+        double unionStationGOLat = 43.6454; // N
+        double unionStationGOLong = 79.3798; // W
+        double danforthStationGOLat = 43.6864; // N
+        double danforthStationGOLong = 79.3003; // W
+
+        double hav = haversineDistanceFormula(unionStationGOLat, unionStationGOLong,
+                danforthStationGOLat, danforthStationGOLong);
+
+        hav = hav * 1000; // convert to miles
+
+        double time = timeFormula(hav, 38.88);
+
+        System.out.println("Haversine function: " + hav);
+        System.out.println("Time function: " + time);
+    }
 }
