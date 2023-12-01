@@ -1,5 +1,5 @@
 package entity;
-public class Train implements TrainInterface{
+public class Train implements TrainInterface {
 
     private final String lineName; //parent line name
     private final String lineNumber;  //lineNumber = lineCode
@@ -15,6 +15,7 @@ public class Train implements TrainInterface{
     /**
      * Requirement: Train name and trainNumber exist.
      * Note: trainNumber is tripNumber in GOtrainApiClass
+     *
      * @param lineName
      * @param lineNumber
      * @param trainDirection
@@ -74,8 +75,12 @@ public class Train implements TrainInterface{
     }
 
     @Override
-    public String getTripNumber(){return tripNumber;}
+    public String getTripNumber() {
+        return tripNumber;
+    }
 
     @Override
     public String getDelay() {
         return delay;
+    }
+}
