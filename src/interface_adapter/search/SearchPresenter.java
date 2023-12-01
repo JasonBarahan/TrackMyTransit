@@ -21,8 +21,6 @@ public class SearchPresenter implements SearchOutputBoundary {
         String retrieveStationName = response.getStationName();
         String retrieveStationAmenities = response.getStationAmenities();
         String retrieveParentLine = response.getStationParentLine();
-        // TODO: Left NOTE BELOW FOR TESTING PURPOSES ONLY. Delete in final implementation
-        // In the above, changing the arguments to String retrieveStationParentLine = response.getStationParentLine(); would display the Parent line of station
 
         // Step 1: Resetting the station error value in the searchState to be null (in case any failed search attempts came before this "successful" attempt)
         SearchState searchState = searchViewModel.getState();
