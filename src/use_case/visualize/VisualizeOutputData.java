@@ -23,14 +23,29 @@ public class VisualizeOutputData {
         this.size = size;
     }
 
+    /**
+     * Gets the list of coordinates associated with the vehicle.
+     *
+     * @return coordinates
+     */
     public List<Coordinate> getCoordinateData() {
         return coordinateData;
     }
 
+    /**
+     * Gets the list of strings containing vehicle information.
+     *
+     * @return vehicle information strings
+     */
     public List<String> getStringData() {
         return stringData;
     }
 
+    /**
+     * Gets the size of both lists.
+     *
+     * @return size int
+     */
     public int getSize() {
         return size;
     }
