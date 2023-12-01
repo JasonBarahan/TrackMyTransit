@@ -49,4 +49,9 @@ public class CoordinatesFunction {
     static double timeFormula(double distance, double speed) {
         return distance / speed;
     }
+
+    // current testing purpose
+    public static void main(String[] args){
+
+    }
 }
