@@ -9,8 +9,6 @@ import entity.TrainFactory;
 import org.junit.jupiter.api.Test;
 import use_case.search.*;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
 import java.io.IOException;
 
 public class StationInfoTest {
@@ -47,6 +45,36 @@ public class StationInfoTest {
 
         SearchInputBoundary searchInteractor = new SearchInteractor(stationObjRepository, successPresenter);
         searchInteractor.execute(inputData);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Test
+    void failureInvalidInputTest() {
+        SearchInputData inputData = new SearchInputData("ABCDEFG");
+        try {
+            SearchDataAccessInterface stationObjRepository = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new TrainFactory(), new GOStationApiClass(), new GOVehicleApiClass());
+            // This creates a successPresenter that tests whether the test case is as we expect.
+            SearchOutputBoundary failurePresenter = new SearchOutputBoundary() {
+                @Override
+                public void prepareSuccessView(SearchOutputData searchOutputData) {
+                    // 2 things to check: the output data is correct, and the user has been created in the DAO.
+                    fail("Use case success is unexpected.");
+                }
+
+                @Override
+                public void prepareFailView(String error) {
+                    assertEquals("ERROR: Station with the name [ABCDEFG] does not exist", error);
+                    Station stationObj = stationObjRepository.getStation("ABCDEFG");
+                    assertNull(stationObj);
+                }
+            };
+
+            SearchInputBoundary searchInteractor = new SearchInteractor(stationObjRepository, failurePresenter);
+            searchInteractor.execute(inputData);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
