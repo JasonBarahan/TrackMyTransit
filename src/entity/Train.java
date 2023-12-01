@@ -1,81 +1,58 @@
 package entity;
-public class Train implements TrainInterface{
 
-    private final String lineName; //parent line name
-    private final String lineNumber;  //lineNumber = lineCode
-    private final String trainDirection;
-    // train display name
-    private final float latitude;
-    private final float longitude;
-    private final String scheduledTime;
-    private final String departureTime;
-    private final String tripNumber;
-    private final String delay;
+/**
+ * This is temporary and for debugging purposes only.
+ */
+public class Train {
+    // Vehicle ID should never change
+    private final int vehicleID;
+    private double longitude;
+    private double latitude;
 
-    /**
-     * Requirement: Train name and trainNumber exist.
-     * Note: trainNumber is tripNumber in GOtrainApiClass
-     * @param lineName
-     * @param lineNumber
-     * @param trainDirection
-     * @param latitude
-     * @param longitude
-     * @param scheduledTime
-     * @param departureTime
-     * @param tripNumber
-     * @param delay
-     */
-    Train(String lineName, String lineNumber, String trainDirection, String scheduledTime, String departureTime,
-          String tripNumber, String delay, float latitude, float longitude) {
-        this.lineName = lineName;
-        this.lineNumber = lineNumber;
-        this.trainDirection = trainDirection;
-        this.latitude = latitude;
+    private String routeDestination;
+    private String routeName;
+
+    public Train(int vehicleID, double latitude, double longitude, String routeName, String routeDestination) {
+        this.vehicleID = vehicleID;
         this.longitude = longitude;
-        this.scheduledTime = scheduledTime;
-        this.departureTime = departureTime;
-        this.tripNumber = tripNumber;
-        this.delay = delay;
+        this.latitude = latitude;
+        this.routeDestination = routeDestination;
+        this.routeName = routeName;
     }
 
-    @Override
-    public String getLineNumber() {
-        return lineNumber;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    @Override
-    public String getLineName() {
-        return lineName;
-    }
-
-    @Override
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    @Override
-    public float getLongitude() {
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLongitude() {
         return longitude;
     }
 
-    @Override
-    public String getTrainDirection() {
-        return trainDirection;
+    public int getVehicleID() {
+        return vehicleID;
     }
 
-    @Override
-    public String getScheduledTime() {
-        return scheduledTime;
+    public String getRouteName() {
+        return routeName;
     }
 
-    @Override
-    public String getDepartureTime() {
-        return departureTime;
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
     }
 
-    @Override
-    public String getTripNumber(){return tripNumber;}
+    public String getRouteDestination() {
+        return routeDestination;
+    }
 
-    @Override
-    public String getDelay() {
-        return delay;
+    public void setRouteDestination(String routeDestination) {
+        this.routeDestination = routeDestination;
+    }
+}
