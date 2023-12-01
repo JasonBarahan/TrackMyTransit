@@ -58,7 +58,7 @@ public class GOStationApiClass implements TrainApiInterface {
         }
 
     }
-    public List<String> retrieveStationAmenities(String stationId){
+    /*public List<String> retrieveStationAmenities2(String stationId){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -94,5 +94,19 @@ public class GOStationApiClass implements TrainApiInterface {
             throw new RuntimeException(e);
         }
 
+    }*/
+
+    public List<String> retrieveStationAmenities(String stationId){
+        Map<String, List<Object>> retrieveCallResult = stationAmenitiesCallResult(stationId);
+        JSONObject retrievedStopJsonDataObj = (JSONObject) retrieveCallResult.get("200").get(1);
+        JSONObject stopJsonDataObj = retrievedStopJsonDataObj.getJSONObject("Stop");
+        JSONArray amenitiesJsonArray = stopJsonDataObj.getJSONArray("Facilities");
+        List<String> amenitiesList = new ArrayList<String>();
+        for (int i = 0; i < amenitiesJsonArray.length(); i++) {
+            JSONObject currAmenitiesEntry = amenitiesJsonArray.getJSONObject(i);
+            amenitiesList.add(currAmenitiesEntry.getString("Description"));
+            System.out.println(currAmenitiesEntry.getString("Description")); // For debugging purposes
+        }
+        return amenitiesList;
     }
 }
