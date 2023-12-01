@@ -82,6 +82,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
         return stations.get(inputStationName);
     }
 
+    @Override
     public void setStationAmenities(Station stationObj, List<String> stationObjAmenities){
         // Assigning the Station obj's amenitiesList attribute to a valid value
         stationObj.setAmenitiesList(stationObjAmenities);
@@ -90,7 +91,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     @Override
     public List<Train> getIncomingVehicles(String inputStationName) {
         if (incomingVehiclesNotEmpty(inputStationName)) {
-            String stationId = getStationId(inputStationName);
+            String stationId = getStationID(inputStationName);
             List<Train> incomingVehiclesList = new ArrayList<>();
             for (List<String> vehicles : goVehicleApiClass.retrieveVehicleInfo(stationId)) {
                 String lineCode = vehicles.get(0);
@@ -112,20 +113,13 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
         else {return null;}
     }
 
-    // TODO: We will leave two getStationid() method for now, and will resolve it later
-    // TODO: One is for @Override in StationInfoDataAccessInterface and one is for
-    //  retrieving station id in other override method
-    @Override
-    public String getStationId(String inputStationName) {
-        return (stations.get(inputStationName)).getId();
-    }
-
     @Override
     public String getStationParentLine(String inputStationName) {
 
         return (stations.get(inputStationName)).getParentLine();
     }
 
+    @Override
     public String getStationID (String inputStationName) {
 
         return (stations.get(inputStationName)).getId();
@@ -139,6 +133,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
         return stationAmenitiesList;
     }
 
+    @Override
     public boolean stationExist(String identifier){
         return stations.containsKey(identifier); //TODO: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
                                                  // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
