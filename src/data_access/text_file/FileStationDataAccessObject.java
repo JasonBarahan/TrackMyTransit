@@ -60,18 +60,22 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     @Override
     public Station getStation (String inputStationName) {
-        Station incompleteStationObj = stations.get(inputStationName);
+        if (stationExist(inputStationName)) {
+            Station incompleteStationObj = stations.get(inputStationName);
 
-        // Retrieve the station's amenities
-        List<String> retrievedStationAmenities = getStationAmenities(inputStationName);
+            // Retrieve the station's amenities
+            List<String> retrievedStationAmenities = getStationAmenities(inputStationName);
 
-        // call the setStationAmenities method to set the amenities attribute of station to retrieved value
-        setStationAmenities(incompleteStationObj, retrievedStationAmenities);
+            // call the setStationAmenities method to set the amenities attribute of station to retrieved value
+            setStationAmenities(incompleteStationObj, retrievedStationAmenities);
 
-        List<Train> retrievedIncomingVehicles = getIncomingVehicles(inputStationName);
-        incompleteStationObj.setIncomingVehiclesList(retrievedIncomingVehicles);
+            List<Train> retrievedIncomingVehicles = getIncomingVehicles(inputStationName);
+            incompleteStationObj.setIncomingVehiclesList(retrievedIncomingVehicles);
 
-        return stations.get(inputStationName);
+            return stations.get(inputStationName);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -142,6 +146,6 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     public boolean stationExist(String identifier){
         return stations.containsKey(identifier); //TODO: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
                                                  // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
-
     }
+
 }

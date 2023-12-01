@@ -3,6 +3,7 @@ package use_case.displayStationInfo;
 import data_access.API.GOStationApiClass;
 import data_access.API.GOVehicleApiClass;
 import data_access.text_file.FileStationDataAccessObject;
+import entity.Station;
 import entity.StationFactory;
 import entity.TrainFactory;
 import org.junit.jupiter.api.Test;
@@ -24,11 +25,12 @@ public class StationInfoTest {
             @Override
             public void prepareSuccessView(SearchOutputData searchOutputData) {
 
-                //Step 1: Assert that a station object with key "Aurora GO" has indeed been created in the DA0
-                assertTrue(stationObjRepository.stationExist("Aurora GO"));
+                Station stationObj = stationObjRepository.getStation("Aurora GO");
+
+                assertNotNull(stationObj);
 
                 assertEquals("Aurora GO", searchOutputData.getStationName());
-                assertEquals("Aurora GO", searchOutputData.getStationName());
+                assertEquals("Aurora GO", stationObj.getName());
 
                 assertEquals("Barrie", searchOutputData.getStationParentLine());
                 assertEquals("Barrie", stationObjRepository.getStationParentLine("Aurora GO"));
