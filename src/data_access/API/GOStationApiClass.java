@@ -10,12 +10,53 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GOStationApiClass implements TrainApiInterface {
 
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
     public GOStationApiClass () {
+    }
+
+    public Map<String, List<Object>> stationAmenitiesCallResult(String stationId) {
+        Map<String, List<Object>> callCodeAndData = new HashMap<>();
+        List<Object> callCodeMessageAndData = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host("api.openmetrolinx.com")
+                .addPathSegment(PARTIAL_API_URL)
+                .addPathSegment("Stop")
+                .addPathSegment("Details")
+                .addPathSegment(stationId) //getting station information for the station with the id denoted by stationId
+                .addQueryParameter("key", API_KEY)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .addHeader("content-type", "application/json")
+                .build();
+        try {
+
+            Response response = client.newCall(request).execute();
+            String fullStopJsonData = response.body().string();
+            JSONObject fullStopJsonObj = new JSONObject(fullStopJsonData); // This is where the metadata is located at
+            JSONObject metadataObj = fullStopJsonObj.getJSONObject("Metadata");
+            String metadataErrorCode = metadataObj.getString("ErrorCode");
+            String metadataErrorMessage = metadataObj.getString("ErrorMessage");
+
+            callCodeMessageAndData.add(metadataErrorCode);
+            callCodeMessageAndData.add(fullStopJsonObj);
+            callCodeAndData.put(metadataErrorCode, callCodeMessageAndData);
+            return callCodeAndData;
+
+        } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+
     }
     public List<String> retrieveStationAmenities(String stationId){
         OkHttpClient client = new OkHttpClient().newBuilder()

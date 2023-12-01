@@ -16,6 +16,8 @@ public class SearchInteractor implements SearchInputBoundary {
 
     @Override
     public void execute(SearchInputData searchInputData) {
+        boolean stationExists = stationDataAccessObject.stationExist(searchInputData.getStationName());
+        boolean validAmenitiesAPICall = stationDataAccessObject.validAmenitiesAPICall(searchInputData.getStationName());
         if (stationDataAccessObject.stationExist(searchInputData.getStationName())) {
             // Creating a Station object using the station factory based on the name that the user input
             Station station = stationDataAccessObject.getStation(searchInputData.getStationName()); 
