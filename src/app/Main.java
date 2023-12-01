@@ -1,6 +1,7 @@
 package app;
 
 import data_access.API.GOVehicleApiClass;
+import data_access.API.GOStationCoordinatesApiClass;
 import data_access.text_file.FileStationDataAccessObject;
 import data_access.API.GOStationApiClass;
 import entity.StationFactory;
@@ -60,7 +61,7 @@ public class Main {
         FileStationDataAccessObject stationDataAccessObject;
         try {
             stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(),
-                    new TrainFactory(), new GOStationApiClass(), new GOVehicleApiClass());
+                    new TrainFactory(), new GOStationApiClass(), new GOVehicleApiClass(), new GOStationCoordinatesApiClass());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
