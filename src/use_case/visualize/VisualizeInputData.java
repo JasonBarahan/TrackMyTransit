@@ -1,7 +1,5 @@
 package use_case.visualize;
 
-import entity.Train;
-
 import java.util.List;
 
 /**
@@ -13,7 +11,7 @@ public class VisualizeInputData {
     /**
      * Constructor.
      *
-     * @param vehicleData: an array of vehicle (bus/train) objects
+     * @param vehicleData an array of vehicle (bus/train) objects
      */
     public VisualizeInputData(List<List<String>> vehicleData) {
         this.vehicleData = vehicleData;

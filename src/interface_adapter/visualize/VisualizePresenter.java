@@ -16,8 +16,8 @@ public class VisualizePresenter implements VisualizeOutputBoundary {
     /**
      * Constructor.
      *
-     * @param visualizeViewModel: the view model for the visualize use case.
-     * @param viewManagerModel: the view manager model.
+     * @param visualizeViewModel the view model for the visualize use case.
+     * @param viewManagerModel the view manager model.
      */
     public VisualizePresenter(VisualizeViewModel visualizeViewModel, ViewManagerModel viewManagerModel) {
         this.visualizeViewModel = visualizeViewModel;
@@ -27,7 +27,7 @@ public class VisualizePresenter implements VisualizeOutputBoundary {
     /**
      * Prepares the success view for showcase to the user.
      *
-     * @param data : the output data for the visualize use case to be displayed to the user.
+     * @param data the output data for the visualize use case to be displayed to the user.
      */
     @Override
     public void prepareSuccessView(VisualizeOutputData data) {
@@ -55,7 +55,7 @@ public class VisualizePresenter implements VisualizeOutputBoundary {
     /**
      * Prepares the fail view for showcase to the user.
      *
-     * @param error : the error message.
+     * @param error the error message
      */
     @Override
     public void prepareFailView(String error) {

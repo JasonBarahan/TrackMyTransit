@@ -1,6 +1,6 @@
 package view;
 
-import entity.Train;
+import interface_adapter.visualize.VisualizeController;
 import interface_adapter.visualize.VisualizeState;
 import interface_adapter.visualize.VisualizeViewModel;
 import org.openstreetmap.gui.jmapviewer.*;
@@ -13,16 +13,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 
 public class MapVisualizationView extends JFrame implements PropertyChangeListener, ActionListener {
     /* Internal strings */
     private final String viewName = "visualize";
     private final VisualizeViewModel visualizeViewModel;
+    private final VisualizeController visualizeController;
 
     /*
-     I got rid of the controller since no entity/external data needs to be retrieved or modified once this view
+     The controller is ignored since no entity/external data needs to be retrieved or modified once this view
      is displayed. This will change should a refresh button be implemented.
 
      In regard to a refresh button, query data would need to be resent again through the APi (i.e. call
@@ -46,8 +46,9 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     private final Style defaultStyle = new Style(
             Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont())  ;
 
-    public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
+    public MapVisualizationView(VisualizeViewModel visualizeViewModel, VisualizeController visualizeController) {
         this.visualizeViewModel = visualizeViewModel;
+        this.visualizeController = visualizeController;
         visualizeViewModel.addPropertyChangeListener(this);
 
         // create the map object
