@@ -3,7 +3,7 @@ package data_access.text_file;
 import data_access.API.GOStationApiClass;
 import data_access.API.GOVehicleApiClass;
 import entity.*;
-import use_case.StationInfo.StationInfoDataAccessInterface;
+import use_case.station_info.StationInfoDataAccessInterface;
 import use_case.search.SearchDataAccessInterface;
 
 import java.io.*;

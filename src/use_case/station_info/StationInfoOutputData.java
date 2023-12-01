@@ -1,4 +1,4 @@
-package use_case.StationInfo;
+package use_case.station_info;
 
 import java.util.List;
 
