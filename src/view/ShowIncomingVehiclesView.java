@@ -64,7 +64,6 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
             incomingVehicles.append(vehicleinfo).append("\n");
         }
         stationIncomingVehicles.setText(incomingVehicles.toString());
-        //TODO: Should we make incoming vehicles a String instead of a list?
     }
 
 }
