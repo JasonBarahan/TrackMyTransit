@@ -1,5 +1,6 @@
-package data_access;
+package data_access.text_file;
 
+import data_access.API.GOStationApiClass;
 import entity.Vehicle;
 import entity.StationFactory;
 import use_case.search.SearchDataAccessInterface;
@@ -17,9 +18,12 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
     private final Map<String, Station> stations = new HashMap<>();
     private final StationFactory stationFactory;
 
-    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory) throws IOException {
+    private final GOStationApiClass goStationApiClass;
+
+    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, GOStationApiClass goStationApiClass) throws IOException {
 
         this.stationFactory = stationFactory;
+        this.goStationApiClass = goStationApiClass;
         stationTxtFile = new File(txtFilePath);
 
         // Reading the provided txt file that has a path specified by attribute txtFilePath
@@ -49,8 +53,20 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
     }
     @Override
     public Station getStation (String inputStationName) {
+        Station incompleteStationObj = stations.get(inputStationName);
+
+        // Retrieve the station's amenities
+        List<String> retrievedStationAmenities = getStationAmenities(inputStationName);
+
+        // call the setStationAmenities method to set the amenities attribute of station to retrieved value
+        setStationAmenities(incompleteStationObj, retrievedStationAmenities);
 
         return stations.get(inputStationName);
+    }
+
+    public void setStationAmenities(Station stationObj, List<String> stationObjAmenities){
+        // Assigning the Station obj's amenitiesList attribute to a valid value
+        stationObj.setAmenitiesList(stationObjAmenities);
     }
 
     @Override
@@ -59,10 +75,17 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
         return (stations.get(inputStationName)).getParentLine();
     }
 
+    public String getStationID (String inputStationName) {
+
+        return (stations.get(inputStationName)).getId();
+    }
+
     @Override
     public List<String> getStationAmenities(String inputStationName) {
-
-        return (stations.get(inputStationName)).getAmenitiesList();
+        //TODO: Need to save this information in the actual Station objects such that we don't duplicate API calls
+        String stationID = getStationID(inputStationName);
+        List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);
+        return stationAmenitiesList;
     }
 
     public boolean stationExist(String identifier){

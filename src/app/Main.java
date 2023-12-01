@@ -1,6 +1,7 @@
 package app;
 
-import data_access.FileStationDataAccessObject;
+import data_access.text_file.FileStationDataAccessObject;
+import data_access.API.GOStationApiClass;
 import entity.StationFactory;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.ViewManagerModel;
@@ -51,7 +52,7 @@ public class Main {
         // TODO [Implementation question]: Is there suppose to be NO ARGUMENT for the StationFactory() instance passed inside?
         FileStationDataAccessObject stationDataAccessObject;
         try {
-            stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory());
+            stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new GOStationApiClass());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

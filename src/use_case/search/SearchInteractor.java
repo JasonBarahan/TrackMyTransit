@@ -1,6 +1,7 @@
 package use_case.search;
 
 import entity.Station;
+import java.util.List;
 
 public class SearchInteractor implements SearchInputBoundary {
     final SearchDataAccessInterface stationDataAccessObject;
@@ -19,8 +20,10 @@ public class SearchInteractor implements SearchInputBoundary {
             // Creating a Station object using the station factory based on the name that the user input
             Station station = stationDataAccessObject.getStation(searchInputData.getStationName()); 
 
-            // Packaging key details from the above Station object into a SearchOutputData object 
-            SearchOutputData searchOutputData = new SearchOutputData(station.getName(), station.getParentLine(), station.getAmenitiesList());
+            // Packaging key details from the above Station object into a SearchOutputData object
+            List<String> amenitiesList = station.getAmenitiesList();
+            String amenitiesListAsString = String.join(", ", amenitiesList);
+            SearchOutputData searchOutputData = new SearchOutputData(station.getName(), station.getParentLine(), amenitiesListAsString);
 
             // return the output data to the user
             stationPresenter.prepareSuccessView(searchOutputData);
