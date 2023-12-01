@@ -1,7 +1,7 @@
 // Java program for the haversine formula
 public class CoordinatesFunctions {
 
-    private double GOTRAINSPEED = 38.88; // 140(km/hr) = 38.88(m/s)
+    // private final double GOTRAINSPEED = 38.88; // 140(km/hr) = 38.88(m/s)
 
     static double haversineDistance(double lat1, double lon1,
                                     double lat2, double lon2)
@@ -24,9 +24,9 @@ public class CoordinatesFunctions {
         return rad * c;
     }
 
-    static double time(double distance, double speed) {
-        double time = distance / speed;
+    static double time(double distance) { // double speed may be changed
+        final double GOTRAINSPEED = 38.88;
 
-        return time;
+        return distance / GOTRAINSPEED;
     }
 }
