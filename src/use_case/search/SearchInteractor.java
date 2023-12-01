@@ -17,18 +17,22 @@ public class SearchInteractor implements SearchInputBoundary {
     @Override
     public void execute(SearchInputData searchInputData) {
         boolean stationExists = stationDataAccessObject.stationExist(searchInputData.getStationName());
-        boolean validAmenitiesAPICall = stationDataAccessObject.validAmenitiesAPICall(searchInputData.getStationName());
-        if (stationDataAccessObject.stationExist(searchInputData.getStationName())) {
-            // Creating a Station object using the station factory based on the name that the user input
-            Station station = stationDataAccessObject.getStation(searchInputData.getStationName()); 
+        if (stationExists) {
+            boolean validAmenitiesAPICall = stationDataAccessObject.validAmenitiesAPICall(searchInputData.getStationName());
+            if (validAmenitiesAPICall){
+                // Creating a Station object using the station factory based on the name that the user input
+                Station station = stationDataAccessObject.getStation(searchInputData.getStationName());
 
-            // Packaging key details from the above Station object into a SearchOutputData object
-            List<String> amenitiesList = station.getAmenitiesList();
-            String amenitiesListAsString = String.join(", ", amenitiesList);
-            SearchOutputData searchOutputData = new SearchOutputData(station.getName(), station.getParentLine(), amenitiesListAsString);
+                // Packaging key details from the above Station object into a SearchOutputData object
+                List<String> amenitiesList = station.getAmenitiesList();
+                String amenitiesListAsString = String.join(", ", amenitiesList);
+                SearchOutputData searchOutputData = new SearchOutputData(station.getName(), station.getParentLine(), amenitiesListAsString);
 
-            // return the output data to the user
-            stationPresenter.prepareSuccessView(searchOutputData);
+                // return the output data to the user
+                stationPresenter.prepareSuccessView(searchOutputData);
+            } else{
+                stationPresenter.prepareFailView("Invalid API Call");
+            }
         } else { 
             // If this branch is reached, the station the user entered does not exist in the text file. So, display error message.
             stationPresenter.prepareFailView("ERROR: Station with the name [" +  searchInputData.getStationName() + "] does not exist");
