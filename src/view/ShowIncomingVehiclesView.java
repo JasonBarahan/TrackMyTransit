@@ -18,6 +18,8 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
     private final ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel;
     JLabel stationName;
     JLabel stationIncomingVehicles;
+    JLabel stationEstimatedTimeOfArrival;
+    JLabel stationTimeOfArrival;
 
     public ShowIncomingVehiclesView(ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel) {
         this.showIncomingVehiclesViewModel = showIncomingVehiclesViewModel;
@@ -32,12 +34,22 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
         JLabel stationIncomingVehiclesLabel = new JLabel("Incoming Vehicles: ");
         stationIncomingVehicles = new JLabel();
 
+        JLabel stationEstimatedTimeOfArrivalLabel = new JLabel("Estimated Time of Arrival: ");
+        stationEstimatedTimeOfArrival = new JLabel();
+
+        JLabel stationTimeOfArrivalLabel = new JLabel("Time of Arrival: ");
+        stationTimeOfArrival = new JLabel();
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(stationNameLabel);
         this.add(stationName);
         this.add(stationIncomingVehiclesLabel);
         this.add(stationIncomingVehicles);
+        this.add(stationEstimatedTimeOfArrivalLabel);
+        this.add(stationEstimatedTimeOfArrival);
+        this.add(stationTimeOfArrivalLabel);
+        this.add(stationTimeOfArrival);
     }
 
     @Override
