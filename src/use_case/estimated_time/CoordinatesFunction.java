@@ -16,21 +16,15 @@ public class CoordinatesFunction {
     static double haversineDistanceFormula(double lat1, double lon1,
                                     double lat2, double lon2)
     {
-        /**
-         * The distance between latitudes and longitudes
-         */
+        // The distance between latitudes and longitudes
         double distanceLatitude = Math.toRadians(lat2 - lat1);
         double distanceLongitude = Math.toRadians(lon2 - lon1);
 
-        /**
-         * Convert the coordinates into radians
-         */
+        // Convert the coordinates into radians
         lat1 = Math.toRadians(lat1);
         lat2 = Math.toRadians(lat2);
 
-        /**
-         * Using Haversine to compute distance between the two
-         */
+        // Using Haversine to compute distance between the two
         double hav = Math.pow(Math.sin(distanceLatitude / 2), 2) + Math.pow(Math.sin(distanceLongitude / 2), 2) *
                 Math.cos(lat1) * Math.cos(lat2);
         double radians = 6371;
@@ -50,8 +44,4 @@ public class CoordinatesFunction {
         return distance / speed;
     }
 
-    // current testing purpose
-    public static void main(String[] args){
-
-    }
 }
