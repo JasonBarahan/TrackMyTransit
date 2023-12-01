@@ -18,4 +18,9 @@ public class CoordinatesEquationTest {
     public void testTimeEquation() {
 
     }
+
+    @org.junit.Test
+    public void testDelayTimeEquation() {
+
+    }
 }
