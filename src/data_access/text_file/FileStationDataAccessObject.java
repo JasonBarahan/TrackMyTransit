@@ -148,4 +148,11 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
                                                 // TODO #2: What happens if the text file contains a station that the API no longer supports
     }
 
+    public boolean validAmenitiesAPICall(String stationName){
+        String stationID = getStationID(stationName);
+        Map<String, List<Object>> amenitiesAPICallResult = goStationApiClass.stationAmenitiesCallResult(stationID);
+        boolean resultContainsValidCode = amenitiesAPICallResult.containsKey("200");
+        return resultContainsValidCode;
+    }
+
 }
