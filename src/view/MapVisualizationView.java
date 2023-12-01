@@ -19,7 +19,7 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     /* Internal strings */
     private final String viewName = "visualize";
     private final VisualizeViewModel visualizeViewModel;
-    private final VisualizeController visualizeController;
+//    private final VisualizeController visualizeController;
 
     /*
      The controller is ignored since no entity/external data needs to be retrieved or modified once this view
@@ -46,9 +46,10 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     private final Style defaultStyle = new Style(
             Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont())  ;
 
-    public MapVisualizationView(VisualizeViewModel visualizeViewModel, VisualizeController visualizeController) {
+//    public MapVisualizationView(VisualizeViewModel visualizeViewModel, VisualizeController visualizeController) {
+public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
         this.visualizeViewModel = visualizeViewModel;
-        this.visualizeController = visualizeController;
+//        this.visualizeController = visualizeController;
         visualizeViewModel.addPropertyChangeListener(this);
 
         // create the map object

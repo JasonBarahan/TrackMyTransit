@@ -33,7 +33,9 @@ public class VisualizeUseCaseFactory {
         VisualizeController visualizeController = createVisualizeUseCase(viewManagerModel,
                 visualizeViewModel);
 
-        return new MapVisualizationView(visualizeViewModel, visualizeController);
+//        return new MapVisualizationView(visualizeViewModel, visualizeController);
+        return new MapVisualizationView(visualizeViewModel);
+
     }
 
     private static VisualizeController createVisualizeUseCase(

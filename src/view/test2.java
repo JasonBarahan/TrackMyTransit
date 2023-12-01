@@ -46,7 +46,7 @@ public class test2 {
         inputData.add(vehicle2);
         controller.execute(inputData);
 
-        // create the view
+        // create the view (noting the controller is ignored in our current implementation)
         MapVisualizationView mapVisualizationView = new MapVisualizationView(vm);
         mapVisualizationView.setVisible(true);
 
