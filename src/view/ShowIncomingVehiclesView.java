@@ -18,6 +18,7 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
     private final ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel;
     JLabel stationName;
     JTextArea stationIncomingVehicles;
+    JButton map;
 
     public ShowIncomingVehiclesView(ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel) {
         this.showIncomingVehiclesViewModel = showIncomingVehiclesViewModel;
@@ -35,12 +36,17 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
         stationIncomingVehiclesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         stationIncomingVehicles = new JTextArea();
 
+        map = new JButton("Show Map");
+        map.setPreferredSize(new Dimension(20, 40));
+        map.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(stationNameLabel);
         this.add(stationName);
         this.add(stationIncomingVehiclesLabel);
         this.add(stationIncomingVehicles);
+        this.add(map);
     }
 
     @Override
