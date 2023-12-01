@@ -15,6 +15,13 @@ public class GOStationCoordinatesApiClass implements TrainApiInterface {
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
     public GOStationCoordinatesApiClass () {
     }
+
+    /**
+     * Search and return station coordinates based on station ID.
+     *
+     * @param stationId
+     * @return List containing [longitude, latitude]
+     */
     public List<String> retrieveStationCoordinates(String stationId){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
