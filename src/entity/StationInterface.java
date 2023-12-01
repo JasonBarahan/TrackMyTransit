@@ -16,6 +16,6 @@ public interface StationInterface {
 
     List<String> getAmenitiesList();
 
-    List<Vehicle> getIncomingVehicles();
+    List<Train> getIncomingVehicles();
 
 }

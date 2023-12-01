@@ -46,6 +46,8 @@ public class SearchUseCaseFactory {
         // Notice how we pass this method's parameters to the Presenter.
         SearchOutputBoundary searchOutputBoundary = new SearchPresenter(searchViewModel, stationInfoViewModel, viewManagerModel);
 
+        // TODO [Implementation question]: No need to use an instance of SearchUseCaseFactory right?
+
         SearchInputBoundary searchInteractor = new SearchInteractor(
                 searchDataAccessObject, searchOutputBoundary);
 

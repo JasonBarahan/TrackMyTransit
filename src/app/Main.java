@@ -1,12 +1,17 @@
 package app;
 
+import data_access.API.GOVehicleApiClass;
 import data_access.text_file.FileStationDataAccessObject;
 import data_access.API.GOStationApiClass;
 import entity.StationFactory;
+import entity.TrainFactory;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
+import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
 import interface_adapter.station_info.StationInfoViewModel;
 import view.SearchPanelView;
+import view.ShowIncomingVehiclesView;
 import view.StationInfoView;
 import view.ViewManager;
 
@@ -43,6 +48,8 @@ public class Main {
         // be observed by the Views.
         SearchViewModel searchViewModel = new SearchViewModel();
         StationInfoViewModel stationInfoViewModel = new StationInfoViewModel();
+        ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel = new ShowIncomingVehiclesViewModel();
+
 
         // Creating a DAO called stationDataAccessObject by reading from file revisedStopData.txt, with the creation of the object being done by StationFactory()
         // Note: This process is wrapped in a try-catch block since it is possible that the code throws out an IOException (occurs when the txt file being read does not exist)
@@ -52,7 +59,8 @@ public class Main {
         // TODO [Implementation question]: Is there suppose to be NO ARGUMENT for the StationFactory() instance passed inside?
         FileStationDataAccessObject stationDataAccessObject;
         try {
-            stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new GOStationApiClass());
+            stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(),
+                    new TrainFactory(), new GOStationApiClass(), new GOVehicleApiClass());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,8 +71,11 @@ public class Main {
 
         // Creating an instance of StationInfoView. Note: Although this view should have its own use case, for now, since we are NOT displaying other data besides the station name, there is no useCaseFactory for this case
         // This View is only linked to transition from the SearchPanelView (once the other use case are integrated into this view, this will NO LONGER be the case)
-        StationInfoView stationInfoView = new StationInfoView(stationInfoViewModel);
+        StationInfoView stationInfoView = StationInfoUseCaseFactory.create(viewManagerModel, stationInfoViewModel, stationDataAccessObject, showIncomingVehiclesViewModel);
         views.add(stationInfoView, stationInfoView.viewName);
+
+        ShowIncomingVehiclesView showIncomingVehiclesView = new ShowIncomingVehiclesView(showIncomingVehiclesViewModel);
+        views.add(showIncomingVehiclesView, showIncomingVehiclesView.viewName);
 
         // When initially booting up the application, the stationPanel is the 1st panel displayed to viewers.
         viewManagerModel.setActiveView(stationPanelView.viewName);

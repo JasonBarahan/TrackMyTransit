@@ -1,8 +1,9 @@
 package data_access.text_file;
 
 import data_access.API.GOStationApiClass;
-import entity.Vehicle;
-import entity.StationFactory;
+import data_access.API.GOVehicleApiClass;
+import entity.*;
+import use_case.StationInfo.StationInfoDataAccessInterface;
 import use_case.search.SearchDataAccessInterface;
 
 import java.io.*;
@@ -13,17 +14,22 @@ import entity.Station;
 
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
-public class FileStationDataAccessObject implements SearchDataAccessInterface {
+public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface {
     private final File stationTxtFile;
     private final Map<String, Station> stations = new HashMap<>();
     private final StationFactory stationFactory;
+    private final TrainFactory trainFactory;
 
     private final GOStationApiClass goStationApiClass;
+    private final GOVehicleApiClass goVehicleApiClass;
 
-    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, GOStationApiClass goStationApiClass) throws IOException {
+    public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, TrainFactory trainFactory,
+                                       GOStationApiClass goStationApiClass, GOVehicleApiClass goVehicleApiClass) throws IOException {
 
         this.stationFactory = stationFactory;
+        this.trainFactory = trainFactory;
         this.goStationApiClass = goStationApiClass;
+        this.goVehicleApiClass = goVehicleApiClass;
         stationTxtFile = new File(txtFilePath);
 
         // Reading the provided txt file that has a path specified by attribute txtFilePath
@@ -41,7 +47,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
                 Float parsedStationLongtitude = Float.valueOf(parsedStationInfo[3]);
 
                 List <String> parsedStationAmenities = new ArrayList<String>(); //This is empty at the time of reading txt file, this will be populated through API calls
-                List <Vehicle> parsedStationVehicles = new ArrayList<Vehicle>(); //This is empty at the time of reading txt file, this will be populated through API calls
+                List <Train> parsedStationVehicles = new ArrayList<Train>(); //This is empty at the time of reading txt file, this will be populated through API calls
 
                 // For reference, here are the order of arguments in order to pass into stationFactory.create():
                 //(name, stationId, parentLine, latitude, longitude, amenitiesList, incomingVehicles)
@@ -51,6 +57,15 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
             }
         }
     }
+
+    @Override
+    public boolean incomingVehiclesNotEmpty(String stationName) {
+        if (goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId())==(null)) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public Station getStation (String inputStationName) {
         Station incompleteStationObj = stations.get(inputStationName);
@@ -61,12 +76,48 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface {
         // call the setStationAmenities method to set the amenities attribute of station to retrieved value
         setStationAmenities(incompleteStationObj, retrievedStationAmenities);
 
+        List<Train> retrievedIncomingVehicles = getIncomingVehicles(inputStationName);
+        incompleteStationObj.setIncomingVehiclesList(retrievedIncomingVehicles);
+
         return stations.get(inputStationName);
     }
 
     public void setStationAmenities(Station stationObj, List<String> stationObjAmenities){
         // Assigning the Station obj's amenitiesList attribute to a valid value
         stationObj.setAmenitiesList(stationObjAmenities);
+    }
+
+    @Override
+    public List<Train> getIncomingVehicles(String inputStationName) {
+        if (incomingVehiclesNotEmpty(inputStationName)) {
+            String stationId = getStationId(inputStationName);
+            List<Train> incomingVehiclesList = new ArrayList<>();
+            for (List<String> vehicles : goVehicleApiClass.retrieveVehicleInfo(stationId)) {
+                String lineCode = vehicles.get(0);
+                String lineName = vehicles.get(1);
+                String trainName = vehicles.get(3);
+                String scheduledTime = vehicles.get(4);
+                String departureTime = vehicles.get(5);
+                String tripNumber = vehicles.get(6);
+                String delay = null;  //TODO: get vehicle delay
+                String latitude = vehicles.get(7);
+                String longitude = vehicles.get(8);
+                Train vehicle = trainFactory.create(lineCode, lineName, trainName, scheduledTime, departureTime,
+                        tripNumber, delay, Float.parseFloat(latitude), Float.parseFloat(longitude));
+                incomingVehiclesList.add(vehicle);
+            }
+//        List<Train> incomingVehiclesList = goVehicleApiClass.retrieveVehicleInfo(stationId);
+            return incomingVehiclesList;
+        }
+        else {return null;}
+    }
+
+    // TODO: We will leave two getStationid() method for now, and will resolve it later
+    // TODO: One is for @Override in StationInfoDataAccessInterface and one is for
+    //  retrieving station id in other override method
+    @Override
+    public String getStationId(String inputStationName) {
+        return (stations.get(inputStationName)).getId();
     }
 
     @Override
