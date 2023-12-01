@@ -1,6 +1,5 @@
 package interface_adapter.visualize;
 
-import entity.Train;
 import use_case.visualize.VisualizeInputBoundary;
 import use_case.visualize.VisualizeInputData;
 
@@ -16,7 +15,7 @@ public class VisualizeController {
     /**
      * Constructor.
      *
-     * @param visualizeInteractor: the use case interactor for the visualization use case.
+     * @param visualizeInteractor the use case interactor for the visualization use case.
      */
     public VisualizeController(VisualizeInputBoundary visualizeInteractor) {
         this.visualizeInteractor = visualizeInteractor;
@@ -25,7 +24,7 @@ public class VisualizeController {
     /**
      * Executes the use case interactor.
      *
-     * @param vehicleData: an array of vehicle (bus/train) objects
+     * @param vehicleData an array of vehicle (bus/train) objects
      */
     public void execute(List<List<String>> vehicleData) {
         VisualizeInputData visualizeInputData = new VisualizeInputData(vehicleData);

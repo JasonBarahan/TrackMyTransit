@@ -23,7 +23,7 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
     /**
      * Constructor.
      *
-     * @param visualizeOutputBoundary: an output boundary for the Visualize use case.
+     * @param visualizeOutputBoundary an output boundary for the Visualize use case.
      */
     public VisualizeInteractor(VisualizeOutputBoundary visualizeOutputBoundary) {
         this.visualizePresenter = visualizeOutputBoundary;
@@ -31,9 +31,8 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
 
     /**
      * Takes the input data and executes the desired actions of the use case.
-     * TODO: complete me
      *
-     * @param visualizeInputData : the input data for the visualization use case.
+     * @param visualizeInputData the input data for the visualization use case.
      */
     @Override
     public void execute(VisualizeInputData visualizeInputData) {

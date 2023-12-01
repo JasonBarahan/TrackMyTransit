@@ -8,7 +8,7 @@ public interface VisualizeInputBoundary {
     /**
      * Takes the input data and executes the desired actions of the use case.
      *
-     * @param visualizeInputData: the input data for the visualization use case.
+     * @param visualizeInputData the input data for the visualization use case.
      */
     void execute(VisualizeInputData visualizeInputData);
 }
