@@ -9,6 +9,9 @@ import use_case.visualize.VisualizeInteractor;
 import use_case.visualize.VisualizeOutputBoundary;
 import view.MapVisualizationView;
 
+/**
+ * A factory for visualization use cases.
+ */
 public class VisualizeUseCaseFactory {
     /**
      * Prevents instantiation
@@ -16,6 +19,13 @@ public class VisualizeUseCaseFactory {
     public VisualizeUseCaseFactory() {
     }
 
+    /**
+     * Creates an instance of the map visualization view.
+     *
+     * @param viewManagerModel the view manager model object
+     * @param visualizeViewModel the view model object
+     * @return the MapVisualizationView object.
+     */
     public static MapVisualizationView create(
         ViewManagerModel viewManagerModel,
         VisualizeViewModel visualizeViewModel) {
