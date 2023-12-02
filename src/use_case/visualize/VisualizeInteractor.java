@@ -91,7 +91,6 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
         }
 
         // get size
-        // TODO: make this a test
         assert stringList.size() == coordinateList.size();
 
         // Generate the output data
