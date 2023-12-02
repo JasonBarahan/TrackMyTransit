@@ -123,7 +123,16 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
             @Override
             public void itemStateChanged(ItemEvent e) {
                 Coordinate coordinate = (Coordinate) e.getItem();
-                map.setDisplayPosition(coordinate, map.getZoom());
+                if ((coordinate.getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
+                        coordinate.getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE) &&
+                        e.getStateChange() == ItemEvent.SELECTED) // pop-up occurs only if selected, not deselected
+                {
+                    JOptionPane.showMessageDialog(MapVisualizationView.this,
+                            VisualizeViewModel.TRAIN_NOT_IN_SERVICE_MESSAGE);
+                }
+                else {
+                    map.setDisplayPosition(coordinate, map.getZoom());
+                }
             }
         });
         panelTop.add(vehicleSelector);
@@ -145,8 +154,6 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         }
 
         // On initialization, map is focused on the first vehicle within the list
-        // TODO: Implement properly
-        // TODO: What happens if there are no vehicles in the list? Throw an error?
         Coordinate coordinate = vehicleData.getCoordinateList().get(0);
         map.setDisplayPosition(coordinate, 16);
     }
@@ -219,8 +226,14 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
             // set text displayed
             setIcon(null);
-            setText(visualizeViewModel.getVisualizationState().getVehicleInformationList().get(
-                    (visualizeViewModel.getVisualizationState().getCoordinateList().indexOf(selectedCoordinate))));
+            if (index >= 0) {
+                setText(visualizeViewModel.getVisualizationState().getVehicleInformationList().get(index));
+            }
+            // this is purely to account for when the view is first created with new data
+            else {
+                setText(visualizeViewModel.getVisualizationState().getVehicleInformationList().get(
+                        (visualizeViewModel.getVisualizationState().getCoordinateList().indexOf(selectedCoordinate))));
+            }
 
             setEnabled(list.isEnabled());
             setFont(list.getFont());
