@@ -100,6 +100,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     @Override
     public List<Train> getIncomingVehicles(String inputStationName) {
+        //TODO: Consider moving the "construction" of the train object to a new method called setIncomingVehicles
         if (incomingVehiclesNotEmpty(inputStationName)) {
             String stationId = getStationID(inputStationName);
             List<Train> incomingVehiclesList = new ArrayList<>();
