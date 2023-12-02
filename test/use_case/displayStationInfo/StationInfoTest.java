@@ -2,6 +2,7 @@ package use_case.displayStationInfo;
 
 import data_access.API.GOStationApiClass;
 import data_access.API.GOVehicleApiClass;
+import data_access.API.TestGOStationApiClass;
 import data_access.text_file.FileStationDataAccessObject;
 import entity.Station;
 import entity.StationFactory;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 public class StationInfoTest {
 
+    //This is a unit test that tests whether the program can handle a valid input
     @Test
     void successTest() {
         SearchInputData inputData = new SearchInputData("Aurora GO");
@@ -52,6 +54,7 @@ public class StationInfoTest {
 
     }
 
+    //This is a unit test that tests whether the program can handle an invalid input
     @Test
     void failureInvalidInputTest() {
         SearchInputData inputData = new SearchInputData("ABCDEFG");
@@ -81,5 +84,39 @@ public class StationInfoTest {
         }
 
     }
+
+    @Test
+    void failureInvalidAPIKeyTest() {
+        SearchInputData inputData = new SearchInputData("Union Station");
+        try {
+            SearchDataAccessInterface stationObjRepository = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new TrainFactory(), new TestGOStationApiClass(), new GOVehicleApiClass());
+            // This creates a successPresenter that tests whether the test case is as we expect.
+            SearchOutputBoundary failurePresenter = new SearchOutputBoundary() {
+                @Override
+                public void prepareSuccessView(SearchOutputData searchOutputData) {
+                    // 2 things to check: the output data is correct, and the user has been created in the DAO.
+                    fail("Use case success is unexpected.");
+                }
+
+                @Override
+                public void prepareFailView(String error) {
+                    Station stationObj = stationObjRepository.getStation("Aurora GO");
+                    assertEquals("Invalid API Call. Message returned: Unauthorized", error);
+                    //Note: Union Station is an actual valid GO Station, so it would have a respective Station object due to reading from the text file
+                    // However, its amenities should not be populated since an API call should NOT have been made
+                    // Therefore, its amenitiesList attribute (which is List<String> should be 0)
+                    assertEquals(stationObj.getAmenitiesList().size(), 0);
+                }
+            };
+
+            SearchInputBoundary searchInteractor = new SearchInteractor(stationObjRepository, failurePresenter);
+            searchInteractor.execute(inputData);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
 }
