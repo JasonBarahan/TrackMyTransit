@@ -15,9 +15,23 @@ import java.util.List;
  * TODO: Convert to unit test
  */
 public class MapVisualizationViewTest {
-    public MapVisualizationViewTest() {
-        VisualizeViewModel vm = new VisualizeViewModel();
-        VisualizeController controller = new VisualizeController(new VisualizeInteractor(new VisualizePresenter(vm, new ViewManagerModel())));
+    private List<List<String>> createNullTrain() {
+        List<List<String>> inputData = new ArrayList<>();
+
+        List<String> vehicle1 = new ArrayList<>();
+        vehicle1.add("ST");
+        vehicle1.add("Vehicle Route Name: ST - Old Elm GO");
+        vehicle1.add("Vehicle Latitude: -1.0");
+        vehicle1.add("Vehicle Longitude: -1.0");
+        vehicle1.add("");
+        vehicle1.add("2023-11-17 16:41:00");
+        vehicle1.add("");
+        vehicle1.add("2023-11-17 16:42:00");
+
+        inputData.add(vehicle1);
+        return inputData;
+    }
+    private List<List<String>> createTwoMockTrains() {
         List<List<String>> inputData = new ArrayList<>();
 
         List<String> vehicle1 = new ArrayList<>();
@@ -43,10 +57,20 @@ public class MapVisualizationViewTest {
 
         inputData.add(vehicle1);
         inputData.add(vehicle2);
-        controller.execute(inputData);
+        return inputData;
+    }
+    public MapVisualizationViewTest() {
+        VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        VisualizePresenter visualizePresenter = new VisualizePresenter(visualizeViewModel, viewManagerModel);
+        VisualizeInteractor visualizeInteractor = new VisualizeInteractor(visualizePresenter);
+        VisualizeController controller = new VisualizeController(visualizeInteractor);
+
+        // execute the controller
+//        controller.execute(inputData);
 
         // create the view (noting the controller is ignored in our current implementation)
-        MapVisualizationView mapVisualizationView = new MapVisualizationView(vm);
+        MapVisualizationView mapVisualizationView = new MapVisualizationView(visualizeViewModel);
         mapVisualizationView.setVisible(true);
 
         // TODO: Check if all mock information aspects are present
@@ -81,6 +105,8 @@ public class MapVisualizationViewTest {
 
         // check that the last vehicle loaded contains one of the expected outputs
         assert comboBox.getRenderer().toString().contains("[16:31:00, estimated 16:35:33]  LE - Durham College Oshawa GO");
+
+
     }
 
     public static void main(String[] args) {
