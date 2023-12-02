@@ -35,16 +35,7 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     JPanel panelTop;
     JPanel helpPanel;
 
-    private Coordinate c(double lat, double lon) {
-        return new Coordinate(lat, lon);
-    }
-
-    private Coordinate c(String lat, String lon) {
-        return new Coordinate(Double.parseDouble(lat), Double.parseDouble(lon));
-    }
-
     // denote default style for markers
-    // TODO: Depending on parent line info, change the color of the inner point
     private final Style defaultStyle = new Style(
             Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont());
 
