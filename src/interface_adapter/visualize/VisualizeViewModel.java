@@ -15,6 +15,8 @@ public class VisualizeViewModel extends ViewModel {
     public static final String HELP_LABEL = "Hold the right mouse button while moving it to move the map. Double-click to zoom.";
     public static final String RESIZE_BUTTON_LABEL = "Fit markers to screen";
 
+    public static final double OUT_OF_SERVICE_COORDINATE = -1;
+
 
     // The application state; needed to alert the View on what to present.
     private VisualizeState visualizationState = new VisualizeState();

@@ -130,13 +130,18 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
         // add markers
         for (int i = 0; i < vehicleData.getVehicleInformationSize(); i++) {
-            MapMarkerDot marker = new MapMarkerDot(
-                    trainsLayer,
-                    vehicleData.getVehicleInformationList().get(i),
-                    vehicleData.getCoordinateList().get(i),
-                    this.defaultStyle
-            );
-            map.addMapMarker(marker);
+            // The if condition prevents plotting out of service trains
+            if (!(vehicleData.getCoordinateList().get(i).getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
+                    vehicleData.getCoordinateList().get(i).getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE))
+            {
+                MapMarkerDot marker = new MapMarkerDot(
+                        trainsLayer,
+                        vehicleData.getVehicleInformationList().get(i),
+                        vehicleData.getCoordinateList().get(i),
+                        this.defaultStyle
+                );
+                map.addMapMarker(marker);
+            }
         }
 
         // On initialization, map is focused on the first vehicle within the list
