@@ -1,11 +1,9 @@
 package view;
 
-import app.Main;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.visualize.VisualizeController;
 import interface_adapter.visualize.VisualizePresenter;
 import interface_adapter.visualize.VisualizeViewModel;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
 import use_case.visualize.VisualizeInteractor;
 
 import java.util.ArrayList;
@@ -14,8 +12,8 @@ import java.util.List;
 /**
  * TODO: Convert to unit test
  */
-public class test2 {
-    public test2() {
+public class MapVisualizationViewTest {
+    public MapVisualizationViewTest() {
         VisualizeViewModel vm = new VisualizeViewModel();
         VisualizeController controller = new VisualizeController(new VisualizeInteractor(new VisualizePresenter(vm, new ViewManagerModel())));
         List<List<String>> inputData = new ArrayList<>();
@@ -54,6 +52,6 @@ public class test2 {
     }
 
     public static void main(String[] args) {
-        test2 test2 = new test2();
+        MapVisualizationViewTest MapVisualizationViewTest = new MapVisualizationViewTest();
     }
 }
