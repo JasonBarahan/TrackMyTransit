@@ -7,7 +7,7 @@ import use_case.station_info.StationInfoDataAccessInterface;
 import use_case.search.SearchDataAccessInterface;
 
 import java.io.*;
-import java.util.*; // resolves import for List and ArrayList
+import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
 import entity.Station;
@@ -59,37 +59,48 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
-    public boolean incomingVehiclesNotEmpty(String stationName) {
-        if (goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId())==(null)) {
-            return false;
-        }
-        return true;
+    public String getAPIMetadataSuccessMessage() {
+        return goStationApiClass.getApiMetadataSuccessMessage();
     }
 
+    // Getter method to retrieve Station object.
+    // This method does NOT modify the contents of the Station object.
+    // Modifications to Station object occurs in the setStation() method
     @Override
     public Station getStation (String inputStationName) {
-        Station incompleteStationObj = stations.get(inputStationName);
-
-        // Retrieve the station's amenities
-        List<String> retrievedStationAmenities = getStationAmenities(inputStationName);
-
-        // call the setStationAmenities method to set the amenities attribute of station to retrieved value
-        setStationAmenities(incompleteStationObj, retrievedStationAmenities);
-
-        List<Train> retrievedIncomingVehicles = getIncomingVehicles(inputStationName);
-        incompleteStationObj.setIncomingVehiclesList(retrievedIncomingVehicles);
-
-        return stations.get(inputStationName);
+        if (stationExist(inputStationName)) {
+            return stations.get(inputStationName);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public void setStationAmenities(Station stationObj, List<String> stationObjAmenities){
-        // Assigning the Station obj's amenitiesList attribute to a valid value
-        stationObj.setAmenitiesList(stationObjAmenities);
+    public String getStationName (Station stationObj) {
+        return stationObj.getName();
+    }
+
+    @Override
+    public String getStationParentLine(String inputStationName) {
+        return (stations.get(inputStationName)).getParentLine();
+    }
+
+    @Override
+    public String getStationID (String inputStationName) {
+        return (stations.get(inputStationName)).getId();
+    }
+
+    // Getter method to retrieve Station Amenities list.
+    // This method does NOT modify the contents of the Station object.
+    // Modifications to Station object occurs in the setStationAmenities() method
+    @Override
+    public List<String> getStationAmenities(String inputStationName) {
+        return (stations.get(inputStationName)).getAmenitiesList();
     }
 
     @Override
     public List<Train> getIncomingVehicles(String inputStationName) {
+        //TODO: Consider moving the "construction" of the train object to a new method called setIncomingVehicles
         if (incomingVehiclesNotEmpty(inputStationName)) {
             String stationId = getStationID(inputStationName);
             List<Train> incomingVehiclesList = new ArrayList<>();
@@ -114,29 +125,49 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
-    public String getStationParentLine(String inputStationName) {
+    public void setStation (Station stationObj) {
+        //Get station name
+        String stationName = getStationName(stationObj);
 
-        return (stations.get(inputStationName)).getParentLine();
+        // Set station amenities
+        setStationAmenities(stationObj);
+
+        // TODO: Resolve the lines below such that they follow the format above
+        List<Train> retrievedIncomingVehicles = getIncomingVehicles(stationName);
+        stationObj.setIncomingVehiclesList(retrievedIncomingVehicles);
+
     }
 
     @Override
-    public String getStationID (String inputStationName) {
-
-        return (stations.get(inputStationName)).getId();
-    }
-
-    @Override
-    public List<String> getStationAmenities(String inputStationName) {
-        //TODO: Need to save this information in the actual Station objects such that we don't duplicate API calls
-        String stationID = getStationID(inputStationName);
+    public void setStationAmenities(Station stationObj){
+        String stationID = stationObj.getId();
         List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);
-        return stationAmenitiesList;
+        stationObj.setAmenitiesList(stationAmenitiesList);
+    }
+
+    @Override
+    public boolean incomingVehiclesNotEmpty(String stationName) {
+        if (goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId())==(null)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean stationExist(String identifier){
         return stations.containsKey(identifier); //TODO: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
                                                  // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
-
+                                                // TODO #2: What happens if the text file contains a station that the API no longer supports
     }
+
+    //This is a method that returns the message associated with the attempted amenities API call
+    // For more information about API messages, please see comments in file GOStationApiClass.java
+    @Override
+    public String amenitiesAPICallMetadataMessage(String stationName){
+        String stationID = getStationID(stationName);
+        Map<String, List<Object>> amenitiesAPICallResult = goStationApiClass.stationAmenitiesCallResult(stationID);
+        String amenitiesAPICallMetadataCode = (String) amenitiesAPICallResult.keySet().toArray()[0];
+        return (String) (amenitiesAPICallResult.get(amenitiesAPICallMetadataCode)).get(0);
+    }
+
 }

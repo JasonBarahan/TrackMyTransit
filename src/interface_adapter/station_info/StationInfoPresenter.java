@@ -37,7 +37,7 @@ public class StationInfoPresenter implements StationInfoOutputBoundary {
     }
 
     @Override
-    public void parepareFailView(String incomingVehiclesRetrievalError) {
+    public void prepareFailView(String incomingVehiclesRetrievalError) {
         StationInfoState stationInfoState = stationInfoViewModel.getState();
         stationInfoState.setIncomingVehiclesError(incomingVehiclesRetrievalError);
         stationInfoViewModel.firePropertyChanged();

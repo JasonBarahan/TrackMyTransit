@@ -14,13 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GOStationApiClass implements TrainApiInterface {
-
+// NOTE: This class is a MOCK version of GoStationApiClass. Has the same functionalities, but calls the API using a fake key
+// This class is used for a error unit test in test/use_case.displayStationInfo/StationInfoTest
+public class TestGOStationApiClass extends GOStationApiClass{
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
 
     private final String API_METADATA_SUCCESS_MESSAGE = "OK";
 
-    public GOStationApiClass () {
+    public TestGOStationApiClass () {
     }
 
     @Override
@@ -31,14 +32,14 @@ public class GOStationApiClass implements TrainApiInterface {
     // Return Type: Map<String, List<Object>>
     // Key of Map: Represents the MetaData error code.
     // Note: The text next to the : denotes the "message", see further comments for details
-        // Code 200: OK [Successful API Call]
-        // Code 503: Unavailable [Server hosting the GO API goes down]
-        // Code 401: Unauthorized [Invalid API used, either due to incorrect key input or key is deactivated]
-        // Code 204: No Content [GO Transit removes/renames a station code, but changes not reflected in text file]
+    // Code 200: OK [Successful API Call]
+    // Code 503: Unavailable [Server hosting the GO API goes down]
+    // Code 401: Unauthorized [Invalid API used, either due to incorrect key input or key is deactivated]
+    // Code 204: No Content [GO Transit removes/renames a station code, but changes not reflected in text file]
     //Value: A list containing Objects. The list specifically contains [String, JSONObject]
-        // List[0]: Contains a String. This string would be the "message" based on what error code you have
-            // Eg: If the error code is 200, then the "message" would be "OK".
-        // List[1]: Contains the full stop JSON object, contains the information from the stop/details endpoints.
+    // List[0]: Contains a String. This string would be the "message" based on what error code you have
+    // Eg: If the error code is 200, then the "message" would be "OK".
+    // List[1]: Contains the full stop JSON object, contains the information from the stop/details endpoints.
 
     @Override
     public Map<String, List<Object>> stationAmenitiesCallResult(String stationId) {
@@ -53,7 +54,7 @@ public class GOStationApiClass implements TrainApiInterface {
                 .addPathSegment("Stop")
                 .addPathSegment("Details")
                 .addPathSegment(stationId) //getting station information for the station with the id denoted by stationId
-                .addQueryParameter("key", API_KEY)
+                .addQueryParameter("key", "test_key_123") //IMPORTANT: Passed in FAKE API key for use in StationInfoTest
                 .build();
 
         Request request = new Request.Builder()
