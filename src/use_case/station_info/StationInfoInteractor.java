@@ -55,7 +55,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
                 vehicleinfo.add("Vehicle Longitude: " + vehicleLongitude);
                 vehicleinfo.add("Scheduled Departure Time: ");
                 vehicleinfo.add(vehicleScheduledTime);
-                vehicleinfo.add("Computed Departure Time: ");  //TODO: tentative name, might rename it as "Actual Departure Time"
+                vehicleinfo.add("Computed Departure Time: ");
                 vehicleinfo.add(vehicleDepartureTime);
                 vehicleinfo.add("Delay: " + vehicleDelay);
                 incomingVehiclesInfo.add(vehicleinfo);
