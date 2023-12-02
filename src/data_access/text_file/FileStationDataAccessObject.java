@@ -104,9 +104,9 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
-    public void setStation (Station stationObj) {
+    public void setStation (String stationName) {
         //Get station name
-        String stationName = getStationName(stationObj);
+        Station stationObj = getStation(stationName);
 
         // Set station amenities
         setStationAmenities(stationObj);
@@ -137,7 +137,9 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
             }
             stationObj.setIncomingVehiclesList(incomingVehiclesList);
         }
-        stationObj.setIncomingVehiclesList(null);
+        else {
+            stationObj.setIncomingVehiclesList(null);
+        }
     }
 
     @Override

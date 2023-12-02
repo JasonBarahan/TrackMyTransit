@@ -12,7 +12,7 @@ public interface StationInfoDataAccessInterface {
 
     Station getStation(String inputStationName);
 
-    void setStation(Station stationObj);
+    void setStation(String stationName);
 
     List<Train> getIncomingVehicles(String inputStationName);
 

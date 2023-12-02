@@ -23,7 +23,7 @@ public class SearchInteractor implements SearchInputBoundary {
                 // First, fetching the constructed, but incomplete station object. This object is created based on reading from revisedStopData.txt
                 Station incompleteStation = stationDataAccessObject.getStation(searchInputData.getStationName());
 
-                stationDataAccessObject.setStation(incompleteStation); // Then, populate the station's currently empty amenitiesList and incomingVehicles attributes based on API calls
+                stationDataAccessObject.setStation(searchInputData.getStationName()); // Then, populate the station's currently empty amenitiesList and incomingVehicles attributes based on API calls
 
                 Station station = stationDataAccessObject.getStation(searchInputData.getStationName()); // Now, re-retrieve the fully complete Station object
 
