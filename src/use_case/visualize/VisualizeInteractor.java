@@ -38,6 +38,7 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
     public void execute(VisualizeInputData visualizeInputData) {
         // get data
         List<List<String>> inputData = visualizeInputData.getVehicleData();
+        System.out.println(inputData);
 
         // create new ArrayList objects for coordinates and strings
         List<Coordinate> coordinateList = new ArrayList<>();
@@ -47,30 +48,40 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
         // Obtain relevant data for marker creation
         for (List<String> vehicle : inputData) {
 
+            // Todo: debug remove when done
+            System.out.println(Double.parseDouble(vehicle.get(2).substring(18)));
+            System.out.println(Double.parseDouble(vehicle.get(3).substring(19)));
+            System.out.println(vehicle.get(5).substring(11));
+            System.out.println(vehicle.get(7).substring(11));
+            System.out.println(vehicle.get(1).substring(19));
+
+
             // Get lat (top) and long (bottom), then add to coordinates list
-            coordinateList.add(new Coordinate(Double.parseDouble(vehicle.get(7)), Double.parseDouble(vehicle.get(8))));
+            coordinateList.add(new Coordinate(
+                    Double.parseDouble(vehicle.get(2).substring(18)),
+                    Double.parseDouble(vehicle.get(3).substring(19))));
 
             // String data - used to identify a vehicle to the user.
             StringBuilder vehicleData = new StringBuilder();
 
             // Get the scheduled time of departure and estimated time of departure.
             // Only displays a value if scheduled time and estimate time aren't equivalent
-            if (vehicle.get(4).substring(11).equals(vehicle.get(5).substring(11))) {
+            if (vehicle.get(5).substring(11).equals(vehicle.get(7).substring(11))) {
                 vehicleData
-                        .append(boxText(vehicle.get(4).substring(11)));
+                        .append(boxText(vehicle.get(5).substring(11)));
             }
             else {
                 vehicleData
                         .append(boxText(
-                                vehicle.get(4).substring(11)
+                                vehicle.get(5).substring(11)
                                 + ", estimated "
-                                + vehicle.get(5).substring(11)));
+                                + vehicle.get(7).substring(11)));
             }
 
             // Get the service name
             vehicleData
                     .append(" ")
-                    .append(vehicle.get(3));
+                    .append(vehicle.get(1).substring(19));
 
             // add this finished string to processed vehicle data list
             stringList.add(String.valueOf(vehicleData));
