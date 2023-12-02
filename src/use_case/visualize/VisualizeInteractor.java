@@ -12,12 +12,10 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
     // invoke presenter as output boundary
     final VisualizeOutputBoundary visualizePresenter;
 
+    final double OUT_OF_SERVICE_COORDINATE = -1;
+
     private String boxText (String str) {
         return "[" + str + "]";
-    }
-
-    private String hyphenText () {
-        return " - ";
     }
 
     /**
@@ -48,28 +46,33 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
         // Obtain relevant data for marker creation
         for (List<String> vehicle : inputData) {
 
-            // Todo: debug remove when done
-            System.out.println(Double.parseDouble(vehicle.get(2).substring(18)));
-            System.out.println(Double.parseDouble(vehicle.get(3).substring(19)));
-            System.out.println(vehicle.get(5).substring(11));
-            System.out.println(vehicle.get(7).substring(11));
-            System.out.println(vehicle.get(1).substring(19));
-
-
             // Get lat (top) and long (bottom), then add to coordinates list
             coordinateList.add(new Coordinate(
                     Double.parseDouble(vehicle.get(2).substring(18)),
-                    Double.parseDouble(vehicle.get(3).substring(19))));
+                    Double.parseDouble(vehicle.get(3).substring(18))));
 
-            // String data - used to identify a vehicle to the user.
+            // String of vehicle metadata - used to identify a vehicle to the user.
             StringBuilder vehicleData = new StringBuilder();
 
-            // Get the scheduled time of departure and estimated time of departure.
-            // Only displays a value if scheduled time and estimate time aren't equivalent
-            if (vehicle.get(5).substring(11).equals(vehicle.get(7).substring(11))) {
+            /* Get the scheduled time of departure and estimated time of departure. */
+
+            // This branch is triggered if both latitude and longitude are -1.0, which denotes a train being out of service
+            // (non-trackable)
+            if (Double.parseDouble(vehicle.get(2).substring(18)) == OUT_OF_SERVICE_COORDINATE
+                    && Double.parseDouble(vehicle.get(3).substring(18)) == OUT_OF_SERVICE_COORDINATE) {
+                vehicleData
+                        .append(boxText(
+                                vehicle.get(5).substring(11)
+                                        + ", currently not in service"));
+            }
+
+            // This branch triggers if there is no difference between the scheduled and estimated departure times
+            else if (vehicle.get(5).substring(11).equals(vehicle.get(7).substring(11))) {
                 vehicleData
                         .append(boxText(vehicle.get(5).substring(11)));
             }
+
+            // This branch triggers if there is a delay (discrepancy between scheduled and estimated departure times).
             else {
                 vehicleData
                         .append(boxText(
@@ -88,7 +91,6 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
         }
 
         // get size
-        // TODO: make this a test
         assert stringList.size() == coordinateList.size();
 
         // Generate the output data

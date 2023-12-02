@@ -5,7 +5,8 @@ import use_case.visualize.VisualizeOutputBoundary;
 import use_case.visualize.VisualizeOutputData;
 
 /**
- * Prepares the proper view, and relevant data, to present to the user.
+ * Passes output data to the visualization view model and calls its firePropertyChanged method, updating the
+ * visualization view and alerting the user.
  */
 public class VisualizePresenter implements VisualizeOutputBoundary {
 
@@ -36,8 +37,8 @@ public class VisualizePresenter implements VisualizeOutputBoundary {
 
         // gets the data and sets it into state
         visualizeState.setCoordinateList(data.getCoordinateData());
-        visualizeState.setStringList(data.getStringData());
-        visualizeState.setSize(data.getSize());
+        visualizeState.setVehicleInformationList(data.getStringData());
+        visualizeState.setVehicleInformationSize(data.getSize());
 
         // sets the data into the view model's state
         visualizeViewModel.setVisualizationState(visualizeState);
