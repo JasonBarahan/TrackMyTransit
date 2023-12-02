@@ -52,6 +52,9 @@ public class StationInfoInteractorTest {
                     Station station = stationRepository.getStation("Union Station");
                     assertEquals("Union Station", stationInfoOutputData.getStationName());
                     assertEquals("Union Station", station.getName());
+
+                    assertTrue(stationRepository.incomingVehiclesNotEmpty("Union Station"));
+
                     List<List<String>> goVehicleApiList = goVehicleApiClass.retrieveVehicleInfo(station.getId());
                     List<List<String>> goVehicleOutputList = new ArrayList<>();
                     for (List<String> vehicleInfo : goVehicleApiList) {
