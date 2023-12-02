@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.search.SearchState;
 import interface_adapter.visualize.VisualizeController;
 import interface_adapter.visualize.VisualizeState;
 import interface_adapter.visualize.VisualizeViewModel;
@@ -17,13 +18,13 @@ import java.beans.PropertyChangeListener;
 
 public class MapVisualizationView extends JFrame implements PropertyChangeListener, ActionListener {
     /* Internal strings */
-    private final String viewName = "visualize";
+    public final String viewName = "visualize";
     private final VisualizeViewModel visualizeViewModel;
 //    private final VisualizeController visualizeController;
 
     /*
      The controller is ignored since no entity/external data needs to be retrieved or modified once this view
-     is displayed. This will change should a refresh button be implemented.
+     is displayed + this is a popup. This will change should a refresh button be implemented.
 
      In regard to a refresh button, query data would need to be resent again through the APi (i.e. call
      ShowIncomingVehicles use case files, then route the output through MapVisualization use case files)
@@ -32,6 +33,10 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
 
     /* JSwing elements */
     private final JMapViewer map;
+
+    JPanel panel;
+    JPanel panelTop;
+    JPanel helpPanel;
 
     private Coordinate c(double lat, double lon) {
         return new Coordinate(lat, lon);
@@ -44,7 +49,7 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
     // denote default style for markers
     // TODO: Depending on parent line info, change the color of the inner point
     private final Style defaultStyle = new Style(
-            Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont())  ;
+            Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont());
 
 //    public MapVisualizationView(VisualizeViewModel visualizeViewModel, VisualizeController visualizeController) {
 public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
@@ -59,9 +64,9 @@ public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        JPanel panel = new JPanel(new BorderLayout());
-        JPanel panelTop = new JPanel();
-        JPanel helpPanel = new JPanel();
+        panel = new JPanel(new BorderLayout());
+        panelTop = new JPanel();
+        helpPanel = new JPanel();
 
         // attach borders
         add(panel, BorderLayout.NORTH);
@@ -119,41 +124,39 @@ public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
             }
         });
 
-        // layer management (show buses and trains)
-        LayerGroup vehicles = new LayerGroup("Vehicles");
-        Layer trainsLayer = vehicles.addLayer("Trains");
+    // layer management (show buses and trains)
+    LayerGroup vehicles = new LayerGroup("Vehicles");
+    Layer trainsLayer = vehicles.addLayer("Trains");
+    VisualizeState vehicleData = visualizeViewModel.getVisualizationState();
 
-        // vehicle selection screen
-        VisualizeState vehicleData = visualizeViewModel.getVisualizationState();
-
-        JComboBox<Coordinate> vehicleSelector =
-                new JComboBox<>(vehicleData.getCoordinateList().toArray(new Coordinate[vehicleData.getSize()]));
-        vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
-        vehicleSelector.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                Coordinate coordinate = (Coordinate) e.getItem();
-                map.setDisplayPosition(coordinate, map.getZoom());
-            }
-        });
-        panelTop.add(vehicleSelector);
-
-        // add markers
-        for (int i = 0; i < vehicleData.getSize(); i++) {
-            MapMarkerDot marker = new MapMarkerDot(
-                    trainsLayer,
-                    vehicleData.getStringList().get(i),
-                    vehicleData.getCoordinateList().get(i),
-                    this.defaultStyle
-            );
-            map.addMapMarker(marker);
+    JComboBox<Coordinate> vehicleSelector =
+            new JComboBox<>(vehicleData.getCoordinateList().toArray(new Coordinate[vehicleData.getSize()]));
+    vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
+    vehicleSelector.addItemListener(new ItemListener() {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            Coordinate coordinate = (Coordinate) e.getItem();
+            map.setDisplayPosition(coordinate, map.getZoom());
         }
+    });
+    panelTop.add(vehicleSelector);
 
-        // On initialization, map is focused on the first vehicle within the list
-        // TODO: Implement properly
-        // TODO: What happens if there are no vehicles in the list? Throw an error?
-        Coordinate coordinate = vehicleData.getCoordinateList().get(0);
-        map.setDisplayPosition(coordinate, 16);
+    // add markers
+    for (int i = 0; i < vehicleData.getSize(); i++) {
+        MapMarkerDot marker = new MapMarkerDot(
+                trainsLayer,
+                vehicleData.getStringList().get(i),
+                vehicleData.getCoordinateList().get(i),
+                this.defaultStyle
+        );
+        map.addMapMarker(marker);
+    }
+
+    // On initialization, map is focused on the first vehicle within the list
+    // TODO: Implement properly
+    // TODO: What happens if there are no vehicles in the list? Throw an error?
+    Coordinate coordinate = vehicleData.getCoordinateList().get(0);
+    map.setDisplayPosition(coordinate, 16);
     }
 
     /**
@@ -174,12 +177,15 @@ public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        // TODO: This OK?
 
-    }
-
-    // TODO: Debug, remove when done
-    public static void main(String[] args) {
-        new MapVisualizationView(new VisualizeViewModel()).setVisible(true);
+        // Ignore any property changes fired from OSM
+        // (adding the map to the screen fires propertyChange)
+        if (!(evt.getSource().toString().startsWith("org.openstreetmap"))) {
+            VisualizeState vehicleData = (VisualizeState) evt.getNewValue();
+            visualizeViewModel.setVisualizationState(vehicleData);
+            new MapVisualizationView(visualizeViewModel).setVisible(true);
+        }
     }
 
     class myRenderer extends DefaultListCellRenderer {
