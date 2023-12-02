@@ -35,7 +35,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
             // TODO: Based on what changes you might make to FileStationDataAccessObject, you might need to introduce a setIncomingVehicle method call.
             // TODO: See SearchInteractor for inspiration on how to do
             List<Train> incomingVehicles = station.getIncomingVehicles();
-//             List<Train> will change into List<Vehicle> after implementing Vehicle class.
+
             List<List<String>> incomingVehiclesInfo = new ArrayList<>();
 
             // We want to show line name, train direction, scheduled time, departure time and delay

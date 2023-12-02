@@ -11,8 +11,6 @@ public class Station implements StationInterface{
     private List<String> amenitiesList; //TODO: Due to this variable being assigned a valid value AFTER initial text file is read, we need to make this non-final. But this violates CAE?
 
     private List<Train> incomingVehicles;
-    // used to be:    private final List<Vehicle> incomingVehicles;
-    // will change to the original one after implementing Vehicle class.
     //TODO: Due to this variable being assigned a valid value AFTER initial text file is read,
     // we need to make this non-final. But this violates CAE?
 
@@ -28,7 +26,7 @@ public class Station implements StationInterface{
      */
 
     Station(String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Train> incomingVehicles) {
-        //String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Vehicle> incomingVehicles
+        //String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Train> incomingVehicles
         this.stationId = stationId;
         this.name = name;
         this.parentLine = parentLine;
@@ -76,9 +74,7 @@ public class Station implements StationInterface{
     public List<Train> getIncomingVehicles() {
         return incomingVehicles;
     }
-//    public List<Vehicle> getIncomingVehicles() {
-//        return incomingVehicles;
-//    }
+
     public void setIncomingVehiclesList(List<Train> incomingVehiclesList) {
         this.incomingVehicles = incomingVehiclesList;
     }
