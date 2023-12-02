@@ -22,25 +22,24 @@ public class test2 {
 
         List<String> vehicle1 = new ArrayList<>();
         vehicle1.add("LW");
-        vehicle1.add("Lakeshore West");
-        vehicle1.add("T");
-        vehicle1.add("LW - Union Station");
+        vehicle1.add("Vehicle Route Name: LW - Union Station");
+        vehicle1.add("Vehicle Latitude: 43.3419870");
+        vehicle1.add("Vehicle Longitude: -79.8076960");
+        vehicle1.add("");
         vehicle1.add("2023-11-27 16:31:00");
+        vehicle1.add("");
         vehicle1.add("2023-11-27 16:31:00");
-        vehicle1.add("1026");
-        vehicle1.add("43.3419870");
-        vehicle1.add("-79.8076960");
 
         List<String> vehicle2 = new ArrayList<>();
         vehicle2.add("LE");
-        vehicle2.add("Lakeshore East");
-        vehicle2.add("T");
-        vehicle2.add("LE - Durham College Oshawa GO");
+        vehicle2.add("Vehicle Route Name: LE - Durham College Oshawa GO");
+        vehicle2.add("Vehicle Latitude: 43.6448050");
+        vehicle2.add("Vehicle Longitude: -79.3777040");
+        vehicle2.add("");
         vehicle2.add("2023-11-27 16:31:00");
+        vehicle2.add("");
         vehicle2.add("2023-11-27 16:35:33");
-        vehicle2.add("1828");
-        vehicle2.add("43.6448050");
-        vehicle2.add("-79.3777040");
+
 
         inputData.add(vehicle1);
         inputData.add(vehicle2);
