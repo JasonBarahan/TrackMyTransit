@@ -139,6 +139,27 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
+    public void setIncomingVehiclesList(Station stationObj){
+        String stationID = stationObj.getId();
+        List<Train> incomingVehiclesList = new ArrayList<>();
+        for (List<String> vehicles : goVehicleApiClass.retrieveVehicleInfo(stationID)) {
+            String lineName = vehicles.get(0);
+            String lineCode = vehicles.get(1);
+            String trainName = vehicles.get(3);
+            String scheduledTime = vehicles.get(4);
+            String departureTime = vehicles.get(5);
+            String tripNumber = vehicles.get(6);
+            String delay = null;  //TODO: get vehicle delay
+            String latitude = vehicles.get(7);
+            String longitude = vehicles.get(8);
+            Train vehicle = trainFactory.create(lineCode, lineName, trainName, scheduledTime, departureTime,
+                    tripNumber, delay, Float.parseFloat(latitude), Float.parseFloat(longitude));
+            incomingVehiclesList.add(vehicle);
+        }
+        stationObj.setIncomingVehiclesList(incomingVehiclesList);
+    }
+
+    @Override
     public void setStationAmenities(Station stationObj){
         String stationID = stationObj.getId();
         List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);

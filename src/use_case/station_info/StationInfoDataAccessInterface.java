@@ -15,4 +15,6 @@ public interface StationInfoDataAccessInterface {
     void setStation(Station stationObj);
 
     List<Train> getIncomingVehicles(String inputStationName);
+
+    void setIncomingVehiclesList(Station stationObj);
 }
