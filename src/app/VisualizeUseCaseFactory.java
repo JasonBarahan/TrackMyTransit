@@ -7,7 +7,6 @@ import interface_adapter.visualize.VisualizeViewModel;
 import use_case.visualize.VisualizeInputBoundary;
 import use_case.visualize.VisualizeInteractor;
 import use_case.visualize.VisualizeOutputBoundary;
-import view.MapVisualizationView;
 
 /**
  * A factory for visualization use cases.
@@ -20,22 +19,17 @@ public class VisualizeUseCaseFactory {
     }
 
     /**
-     * Creates an instance of the map visualization view.
+     * Creates the controller needed
      *
      * @param viewManagerModel the view manager model object
      * @param visualizeViewModel the view model object
      * @return the MapVisualizationView object.
      */
-    public static MapVisualizationView create(
+    public static VisualizeController create(
         ViewManagerModel viewManagerModel,
         VisualizeViewModel visualizeViewModel) {
 
-        VisualizeController visualizeController = createVisualizeUseCase(viewManagerModel,
-                visualizeViewModel);
-
-//        return new MapVisualizationView(visualizeViewModel, visualizeController);
-        return new MapVisualizationView(visualizeViewModel);
-
+        return createVisualizeUseCase(viewManagerModel, visualizeViewModel);
     }
 
     private static VisualizeController createVisualizeUseCase(
