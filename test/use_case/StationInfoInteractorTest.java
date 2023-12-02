@@ -60,7 +60,7 @@ public class StationInfoInteractorTest {
                         goVehicleInfo.add("Vehicle Name: " + vehicleInfo.get(1));
                         goVehicleInfo.add("Vehicle direction: " + vehicleInfo.get(3));
                         goVehicleInfo.add("Vehicle Latitude: " + vehicleInfo.get(7));
-                        goVehicleInfo.add("Vehicle Longitude: " + vehicleInfo.get(7));
+                        goVehicleInfo.add("Vehicle Longitude: " + vehicleInfo.get(8));
                         goVehicleInfo.add("Scheduled Departure Time: ");
                         goVehicleInfo.add(vehicleInfo.get(4));
                         goVehicleInfo.add("Computed Departure Time: ");
