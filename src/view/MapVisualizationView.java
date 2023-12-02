@@ -116,46 +116,47 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         Layer trainsLayer = vehicles.addLayer("Trains");
         VisualizeState vehicleData = visualizeViewModel.getVisualizationState();
 
-        JComboBox<Coordinate> vehicleSelector =
-                new JComboBox<>(vehicleData.getCoordinateList().toArray(new Coordinate[vehicleData.getVehicleInformationSize()]));
-        vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
-        vehicleSelector.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                Coordinate coordinate = (Coordinate) e.getItem();
-                if ((coordinate.getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
-                        coordinate.getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE) &&
-                        e.getStateChange() == ItemEvent.SELECTED) // pop-up occurs only if selected, not deselected
-                {
-                    JOptionPane.showMessageDialog(MapVisualizationView.this,
-                            VisualizeViewModel.TRAIN_NOT_IN_SERVICE_MESSAGE);
+        if (!(vehicleData.getCoordinateList() == null))
+        {
+            JComboBox<Coordinate> vehicleSelector =
+                    new JComboBox<>(vehicleData.getCoordinateList().toArray(new Coordinate[vehicleData.getVehicleInformationSize()]));
+            vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
+            vehicleSelector.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    Coordinate coordinate = (Coordinate) e.getItem();
+                    if ((coordinate.getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
+                            coordinate.getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE) &&
+                            e.getStateChange() == ItemEvent.SELECTED) // pop-up occurs only if selected, not deselected
+                    {
+                        JOptionPane.showMessageDialog(MapVisualizationView.this,
+                                VisualizeViewModel.TRAIN_NOT_IN_SERVICE_MESSAGE);
+                    } else {
+                        map.setDisplayPosition(coordinate, map.getZoom());
+                    }
                 }
-                else {
-                    map.setDisplayPosition(coordinate, map.getZoom());
-                }
-            }
-        });
-        panelTop.add(vehicleSelector);
+            });
+            panelTop.add(vehicleSelector);
 
-        // add markers
-        for (int i = 0; i < vehicleData.getVehicleInformationSize(); i++) {
-            // The if condition prevents plotting out of service trains
-            if (!(vehicleData.getCoordinateList().get(i).getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
-                    vehicleData.getCoordinateList().get(i).getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE))
-            {
-                MapMarkerDot marker = new MapMarkerDot(
-                        trainsLayer,
-                        vehicleData.getVehicleInformationList().get(i),
-                        vehicleData.getCoordinateList().get(i),
-                        this.defaultStyle
-                );
-                map.addMapMarker(marker);
+            // add markers
+            for (int i = 0; i < vehicleData.getVehicleInformationSize(); i++) {
+                // The if condition prevents plotting out of service trains
+                if (!(vehicleData.getCoordinateList().get(i).getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
+                        vehicleData.getCoordinateList().get(i).getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE)) {
+                    MapMarkerDot marker = new MapMarkerDot(
+                            trainsLayer,
+                            vehicleData.getVehicleInformationList().get(i),
+                            vehicleData.getCoordinateList().get(i),
+                            this.defaultStyle
+                    );
+                    map.addMapMarker(marker);
+                }
             }
+
+            // On initialization, map is focused on the first vehicle within the list
+            Coordinate coordinate = vehicleData.getCoordinateList().get(0);
+            map.setDisplayPosition(coordinate, 16);
         }
-
-        // On initialization, map is focused on the first vehicle within the list
-        Coordinate coordinate = vehicleData.getCoordinateList().get(0);
-        map.setDisplayPosition(coordinate, 16);
     }
 
     /**
