@@ -10,11 +10,11 @@ import java.util.List;
 public class VisualizeState {
     // Vehicle data
     private List<Coordinate> coordinateList;
-    private List<String> stringList;
-    private int size;
+    private List<String> vehicleInformationList;
+    private int vehicleInformationSize;
 
     /* Error string */
-    private String errorString = null;
+    private String errorString;
 
     /**
      * Gets the error string for the visualization state, in case data visualization fails.
@@ -54,31 +54,31 @@ public class VisualizeState {
      * Gets the list of strings comprising vehicle information from the state.
      * @return list of vehicle information strings
      */
-    public List<String> getStringList() {
-        return stringList;
+    public List<String> getVehicleInformationList() {
+        return vehicleInformationList;
     }
 
     /**
      * Sets the list of strings comprising vehicle information from the state.
-     * @param stringList list of vehicle information strings
+     * @param vehicleInformationList list of vehicle information strings
      */
-    public void setStringList(List<String> stringList) {
-        this.stringList = stringList;
+    public void setVehicleInformationList(List<String> vehicleInformationList) {
+        this.vehicleInformationList = vehicleInformationList;
     }
 
     /**
      * Gets the size of both coordinate and vehicle string lists.
      * @return size integer
      */
-    public int getSize() {
-        return size;
+    public int getVehicleInformationSize() {
+        return vehicleInformationSize;
     }
 
     /**
      * Sets the size of both coordinate and vehicle string lists.
-     * @param size size integer
+     * @param vehicleInformationSize size integer
      */
-    public void setSize(int size) {
-        this.size = size;
+    public void setVehicleInformationSize(int vehicleInformationSize) {
+        this.vehicleInformationSize = vehicleInformationSize;
     }
 }

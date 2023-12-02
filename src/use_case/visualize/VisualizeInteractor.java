@@ -49,7 +49,7 @@ public class VisualizeInteractor implements VisualizeInputBoundary {
             // Get lat (top) and long (bottom), then add to coordinates list
             coordinateList.add(new Coordinate(
                     Double.parseDouble(vehicle.get(2).substring(18)),
-                    Double.parseDouble(vehicle.get(3).substring(19))));
+                    Double.parseDouble(vehicle.get(3).substring(18))));
 
             // String of vehicle metadata - used to identify a vehicle to the user.
             StringBuilder vehicleData = new StringBuilder();

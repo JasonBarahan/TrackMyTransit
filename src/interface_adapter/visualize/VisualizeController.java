@@ -22,9 +22,12 @@ public class VisualizeController {
     }
 
     /**
-     * Executes the use case interactor.
+     * Executes the use case interactor, splitting this data into a List<Coordinate> array list for storing coordinates
+     * of a specific vehicle, and a List<String> array list for storing details pertaining to a specific vehicle.
+     * Matching the two details to the same vehicle is done by array list index.
      *
-     * @param vehicleData an array of vehicle (bus/train) objects
+     * @param vehicleData an ArrayList containing ArrayLists of strings, each of which denote data for
+     *                    a particular vehicle.
      */
     public void execute(List<List<String>> vehicleData) {
         VisualizeInputData visualizeInputData = new VisualizeInputData(vehicleData);
