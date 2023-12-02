@@ -103,7 +103,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
                 String delay = null;  //TODO: get vehicle delay
                 String latitude = vehicles.get(7);
                 String longitude = vehicles.get(8);
-                Train vehicle = trainFactory.create(lineCode, lineName, trainName, scheduledTime, departureTime,
+                Train vehicle = trainFactory.create(lineName, lineCode, trainName, scheduledTime, departureTime,
                         tripNumber, delay, Float.parseFloat(latitude), Float.parseFloat(longitude));
                 incomingVehiclesList.add(vehicle);
             }
