@@ -37,11 +37,15 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
                 List<String> vehicleinfo = new ArrayList<>();
                 String vehicleName = incomingVehicles.get(i).getLineName();
                 String vehicleDirection = incomingVehicles.get(i).getTrainDirection();
+                String vehicleLatitude = String.valueOf(incomingVehicles.get(i).getLatitude());
+                String vehicleLongitude = String.valueOf(incomingVehicles.get(i).getLongitude());
                 String vehicleScheduledTime = incomingVehicles.get(i).getScheduledTime();
                 String vehicleDepartureTime = incomingVehicles.get(i).getDepartureTime();
                 String vehicleDelay = incomingVehicles.get(i).getDelay();
                 vehicleinfo.add("Vehicle Name: " + vehicleName);
                 vehicleinfo.add("Vehicle direction: " + vehicleDirection);
+                vehicleinfo.add("Vehicle Latitude: " + vehicleLatitude);
+                vehicleinfo.add("Vehicle Longitude: " + vehicleLongitude);
                 vehicleinfo.add("Scheduled Departure Time: ");
                 vehicleinfo.add(vehicleScheduledTime);
                 vehicleinfo.add("Computed Departure Time: ");  //TODO: tentative name, might rename it as "Actual Departure Time"
