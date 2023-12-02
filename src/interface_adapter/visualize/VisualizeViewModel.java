@@ -14,6 +14,7 @@ public class VisualizeViewModel extends ViewModel {
     public static final String WINDOW_LABEL = "TrackMyTransit";
     public static final String HELP_LABEL = "Hold the right mouse button while moving it to move the map. Double-click to zoom.";
     public static final String RESIZE_BUTTON_LABEL = "Fit markers to screen";
+    public static final String TRAIN_NOT_IN_SERVICE_MESSAGE = "This train is currently not in service. You won't be able to view the position of this train yet.";
 
     public static final double OUT_OF_SERVICE_COORDINATE = -1;
 
