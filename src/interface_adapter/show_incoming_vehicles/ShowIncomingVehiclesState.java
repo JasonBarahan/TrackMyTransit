@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ShowIncomingVehiclesState {
     private String stationName;
-    private List<List<String>> incomingVehiclesInfo; //TODO: Tentative type for incomingVehiclesInfo
+    private List<List<String>> incomingVehiclesInfo;
 
     //TODO: If this "copy" constructor is unused, delete in the final project implementation
     public ShowIncomingVehiclesState(ShowIncomingVehiclesState copy) {
