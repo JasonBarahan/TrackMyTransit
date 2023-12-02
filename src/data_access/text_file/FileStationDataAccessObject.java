@@ -105,8 +105,8 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
             String stationId = getStationID(inputStationName);
             List<Train> incomingVehiclesList = new ArrayList<>();
             for (List<String> vehicles : goVehicleApiClass.retrieveVehicleInfo(stationId)) {
-                String lineCode = vehicles.get(0);
-                String lineName = vehicles.get(1);
+                String lineName = vehicles.get(0);
+                String lineCode = vehicles.get(1);
                 String trainName = vehicles.get(3);
                 String scheduledTime = vehicles.get(4);
                 String departureTime = vehicles.get(5);
