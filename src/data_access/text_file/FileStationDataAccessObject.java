@@ -132,9 +132,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
         // Set station amenities
         setStationAmenities(stationObj);
 
-        // TODO: Resolve the lines below such that they follow the format above
-        List<Train> retrievedIncomingVehicles = getIncomingVehicles(stationName);
-        stationObj.setIncomingVehiclesList(retrievedIncomingVehicles);
+        setIncomingVehiclesList(stationObj);
 
     }
 
