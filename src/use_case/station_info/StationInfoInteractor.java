@@ -75,7 +75,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
             // return the output data to the user
             stationInfoPresenter.prepareSuccessView(stationInfoOutputData);
         } else {
-            stationInfoPresenter.prepareFailView("Incoming Vehicles Info Retrieval Failed...");
+            stationInfoPresenter.prepareFailView("Incoming Vehicles Info Retrieval Failed...\nSome error occurred during API call");
         }
     }
 
