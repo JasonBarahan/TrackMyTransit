@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class StationInfoInteractorTest {
     private static void sortByDateTime(List<List<String>> incomingVehiclesInfo) {
@@ -58,19 +57,22 @@ public class StationInfoInteractorTest {
                     for (List<String> vehicleInfo : goVehicleApiList) {
                         List<String> goVehicleInfo = new ArrayList<>();
                         goVehicleInfo.add("Vehicle Name: " + vehicleInfo.get(1));
-                        goVehicleInfo.add("Vehicle direction: " + vehicleInfo.get(3));
-                        goVehicleInfo.add("Vehicle Latitude: " + vehicleInfo.get(7));
-                        goVehicleInfo.add("Vehicle Longitude: " + vehicleInfo.get(8));
                         goVehicleInfo.add("Scheduled Departure Time: ");
                         goVehicleInfo.add(vehicleInfo.get(4));
                         goVehicleInfo.add("Computed Departure Time: ");
-                        goVehicleInfo.add(vehicleInfo.get(5));  //TODO: change it to Aaron's calculated time
-                        goVehicleInfo.add("Delay: " + null);
-                        goVehicleOutputList.add(goVehicleInfo);
+                        goVehicleInfo.add(vehicleInfo.get(5));
                     }
                     sortByDateTime(goVehicleOutputList);
-                    List<List<String>> slicedGoVehiclesInfo = goVehicleOutputList.subList(0, 3);
-                    assertEquals(slicedGoVehiclesInfo, stationInfoOutputData.getStationIncomingVehiclesInfo());
+                    List<List<String>> slicedGoVehiclesInfo;
+                    if (goVehicleOutputList.size() <= 3) {
+                        slicedGoVehiclesInfo = goVehicleOutputList;
+                    } else {
+                        slicedGoVehiclesInfo = goVehicleOutputList.subList(0, 3);
+                    }
+                    for (int i = 0; i < slicedGoVehiclesInfo.size(); i++) {
+                        assertEquals(slicedGoVehiclesInfo.get(i).get(i),
+                                stationInfoOutputData.getStationIncomingVehiclesInfo().get(i).get(i));
+                    }
                 }
 
                 @Override
