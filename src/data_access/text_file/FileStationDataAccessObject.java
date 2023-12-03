@@ -8,6 +8,9 @@ import use_case.search.SearchDataAccessInterface;
 import use_case.delay.DelayInteractor;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -172,8 +175,27 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
-    public String delayTime(String scheduled, String computed) {
-        return null;
+    public String delayTime(String scheduled, String computed) throws ParseException {
+        String scheduleDate = scheduled.substring(11);
+        String computedDate = computed.substring(11);
+
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+        Date scheduleTime = dateFormat.parse(scheduleDate);
+        Date computedTime = dateFormat.parse(computedDate);
+
+        double difference = (computedTime.getTime() - scheduleTime.getTime()) * 0.001; // in seconds
+
+        // if cases for returning the differences in time
+        if (difference >= 3600) {
+            return MAJOR + calculated(difference) + HOURS;
+        } else if (difference >= 900) {
+            return MAJOR + calculated(difference) + MINUTES;
+        } else if (difference >= 180) {
+            return DELAY + calculated(difference) + MINUTES;
+        } else if (difference >= 60) {
+            return MINIMAL + calculated(difference) + MINUTES;
+        } return NONE + " arriving in " + difference + SECONDS;
+
     }
 
     @Override
