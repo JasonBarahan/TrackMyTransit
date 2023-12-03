@@ -1,37 +1,33 @@
-package use_case.station_info;
+package use_case.show_incoming_vehicles;
 
 import entity.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class StationInfoInteractor implements StationInfoInputBoundary{
-    final StationInfoDataAccessInterface stationInfoDataAccessObject;
-    final StationInfoOutputBoundary stationInfoPresenter;
+public class ShowIncomingVehiclesInteractor implements ShowIncomingVehiclesInputBoundary {
+    final ShowIncomingVehiclesDataAccessInterface showIncomingVehiclesDataAccessObject;
+    final ShowIncomingVehiclesOutputBoundary showIncomingVehiclesPresenter;
 
     //TODO: need to consider if we need vehicleFactory
-    public StationInfoInteractor(StationInfoDataAccessInterface stationInfoDataAccessInterface,
-                                 StationInfoOutputBoundary stationInfoOutputBoundary) {
-        this.stationInfoDataAccessObject = stationInfoDataAccessInterface;
-        this.stationInfoPresenter = stationInfoOutputBoundary;
+    public ShowIncomingVehiclesInteractor(ShowIncomingVehiclesDataAccessInterface showIncomingVehiclesDataAccessInterface,
+                                          ShowIncomingVehiclesOutputBoundary showIncomingVehiclesOutputBoundary) {
+        this.showIncomingVehiclesDataAccessObject = showIncomingVehiclesDataAccessInterface;
+        this.showIncomingVehiclesPresenter = showIncomingVehiclesOutputBoundary;
     }
 
     @Override
-    public void execute(StationInfoInputData stationInfoInputData) {
+    public void execute(ShowIncomingVehiclesInputData showIncomingVehiclesInputData) {
         // if not empty
-        if (!stationInfoDataAccessObject.incomingVehiclesIsEmpty(stationInfoInputData.getStationName())) {
+        if (!showIncomingVehiclesDataAccessObject.incomingVehiclesIsEmpty(showIncomingVehiclesInputData.getStationName())) {
 
-            // First, fetching the constructed, but incomplete station object. This object is created based on reading from revisedStopData.txt
-//            Station incompleteStation = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName());
+            showIncomingVehiclesDataAccessObject.setStation(showIncomingVehiclesInputData.getStationName());
 
-            stationInfoDataAccessObject.setStation(stationInfoInputData.getStationName()); // Then, populate the station's currently empty amenitiesList and incomingVehicles attributes based on API calls
-
-            StationInterface station = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName()); // Now, re-retrieve the fully complete Station object
+            StationInterface station = showIncomingVehiclesDataAccessObject.getStation(showIncomingVehiclesInputData.getStationName());
 
             // Packaging key details from the above Station object into a SearchOutputData object
-            List<Train> incomingVehicles = stationInfoDataAccessObject.getIncomingVehicles(stationInfoInputData.getStationName());
+            List<Train> incomingVehicles = showIncomingVehiclesDataAccessObject.getIncomingVehicles(showIncomingVehiclesInputData.getStationName());
 
             List<List<String>> incomingVehiclesInfo = new ArrayList<>();
 
@@ -70,13 +66,13 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
                 slicedIncomingVehiclesInfo = incomingVehiclesInfo.subList(0, 3);
             }
 
-            StationInfoOutputData stationInfoOutputData = new StationInfoOutputData(station.getName(), slicedIncomingVehiclesInfo);
+            ShowIncomingVehiclesOutputData showIncomingVehiclesOutputData = new ShowIncomingVehiclesOutputData(station.getName(), slicedIncomingVehiclesInfo);
 
             // return the output data to the user
-            stationInfoPresenter.prepareSuccessView(stationInfoOutputData);
+            showIncomingVehiclesPresenter.prepareSuccessView(showIncomingVehiclesOutputData);
         } else {
-            String errorMsg = stationInfoDataAccessObject.getVehicleInfoRetrievalErrorMsg(stationInfoInputData.getStationName());
-            stationInfoPresenter.prepareFailView("An error occurred during API call.\nError Message: " + errorMsg);
+            String errorMsg = showIncomingVehiclesDataAccessObject.getVehicleInfoRetrievalErrorMsg(showIncomingVehiclesInputData.getStationName());
+            showIncomingVehiclesPresenter.prepareFailView("An error occurred during API call.\nError Message: " + errorMsg);
         }
     }
 

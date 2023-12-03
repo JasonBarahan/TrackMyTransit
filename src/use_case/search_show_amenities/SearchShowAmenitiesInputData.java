@@ -1,8 +1,8 @@
-package use_case.search;
-public class SearchInputData {
+package use_case.search_show_amenities;
+public class SearchShowAmenitiesInputData {
     final private String stationName;
 
-    public SearchInputData(String stationName) {
+    public SearchShowAmenitiesInputData(String stationName) {
         this.stationName = stationName;
     }
 
