@@ -28,7 +28,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
 
             stationInfoDataAccessObject.setStation(stationInfoInputData.getStationName()); // Then, populate the station's currently empty amenitiesList and incomingVehicles attributes based on API calls
 
-            Station station = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName()); // Now, re-retrieve the fully complete Station object
+            StationInterface station = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName()); // Now, re-retrieve the fully complete Station object
 
             // Packaging key details from the above Station object into a SearchOutputData object
             List<Train> incomingVehicles = stationInfoDataAccessObject.getIncomingVehicles(stationInfoInputData.getStationName());
