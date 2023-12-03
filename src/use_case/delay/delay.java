@@ -11,8 +11,15 @@ public class delay {
     // split by " "
     // no need to use yyyy-mm-dd
 
+    // TODO: Change to private
+    public final String NONE = "No delay";
+    public final String MINIMAL = "Minimal Delay Time ";
+    public final String DELAY = "Delay ";
+
+    // TODO: Remove
     public static String scheduled = "2023-12-02 19:10:00";
     public static String computed = "2023-12-02 19:15:00";
+
     public static Object delayTime(String scheduled, String computed) throws ParseException {
 
         String scheduleDate = scheduled.substring(11);
