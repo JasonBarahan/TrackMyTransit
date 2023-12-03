@@ -151,10 +151,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     @Override
     public boolean incomingVehiclesNotEmpty(String stationName) {
-        if (goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId())==(null)) {
-            return false;
-        }
-        return true;
+        return goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId()) != (null);
     }
 
     @Override
