@@ -19,6 +19,6 @@ public interface SearchDataAccessInterface {
     List<String> getStationAmenities(String inputStationName);
 
     void setStation(String stationName);
-    void setStationAmenities(Station stationObj);
+    void setStationAmenities(String stationName);
 
 }

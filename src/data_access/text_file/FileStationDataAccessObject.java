@@ -130,7 +130,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
         Station stationObj = getStation(stationName);
 
         // Set station amenities
-        setStationAmenities(stationObj);
+        setStationAmenities(stationName);
 
         // TODO: Resolve the lines below such that they follow the format above
         List<Train> retrievedIncomingVehicles = getIncomingVehicles(stationName);
@@ -139,7 +139,8 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
-    public void setStationAmenities(Station stationObj){
+    public void setStationAmenities(String stationName){
+        Station stationObj = getStation(stationName);
         String stationID = stationObj.getId();
         List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);
         stationObj.setAmenitiesList(stationAmenitiesList);
