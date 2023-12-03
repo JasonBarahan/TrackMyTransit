@@ -1,9 +1,7 @@
 package view;
 
-import app.VisualizeUseCaseFactory;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
-import interface_adapter.station_info.StationInfoState;
 import interface_adapter.visualize.VisualizeController;
 
 import javax.swing.*;
@@ -13,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ShowIncomingVehiclesView extends JPanel implements ActionListener, PropertyChangeListener {
