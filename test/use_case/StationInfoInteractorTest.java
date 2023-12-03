@@ -67,6 +67,9 @@ public class StationInfoInteractorTest {
                     }
                     sortByDateTime(goVehicleOutputList);
                     List<List<String>> slicedGoVehiclesInfo;
+                    // Since When presenting, Vehicle Api call for Union Station will ALWAYS have more than 3 vehicles,
+                    // We will slice the entire list and get the 3 soonest trains to arrive
+
                     if (goVehicleOutputList.size() <= 3) {
                         slicedGoVehiclesInfo = goVehicleOutputList;
                     } else {
@@ -88,7 +91,33 @@ public class StationInfoInteractorTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
-
     }
+
+    @Test
+    public void failureVehicleApiCallTest() throws IOException {
+        StationInfoInputData inputData = new StationInfoInputData("Milton GO");
+        GOVehicleApiClass goVehicleApiClass = new GOVehicleApiClass();
+        StationInfoDataAccessInterface stationInfoRepository = new FileStationDataAccessObject("./revisedStopData.txt",
+                new StationFactory(), new TrainFactory(), new GOStationApiClass(), goVehicleApiClass);
+
+        // This creates a presenter that tests whether the test case is as we expect.
+        StationInfoOutputBoundary failurePresenter = new StationInfoOutputBoundary() {
+            @Override
+            public void prepareSuccessView(StationInfoOutputData stationInfoOutputData) {
+                fail("Use case success is unexpected.");
+            }
+
+            // Milton GO only offers service in the early morning, which when we're presenting, the api call will
+            // have a "204" "No Content" error
+            @Override
+            public void parepareFailView(String error) {
+                assertEquals("Incoming Vehicles Info Retrieval Failed...\nSome error occurred during API call", error);
+            }
+        };
+
+        StationInfoInputBoundary interactor = new StationInfoInteractor(stationInfoRepository, failurePresenter);
+        interactor.execute(inputData);
+    }
+
+
 }
