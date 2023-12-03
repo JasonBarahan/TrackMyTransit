@@ -2,7 +2,7 @@ package use_case.delay;
 
 import java.text.ParseException;
 
-public interface DelayInteractor {
+public interface Delay {
     public final String NONE = "No Delay - ";
     public final String MINIMAL = "Minimal Delay Time - ";
     public final String DELAY = "Delay - ";
