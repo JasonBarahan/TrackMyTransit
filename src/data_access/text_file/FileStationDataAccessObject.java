@@ -113,8 +113,8 @@ public class FileStationDataAccessObject implements SearchShowAmenitiesDataAcces
             List<List<String>> goVehicleInfo = goVehicleApiClass.retrieveVehicleInfo(stationID);
             List<Train> incomingVehiclesList = new ArrayList<>();
             for (List<String> vehicles : goVehicleInfo) {
-                String lineName = vehicles.get(0);
-                String lineCode = vehicles.get(1);
+                String lineName = vehicles.get(1);
+                String lineCode = vehicles.get(0);
                 String trainName = vehicles.get(3);
                 String scheduledTime = vehicles.get(4);
                 String departureTime = vehicles.get(5);
