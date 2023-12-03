@@ -14,7 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 
-public class MapVisualizationView extends JFrame implements PropertyChangeListener, ActionListener {
+public class MapVisualizationView extends JDialog implements PropertyChangeListener, ActionListener {
     /* Internal strings */
     public final String viewName = "visualize";
     private final VisualizeViewModel visualizeViewModel;
@@ -40,75 +40,67 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
             Color.cyan, new Color(245, 128, 37), new BasicStroke(10), new MapFont().getFont());
 
     public MapVisualizationView(VisualizeViewModel visualizeViewModel) {
-            this.visualizeViewModel = visualizeViewModel;
-            visualizeViewModel.addPropertyChangeListener(this);
+        this.visualizeViewModel = visualizeViewModel;
+        visualizeViewModel.addPropertyChangeListener(this);
 
-            // create the map object
-            map = new JMapViewer();
-            map.addPropertyChangeListener(this);
+        // create the map object
+        map = new JMapViewer();
+        map.addPropertyChangeListener(this);
 
-            setLayout(new BorderLayout());
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setExtendedState(JFrame.MAXIMIZED_BOTH);
-            panel = new JPanel(new BorderLayout());
-            panelTop = new JPanel();
-            helpPanel = new JPanel();
+        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(new Dimension(JFrame.MAXIMIZED_BOTH, JFrame.MAXIMIZED_BOTH));
+        panel = new JPanel(new BorderLayout());
+        panelTop = new JPanel();
+        helpPanel = new JPanel();
 
-            // attach borders
-            add(panel, BorderLayout.NORTH);
-            add(helpPanel, BorderLayout.SOUTH);
-            panel.add(panelTop, BorderLayout.NORTH);
-            helpPanel.add(new JLabel(VisualizeViewModel.HELP_LABEL));
 
-            // resize all markers to fit screen
-            final JButton fitButton = new JButton(VisualizeViewModel.RESIZE_BUTTON_LABEL);
-            fitButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    map.setDisplayToFitMapMarkers();
+        // resize all markers to fit screen
+        final JButton fitButton = new JButton(VisualizeViewModel.RESIZE_BUTTON_LABEL);
+        fitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                map.setDisplayToFitMapMarkers();
+            }
+        });
+        panelTop.add(fitButton);
+
+        // checkbox to show satellite imagery
+        final JCheckBox showImageryCheckBox = new JCheckBox("Show satellite imagery");
+        showImageryCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (showImageryCheckBox.isSelected())
+                    map.setTileSource((new BingAerialTileSource()));
+                else if (!(showImageryCheckBox.isSelected()))
+                    map.setTileSource((new OsmTileSource.Mapnik()));
+            }
+        });
+        panelTop.add(showImageryCheckBox);
+
+        // detects mouse click events
+        map.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    map.getAttribution().handleAttribution(e.getPoint(), true);
                 }
-            });
-            panelTop.add(fitButton);
+            }
+        });
 
-            // checkbox to show satellite imagery
-            final JCheckBox showImageryCheckBox = new JCheckBox("Show satellite imagery");
-            showImageryCheckBox.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (showImageryCheckBox.isSelected())
-                        map.setTileSource((new BingAerialTileSource()));
-                    else if (!(showImageryCheckBox.isSelected()))
-                        map.setTileSource((new OsmTileSource.Mapnik()));
+        // detects mouse movement to shift map accordingly
+        map.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                Point p = e.getPoint();
+                boolean cursorHand = map.getAttribution().handleAttributionCursor(p);
+                if (cursorHand) {
+                    map.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                } else {
+                    map.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
-            });
-            panelTop.add(showImageryCheckBox);
-
-            // add the actual map
-            add(map, BorderLayout.CENTER);
-
-            // detects mouse click events
-            map.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getButton() == MouseEvent.BUTTON1) {
-                        map.getAttribution().handleAttribution(e.getPoint(), true);
-                    }
-                }
-            });
-
-            // detects mouse movement to shift map accordingly
-            map.addMouseMotionListener(new MouseAdapter() {
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    Point p = e.getPoint();
-                    boolean cursorHand = map.getAttribution().handleAttributionCursor(p);
-                    if (cursorHand) {
-                        map.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    } else {
-                        map.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    }
-                }
-            });
+            }
+        });
 
 
         // layer management (show buses and trains)
@@ -116,46 +108,57 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         Layer trainsLayer = vehicles.addLayer("Trains");
         VisualizeState vehicleData = visualizeViewModel.getVisualizationState();
 
-        JComboBox<Coordinate> vehicleSelector =
-                new JComboBox<>(vehicleData.getCoordinateList().toArray(new Coordinate[vehicleData.getVehicleInformationSize()]));
-        vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
-        vehicleSelector.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                Coordinate coordinate = (Coordinate) e.getItem();
-                if ((coordinate.getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
-                        coordinate.getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE) &&
-                        e.getStateChange() == ItemEvent.SELECTED) // pop-up occurs only if selected, not deselected
-                {
-                    JOptionPane.showMessageDialog(MapVisualizationView.this,
-                            VisualizeViewModel.TRAIN_NOT_IN_SERVICE_MESSAGE);
+        if (!(vehicleData.getCoordinateList() == null))
+        {
+            JComboBox<Coordinate> vehicleSelector =
+                    new JComboBox<>(vehicleData.getCoordinateList().toArray(new Coordinate[vehicleData.getVehicleInformationSize()]));
+            vehicleSelector.setRenderer(new myRenderer());      // add custom renderer
+            vehicleSelector.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    Coordinate coordinate = (Coordinate) e.getItem();
+                    if ((coordinate.getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
+                            coordinate.getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE) &&
+                            e.getStateChange() == ItemEvent.SELECTED) // pop-up occurs only if selected, not deselected
+                    {
+                        JOptionPane.showMessageDialog(MapVisualizationView.this,
+                                VisualizeViewModel.TRAIN_NOT_IN_SERVICE_MESSAGE);
+                    } else {
+                        map.setDisplayPosition(coordinate, map.getZoom());
+                    }
                 }
-                else {
-                    map.setDisplayPosition(coordinate, map.getZoom());
-                }
-            }
-        });
-        panelTop.add(vehicleSelector);
+            });
+            panelTop.add(vehicleSelector);
 
-        // add markers
-        for (int i = 0; i < vehicleData.getVehicleInformationSize(); i++) {
-            // The if condition prevents plotting out of service trains
-            if (!(vehicleData.getCoordinateList().get(i).getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
-                    vehicleData.getCoordinateList().get(i).getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE))
-            {
-                MapMarkerDot marker = new MapMarkerDot(
-                        trainsLayer,
-                        vehicleData.getVehicleInformationList().get(i),
-                        vehicleData.getCoordinateList().get(i),
-                        this.defaultStyle
-                );
-                map.addMapMarker(marker);
+            // add markers
+            for (int i = 0; i < vehicleData.getVehicleInformationSize(); i++) {
+                // The if condition prevents plotting out of service trains
+                if (!(vehicleData.getCoordinateList().get(i).getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
+                        vehicleData.getCoordinateList().get(i).getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE)) {
+                    MapMarkerDot marker = new MapMarkerDot(
+                            trainsLayer,
+                            vehicleData.getVehicleInformationList().get(i),
+                            vehicleData.getCoordinateList().get(i),
+                            this.defaultStyle
+                    );
+                    map.addMapMarker(marker);
+                }
             }
+
+            // add the actual map
+            add(map, BorderLayout.CENTER);
+
+            // attach borders
+            add(panel, BorderLayout.NORTH);
+            add(helpPanel, BorderLayout.SOUTH);
+
+            // On initialization, map is focused on the first vehicle within the list
+            Coordinate coordinate = vehicleData.getCoordinateList().get(0);
+            map.setDisplayPosition(coordinate, 16);
+
+            panel.add(panelTop, BorderLayout.NORTH);
+            helpPanel.add(new JLabel(VisualizeViewModel.HELP_LABEL));
         }
-
-        // On initialization, map is focused on the first vehicle within the list
-        Coordinate coordinate = vehicleData.getCoordinateList().get(0);
-        map.setDisplayPosition(coordinate, 16);
     }
 
     /**
@@ -183,7 +186,12 @@ public class MapVisualizationView extends JFrame implements PropertyChangeListen
         if (!(evt.getSource().toString().startsWith("org.openstreetmap"))) {
             VisualizeState vehicleData = (VisualizeState) evt.getNewValue();
             visualizeViewModel.setVisualizationState(vehicleData);
-            new MapVisualizationView(visualizeViewModel).setVisible(true);
+            MapVisualizationView mapVisualizationView = new MapVisualizationView(visualizeViewModel);
+            mapVisualizationView.pack();
+            mapVisualizationView.setVisible(true);
+        }
+        else {
+//            new MapVisualizationView(visualizeViewModel);
         }
     }
 

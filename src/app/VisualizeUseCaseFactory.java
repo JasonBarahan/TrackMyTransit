@@ -28,7 +28,6 @@ public class VisualizeUseCaseFactory {
     public static VisualizeController create(
         ViewManagerModel viewManagerModel,
         VisualizeViewModel visualizeViewModel) {
-
         return createVisualizeUseCase(viewManagerModel, visualizeViewModel);
     }
 

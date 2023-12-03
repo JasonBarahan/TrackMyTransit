@@ -77,8 +77,7 @@ public class Main {
                 VisualizeUseCaseFactory.create(viewManagerModel, visualizeViewModel));
         views.add(showIncomingVehiclesView, showIncomingVehiclesView.viewName);
 
-        MapVisualizationView mapVisualizationView = new MapVisualizationView(visualizeViewModel);
-        views.add(mapVisualizationView, mapVisualizationView.viewName);
+        new MapVisualizationView(visualizeViewModel);
 
         // When initially booting up the application, the stationPanel is the 1st panel displayed to viewers.
         viewManagerModel.setActiveView(stationPanelView.viewName);
