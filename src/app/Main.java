@@ -56,7 +56,6 @@ public class Main {
         
       
         // Note #2: There is no argument passed in to StationFactory(), since we are creating new Stations from the text file
-        // TODO [Implementation question]: Is there suppose to be NO ARGUMENT for the StationFactory() instance passed inside?
         FileStationDataAccessObject stationDataAccessObject;
         try {
             stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(),
