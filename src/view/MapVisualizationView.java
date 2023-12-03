@@ -29,7 +29,7 @@ public class MapVisualizationView extends JDialog implements PropertyChangeListe
     */
 
     /* JSwing elements */
-    private final JMapViewer map;
+    final JMapViewer map;
 
     JPanel panel;
     JPanel panelTop;
@@ -66,7 +66,7 @@ public class MapVisualizationView extends JDialog implements PropertyChangeListe
         panelTop.add(fitButton);
 
         // checkbox to show satellite imagery
-        final JCheckBox showImageryCheckBox = new JCheckBox("Show satellite imagery");
+        final JCheckBox showImageryCheckBox = new JCheckBox(VisualizeViewModel.SHOW_SATELLITE_IMAGERY_CHECKBOX_LABEL);
         showImageryCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,8 +133,7 @@ public class MapVisualizationView extends JDialog implements PropertyChangeListe
             // add markers
             for (int i = 0; i < vehicleData.getVehicleInformationSize(); i++) {
                 // The if condition prevents plotting out of service trains
-                if (!(vehicleData.getCoordinateList().get(i).getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE &&
-                        vehicleData.getCoordinateList().get(i).getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE)) {
+                if (!(vehicleData.getCoordinateList().get(i).getLat() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE && vehicleData.getCoordinateList().get(i).getLon() == VisualizeViewModel.OUT_OF_SERVICE_COORDINATE)) {
                     MapMarkerDot marker = new MapMarkerDot(
                             trainsLayer,
                             vehicleData.getVehicleInformationList().get(i),
