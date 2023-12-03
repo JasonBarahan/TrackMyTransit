@@ -21,16 +21,16 @@ public class ShowIncomingVehiclesUseCaseFactory {
 
     public static StationAmenitiesView create(
             ViewManagerModel viewManagerModel,
-            StationAmenitiesInfoViewModel stationInfoViewModel,
-            ShowIncomingVehiclesDataAccessInterface stationInfoDataAccessObject,
+            StationAmenitiesInfoViewModel stationAmenitiesInfoViewModel,
+            ShowIncomingVehiclesDataAccessInterface stationAmenitiesInfoDataAccessObject,
             ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel) {
 
         try {
             StationAmenitiesInfoController stationAmenitiesInfoController = createStationInfoUseCase(viewManagerModel,
-                    stationInfoViewModel, stationInfoDataAccessObject, showIncomingVehiclesViewModel);
-            return new StationAmenitiesView(stationInfoViewModel, stationAmenitiesInfoController);
+                    stationAmenitiesInfoViewModel, stationAmenitiesInfoDataAccessObject, showIncomingVehiclesViewModel);
+            return new StationAmenitiesView(stationAmenitiesInfoViewModel, stationAmenitiesInfoController);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
+            JOptionPane.showMessageDialog(null, "Could not open station data file.");
         }
 
         return null;
@@ -38,17 +38,17 @@ public class ShowIncomingVehiclesUseCaseFactory {
 
     private static StationAmenitiesInfoController createStationInfoUseCase(
             ViewManagerModel viewManagerModel,
-            StationAmenitiesInfoViewModel stationInfoViewModel,
-            ShowIncomingVehiclesDataAccessInterface stationInfoDataAccessObject,
+            StationAmenitiesInfoViewModel stationAmenitiesInfoViewModel,
+            ShowIncomingVehiclesDataAccessInterface stationAmenitiesInfoDataAccessObject,
             ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        ShowIncomingVehiclesOutputBoundary stationInfoOutputBoundary = new StationAmenitiesInfoPresenter(stationInfoViewModel,
-                showIncomingVehiclesViewModel, viewManagerModel);
+        ShowIncomingVehiclesOutputBoundary showIncomingVehiclesOutputBoundary = new StationAmenitiesInfoPresenter(
+                stationAmenitiesInfoViewModel, showIncomingVehiclesViewModel, viewManagerModel);
 
-        ShowIncomingVehiclesInputBoundary stationInfoInteractor = new ShowIncomingVehiclesInteractor(
-                stationInfoDataAccessObject, stationInfoOutputBoundary);
+        ShowIncomingVehiclesInputBoundary showIncomingVehiclesInteractor = new ShowIncomingVehiclesInteractor(
+                stationAmenitiesInfoDataAccessObject, showIncomingVehiclesOutputBoundary);
 
-        return new StationAmenitiesInfoController(stationInfoInteractor);
+        return new StationAmenitiesInfoController(showIncomingVehiclesInteractor);
     }
 }

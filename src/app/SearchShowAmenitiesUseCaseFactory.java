@@ -24,11 +24,12 @@ public class SearchShowAmenitiesUseCaseFactory {
     public static SearchPanelView create(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
-            SearchShowAmenitiesDataAccessInterface searchDataAccessObject,
-            StationAmenitiesInfoViewModel stationInfoViewModel) {
+            SearchShowAmenitiesDataAccessInterface searchShowAmenitiesDataAccessInterface,
+            StationAmenitiesInfoViewModel stationAmenitiesInfoViewModel) {
 
         try {
-            SearchController searchController = createSearchUseCase(viewManagerModel, searchViewModel, searchDataAccessObject, stationInfoViewModel);
+            SearchController searchController = createSearchUseCase(viewManagerModel, searchViewModel,
+                    searchShowAmenitiesDataAccessInterface, stationAmenitiesInfoViewModel);
             return new SearchPanelView(searchViewModel, searchController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open station data file.");
@@ -40,15 +41,16 @@ public class SearchShowAmenitiesUseCaseFactory {
     private static SearchController createSearchUseCase(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
-            SearchShowAmenitiesDataAccessInterface searchDataAccessObject,
+            SearchShowAmenitiesDataAccessInterface searchShowAmenitiesDataAccessInterface,
             StationAmenitiesInfoViewModel stationInfoViewModel) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        SearchShowAmenitiesOutputBoundary searchOutputBoundary = new SearchPresenter(searchViewModel, stationInfoViewModel, viewManagerModel);
+        SearchShowAmenitiesOutputBoundary searchShowAmenitiesOutputBoundary = new SearchPresenter(searchViewModel,
+                stationInfoViewModel, viewManagerModel);
 
-        SearchShowAmenitiesInputBoundary searchInteractor = new SearchShowAmenitiesInteractor(
-                searchDataAccessObject, searchOutputBoundary);
+        SearchShowAmenitiesInputBoundary searchShowAmenitiesInteractor = new SearchShowAmenitiesInteractor(
+                searchShowAmenitiesDataAccessInterface, searchShowAmenitiesOutputBoundary);
 
-        return new SearchController(searchInteractor);
+        return new SearchController(searchShowAmenitiesInteractor);
     }
 }
