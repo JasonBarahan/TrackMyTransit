@@ -1,6 +1,8 @@
 package use_case.search;
 
 import entity.Station;
+
+import java.text.ParseException;
 import java.util.List;
 
 public class SearchInteractor implements SearchInputBoundary {
@@ -14,7 +16,7 @@ public class SearchInteractor implements SearchInputBoundary {
     }
 
     @Override
-    public void execute(SearchInputData searchInputData) {
+    public void execute(SearchInputData searchInputData) throws ParseException {
         boolean stationExists = stationDataAccessObject.stationExist(searchInputData.getStationName()); //Returns true if the station has a name in the revisedStopData.txt. Returns False otherwise
         if (stationExists) {
             String amenitiesAPICallMetadataMessage = stationDataAccessObject.amenitiesAPICallMetadataMessage(searchInputData.getStationName()); // Retrieving the API metadata code associated with retrieving station amenities
