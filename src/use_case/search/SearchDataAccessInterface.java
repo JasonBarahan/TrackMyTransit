@@ -1,6 +1,7 @@
 package use_case.search;
 
 import entity.Station;
+import entity.StationInterface;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface SearchDataAccessInterface {
     String amenitiesAPICallMetadataMessage(String stationName);
 
     String getStationID (String inputStationName);
-    Station getStation(String inputStationName);
+    StationInterface getStation(String inputStationName);
 
     String getStationName (Station stationObj);
     String getStationParentLine(String inputStationName);

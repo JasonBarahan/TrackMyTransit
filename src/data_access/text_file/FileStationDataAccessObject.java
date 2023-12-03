@@ -16,7 +16,7 @@ import entity.Station;
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
 public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface {
     private final File stationTxtFile;
-    private final Map<String, Station> stations = new HashMap<>();
+    private final Map<String, StationInterface> stations = new HashMap<>();
     private final StationFactory stationFactory;
     private final TrainFactory trainFactory;
 
@@ -67,7 +67,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     // This method does NOT modify the contents of the Station object.
     // Modifications to Station object occurs in the setStation() method
     @Override
-    public Station getStation (String inputStationName) {
+    public StationInterface getStation (String inputStationName) {
         if (stationExist(inputStationName)) {
             return stations.get(inputStationName);
         } else {
@@ -127,7 +127,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     @Override
     public void setStation (String stationName) {
         //Get station object
-        Station stationObj = getStation(stationName);
+        StationInterface stationObj = getStation(stationName);
 
         // Set station amenities
         setStationAmenities(stationName);
@@ -140,7 +140,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     @Override
     public void setStationAmenities(String stationName){
-        Station stationObj = getStation(stationName);
+        StationInterface stationObj = getStation(stationName);
         String stationID = stationObj.getId();
         List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);
         stationObj.setAmenitiesList(stationAmenitiesList);

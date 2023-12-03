@@ -25,11 +25,11 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
 
             //TODO: Review changes made from lines 27 - 31
             // First, fetching the constructed, but incomplete station object. This object is created based on reading from revisedStopData.txt
-            Station incompleteStation = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName());
+            StationInterface incompleteStation = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName());
 
             stationInfoDataAccessObject.setStation(stationInfoInputData.getStationName()); // TODO: Then, populate the station's currently empty amenitiesList and incomingVehicles attributes based on API calls
 
-            Station station = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName()); //TODO:  Now, re-retrieve the fully complete Station object
+            StationInterface station = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName()); //TODO:  Now, re-retrieve the fully complete Station object
 
             // Packaging key details from the above Station object into a SearchOutputData object
             // TODO: Based on what changes you might make to FileStationDataAccessObject, you might need to introduce a setIncomingVehicle method call.
