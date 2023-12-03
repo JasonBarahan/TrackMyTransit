@@ -7,10 +7,10 @@ import java.util.Date;
 
 public class Delay {
 
-    public static final String NONE = "No Delay";
-    public static final String MINIMAL = "Minimal Delay Time ";
-    public static final String DELAY = "Delay ";
-    public static final String MAJOR = "Major Delay ";
+    public static final String NONE = "No Delay - ";
+    public static final String MINIMAL = "Minimal Delay Time - ";
+    public static final String DELAY = "Delay - ";
+    public static final String MAJOR = "Major Delay - ";
 
     public static final String SECONDS = " second(s)";
     public static final String MINUTES = " minute(s)";
