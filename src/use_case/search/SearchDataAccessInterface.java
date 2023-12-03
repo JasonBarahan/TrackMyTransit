@@ -2,6 +2,7 @@ package use_case.search;
 
 import entity.Station;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface SearchDataAccessInterface {
@@ -18,7 +19,7 @@ public interface SearchDataAccessInterface {
 
     List<String> getStationAmenities(String inputStationName);
 
-    void setStation(Station stationObj);
+    void setStation(Station stationObj) throws ParseException;
     void setStationAmenities(Station stationObj);
 
 }
