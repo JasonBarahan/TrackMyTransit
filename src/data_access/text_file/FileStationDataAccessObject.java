@@ -2,6 +2,7 @@ package data_access.text_file;
 
 import data_access.API.GOStationApiClass;
 import data_access.API.GOVehicleApiClass;
+import data_access.API.StationApiInterface;
 import data_access.API.TrainApiInterface;
 import entity.*;
 import use_case.search_show_amenities.SearchShowAmenitiesDataAccessInterface;
@@ -21,8 +22,8 @@ public class FileStationDataAccessObject implements SearchShowAmenitiesDataAcces
     private final StationFactory stationFactory;
     private final TrainFactory trainFactory;
 
-    private final TrainApiInterface goStationApiClass;
-    private final GOVehicleApiClass goVehicleApiClass; // TODO: Need to correct type of variable to TrainApiInterface
+    private final StationApiInterface goStationApiClass;
+    private final TrainApiInterface goVehicleApiClass;
 
     public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, TrainFactory trainFactory,
                                        GOStationApiClass goStationApiClass, GOVehicleApiClass goVehicleApiClass) throws IOException {
