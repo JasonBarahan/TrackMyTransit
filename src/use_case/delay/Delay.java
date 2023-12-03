@@ -7,14 +7,14 @@ import java.util.Date;
 
 public class Delay {
 
-    public static final String NONE = "No Delay - ";
-    public static final String MINIMAL = "Minimal Delay Time - ";
-    public static final String DELAY = "Delay - ";
-    public static final String MAJOR = "Major Delay - ";
+    public final String NONE = "No Delay - ";
+    public final String MINIMAL = "Minimal Delay Time - ";
+    public final String DELAY = "Delay - ";
+    public final String MAJOR = "Major Delay - ";
 
-    public static final String SECONDS = " second(s)";
-    public static final String MINUTES = " minute(s)";
-    public static final String HOURS = " hour(s)";
+    public final String SECONDS = " second(s)";
+    public final String MINUTES = " minute(s)";
+    public final String HOURS = " hour(s)";
 
     /**
      * Calculates Delay time using the Scheduled Time and Computed Time.
@@ -24,7 +24,7 @@ public class Delay {
      * @return Message relaying estimated time Delay in string format
      * @throws ParseException
      */
-    public static String delayTime(String scheduled, String computed) throws ParseException {
+    public String delayTime(String scheduled, String computed) throws ParseException {
 
         String scheduleDate = scheduled.substring(11);
         String computedDate = computed.substring(11);
@@ -53,7 +53,7 @@ public class Delay {
      * @param time
      * @return time
      */
-    public static double calculated(double time){
+    public double calculated(double time){
         if (time >= 3600) {
             return time;
         }
