@@ -2,10 +2,10 @@ package use_case.displayStationInfo;
 
 import data_access.API.GOStationApiClass;
 import data_access.API.GOVehicleApiClass;
-import data_access.API.TestGOStationApiClass;
 import data_access.text_file.FileStationDataAccessObject;
 import entity.Station;
 import entity.StationFactory;
+import entity.StationInterface;
 import entity.TrainFactory;
 import org.junit.jupiter.api.Test;
 import use_case.search.*;
@@ -25,7 +25,7 @@ public class StationInfoTest {
             @Override
             public void prepareSuccessView(SearchOutputData searchOutputData) {
 
-                Station stationObj = stationObjRepository.getStation("Aurora GO");
+                StationInterface stationObj = stationObjRepository.getStation("Aurora GO");
 
                 assertNotNull(stationObj);
 
@@ -71,7 +71,7 @@ public class StationInfoTest {
                 @Override
                 public void prepareFailView(String error) {
                     assertEquals("ERROR: Station with the name [ABCDEFG] does not exist", error);
-                    Station stationObj = stationObjRepository.getStation("ABCDEFG");
+                    StationInterface stationObj = stationObjRepository.getStation("ABCDEFG");
                     assertNull(stationObj);
                 }
             };
@@ -100,7 +100,7 @@ public class StationInfoTest {
 
                 @Override
                 public void prepareFailView(String error) {
-                    Station stationObj = stationObjRepository.getStation("Aurora GO");
+                    StationInterface stationObj = stationObjRepository.getStation("Aurora GO");
                     assertEquals("Invalid API Call. Message returned: Unauthorized", error);
                     //Note: Union Station is an actual valid GO Station, so it would have a respective Station object due to reading from the text file
                     // However, its amenities should not be populated since an API call should NOT have been made

@@ -25,7 +25,7 @@ public class Main {
         // various cards, and the layout, and stitch them together.
 
         // The main application window.
-        JFrame application = new JFrame("FindMyStation");
+        JFrame application = new JFrame("TrackMyTransit");
         application.setPreferredSize(new Dimension(325, 600));
         application.pack();
         application.setLocationRelativeTo(null);
@@ -56,7 +56,6 @@ public class Main {
         
       
         // Note #2: There is no argument passed in to StationFactory(), since we are creating new Stations from the text file
-        // TODO [Implementation question]: Is there suppose to be NO ARGUMENT for the StationFactory() instance passed inside?
         FileStationDataAccessObject stationDataAccessObject;
         try {
             stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(),

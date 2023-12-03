@@ -1,6 +1,7 @@
 package use_case.station_info;
 
 import entity.Station;
+import entity.StationInterface;
 import entity.Train;
 
 import java.util.*;
@@ -10,9 +11,9 @@ import java.util.*;
 public interface StationInfoDataAccessInterface {
     boolean incomingVehiclesNotEmpty(String stationName);
 
-    Station getStation(String inputStationName);
+    StationInterface getStation(String inputStationName);
 
-    void setStation(Station stationObj);
+    void setStation(String stationName);
 
     List<Train> getIncomingVehicles(String inputStationName);
 }
