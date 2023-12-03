@@ -1,41 +1,34 @@
-package use_case.station_info;
+package use_case.show_incoming_vehicles;
 
 import entity.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class StationInfoInteractor implements StationInfoInputBoundary{
-    final StationInfoDataAccessInterface stationInfoDataAccessObject;
-    final StationInfoOutputBoundary stationInfoPresenter;
+public class ShowIncomingVehiclesInteractor implements ShowIncomingVehiclesInputBoundary {
+    final ShowIncomingVehiclesDataAccessInterface showIncomingVehiclesDataAccessObject;
+    final ShowIncomingVehiclesOutputBoundary showIncomingVehiclesPresenter;
 
     //TODO: need to consider if we need vehicleFactory
-    public StationInfoInteractor(StationInfoDataAccessInterface stationInfoDataAccessInterface,
-                                 StationInfoOutputBoundary stationInfoOutputBoundary) {
-        this.stationInfoDataAccessObject = stationInfoDataAccessInterface;
-        this.stationInfoPresenter = stationInfoOutputBoundary;
+    public ShowIncomingVehiclesInteractor(ShowIncomingVehiclesDataAccessInterface showIncomingVehiclesDataAccessInterface,
+                                          ShowIncomingVehiclesOutputBoundary showIncomingVehiclesOutputBoundary) {
+        this.showIncomingVehiclesDataAccessObject = showIncomingVehiclesDataAccessInterface;
+        this.showIncomingVehiclesPresenter = showIncomingVehiclesOutputBoundary;
     }
 
     @Override
-    public void execute(StationInfoInputData stationInfoInputData) {
+    public void execute(ShowIncomingVehiclesInputData showIncomingVehiclesInputData) {
         // if not empty
-        if (stationInfoDataAccessObject.incomingVehiclesNotEmpty(stationInfoInputData.getStationName())) {
+        if (!showIncomingVehiclesDataAccessObject.incomingVehiclesIsEmpty(showIncomingVehiclesInputData.getStationName())) {
 
-            //TODO: Review changes made from lines 27 - 31
-            // First, fetching the constructed, but incomplete station object. This object is created based on reading from revisedStopData.txt
-            StationInterface incompleteStation = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName());
+            showIncomingVehiclesDataAccessObject.setStation(showIncomingVehiclesInputData.getStationName());
 
-            stationInfoDataAccessObject.setStation(stationInfoInputData.getStationName()); // TODO: Then, populate the station's currently empty amenitiesList and incomingVehicles attributes based on API calls
-
-            StationInterface station = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName()); //TODO:  Now, re-retrieve the fully complete Station object
+            StationInterface station = showIncomingVehiclesDataAccessObject.getStation(showIncomingVehiclesInputData.getStationName());
 
             // Packaging key details from the above Station object into a SearchOutputData object
-            // TODO: Based on what changes you might make to FileStationDataAccessObject, you might need to introduce a setIncomingVehicle method call.
-            // TODO: See SearchInteractor for inspiration on how to do
-            List<Train> incomingVehicles = station.getIncomingVehicles();
-//             List<Train> will change into List<Vehicle> after implementing Vehicle class.
+            List<Train> incomingVehicles = showIncomingVehiclesDataAccessObject.getIncomingVehicles(showIncomingVehiclesInputData.getStationName());
+
             List<List<String>> incomingVehiclesInfo = new ArrayList<>();
 
             // We want to show line name, train direction, scheduled time, departure time and delay
@@ -55,7 +48,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
                 vehicleinfo.add("Vehicle Longitude: " + vehicleLongitude);
                 vehicleinfo.add("Scheduled Departure Time: ");
                 vehicleinfo.add(vehicleScheduledTime);
-                vehicleinfo.add("Computed Departure Time: ");  //TODO: tentative name, might rename it as "Actual Departure Time"
+                vehicleinfo.add("Computed Departure Time: ");
                 vehicleinfo.add(vehicleDepartureTime);
                 vehicleinfo.add("Delay: " + vehicleDelay);
                 incomingVehiclesInfo.add(vehicleinfo);
@@ -63,7 +56,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
             sortByDateTime(incomingVehiclesInfo);
             // sort incomingVehiclesInfo by date time
 
-            List<List<String>> slicedIncomingVehiclesInfo = new ArrayList<>();
+            List<List<String>> slicedIncomingVehiclesInfo;
             // slice incomingVehiclesInfo list to get the first three items.
             // i.e. we retrieve 3 vehicles that arrive the soonest
             // if incomingVehiclesInfo only has <= 3 items, keep it the same
@@ -73,17 +66,18 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
                 slicedIncomingVehiclesInfo = incomingVehiclesInfo.subList(0, 3);
             }
 
-            StationInfoOutputData stationInfoOutputData = new StationInfoOutputData(station.getName(), slicedIncomingVehiclesInfo);
+            ShowIncomingVehiclesOutputData showIncomingVehiclesOutputData = new ShowIncomingVehiclesOutputData(station.getName(), slicedIncomingVehiclesInfo);
 
             // return the output data to the user
-            stationInfoPresenter.prepareSuccessView(stationInfoOutputData);
+            showIncomingVehiclesPresenter.prepareSuccessView(showIncomingVehiclesOutputData);
         } else {
-            stationInfoPresenter.prepareFailView("Incoming Vehicles Info Retrieval Failed...");
+            String errorMsg = showIncomingVehiclesDataAccessObject.getVehicleInfoRetrievalErrorMsg(showIncomingVehiclesInputData.getStationName());
+            showIncomingVehiclesPresenter.prepareFailView("An error occurred during API call.\nError Message: " + errorMsg);
         }
     }
 
     private static void sortByDateTime(List<List<String>> incomingVehiclesInfo) {
-        Collections.sort(incomingVehiclesInfo, (list1, list2) -> {
+        incomingVehiclesInfo.sort((list1, list2) -> {
             String dateTimeStr1 = list1.get(5);
             String dateTimeStr2 = list2.get(5);
 

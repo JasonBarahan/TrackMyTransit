@@ -7,27 +7,27 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import interface_adapter.station_info.StationInfoController;
-import interface_adapter.station_info.StationInfoState;
-import interface_adapter.station_info.StationInfoViewModel;
+import interface_adapter.station_amenites_info.StationAmenitiesInfoController;
+import interface_adapter.station_amenites_info.StationAmenitiesInfoState;
+import interface_adapter.station_amenites_info.StationAmenitiesInfoViewModel;
 
 
-public class StationInfoView extends JPanel implements ActionListener, PropertyChangeListener{
+public class StationAmenitiesView extends JPanel implements ActionListener, PropertyChangeListener{
     public final String viewName = "stationInfo";
-    private final StationInfoViewModel stationInfoViewModel;
+    private final StationAmenitiesInfoViewModel stationInfoViewModel;
 
     JLabel stationName;
     JLabel stationParentLine;
     JLabel stationAmenities;
     final JButton show_incoming_vehicles;
-    private final StationInfoController stationInfoController;
+    private final StationAmenitiesInfoController stationAmenitiesInfoController;
 
     /**
      * A window with a title and a JButton.
      */
-    public StationInfoView(StationInfoViewModel stationInfoViewModel, StationInfoController stationInfoController) {
+    public StationAmenitiesView(StationAmenitiesInfoViewModel stationInfoViewModel, StationAmenitiesInfoController stationAmenitiesInfoController) {
         this.stationInfoViewModel = stationInfoViewModel;
-        this.stationInfoController = stationInfoController;
+        this.stationAmenitiesInfoController = stationAmenitiesInfoController;
         this.stationInfoViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Station info screen");
@@ -50,9 +50,9 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(show_incoming_vehicles)) {
-                            StationInfoState currentState = stationInfoViewModel.getState();
+                            StationAmenitiesInfoState currentState = stationInfoViewModel.getState();
 
-                            StationInfoView.this.stationInfoController.execute(
+                            StationAmenitiesView.this.stationAmenitiesInfoController.execute(
                                     currentState.getStateStationName()
                             );
                         }
@@ -81,7 +81,7 @@ public class StationInfoView extends JPanel implements ActionListener, PropertyC
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         //System.out.println("Reached"); //Commented out for testing purposes
-        StationInfoState state = (StationInfoState) evt.getNewValue();
+        StationAmenitiesInfoState state = (StationAmenitiesInfoState) evt.getNewValue();
         if (state.getIncomingVehiclesError() != null) {
             JOptionPane.showMessageDialog(this, state.getIncomingVehiclesError());
         }

@@ -1,8 +1,6 @@
-package use_case.search;
+package use_case.search_show_amenities;
 
-import java.util.List;
-
-public class SearchOutputData {
+public class SearchShowAmenitiesOutputData {
     private final String stationName;
     private final String stationParentLine;
     private final String stationAmenities;
@@ -15,7 +13,7 @@ public class SearchOutputData {
      * @param stationParentLine
      * @param stationAmenities
      */
-    public SearchOutputData(String stationName, String stationParentLine, String stationAmenities) {
+    public SearchShowAmenitiesOutputData(String stationName, String stationParentLine, String stationAmenities) {
         this.stationName = stationName;
         this.stationParentLine = stationParentLine;
         this.stationAmenities = stationAmenities;

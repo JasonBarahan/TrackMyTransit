@@ -1,20 +1,19 @@
-package use_case.search;
+package use_case.search_show_amenities;
 
-import entity.Station;
 import java.util.List;
 
-public class SearchInteractor implements SearchInputBoundary {
-    final SearchDataAccessInterface stationDataAccessObject;
-    final SearchOutputBoundary stationPresenter;
+public class SearchShowAmenitiesInteractor implements SearchShowAmenitiesInputBoundary {
+    final SearchShowAmenitiesDataAccessInterface stationDataAccessObject;
+    final SearchShowAmenitiesOutputBoundary stationPresenter;
 
-    public SearchInteractor(SearchDataAccessInterface stationDataAccessInterface,
-                            SearchOutputBoundary searchOutputBoundary) {
+    public SearchShowAmenitiesInteractor(SearchShowAmenitiesDataAccessInterface stationDataAccessInterface,
+                                         SearchShowAmenitiesOutputBoundary searchOutputBoundary) {
         this.stationDataAccessObject = stationDataAccessInterface;
         this.stationPresenter = searchOutputBoundary;
     }
 
     @Override
-    public void execute(SearchInputData searchInputData) {
+    public void execute(SearchShowAmenitiesInputData searchInputData) {
         String stationName = searchInputData.getStationName();
         boolean stationExists = stationDataAccessObject.stationExist(stationName); //Returns true if the station has a name in the revisedStopData.txt. Returns False otherwise
         if (stationExists) {
@@ -26,10 +25,10 @@ public class SearchInteractor implements SearchInputBoundary {
                 stationDataAccessObject.setStation(stationName); // Then, populate the station's currently empty amenitiesList and incomingVehicles attributes based on API calls
                 String stationParentLine = stationDataAccessObject.getStationParentLine(stationName);
 
-                // Packaging key details from the above Station object into a SearchOutputData object
+                // Packaging key details from the above Station object into a SearchShowAmenitiesOutputData object
                 List<String> amenitiesList = stationDataAccessObject.getStationAmenities(stationName);
                 String amenitiesListAsString = String.join(", ", amenitiesList);
-                SearchOutputData searchOutputData = new SearchOutputData(stationName, stationParentLine, amenitiesListAsString);
+                SearchShowAmenitiesOutputData searchOutputData = new SearchShowAmenitiesOutputData(stationName, stationParentLine, amenitiesListAsString);
 
                 // return the output data to the user
                 stationPresenter.prepareSuccessView(searchOutputData);

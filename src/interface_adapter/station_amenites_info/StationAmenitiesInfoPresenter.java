@@ -1,28 +1,28 @@
-package interface_adapter.station_info;
+package interface_adapter.station_amenites_info;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
-import use_case.station_info.StationInfoOutputBoundary;
-import use_case.station_info.StationInfoOutputData;
+import use_case.show_incoming_vehicles.ShowIncomingVehiclesOutputBoundary;
+import use_case.show_incoming_vehicles.ShowIncomingVehiclesOutputData;
 
-public class StationInfoPresenter implements StationInfoOutputBoundary {
-    private final StationInfoViewModel stationInfoViewModel;
+public class StationAmenitiesInfoPresenter implements ShowIncomingVehiclesOutputBoundary {
+    private final StationAmenitiesInfoViewModel stationInfoViewModel;
     private final ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public StationInfoPresenter(StationInfoViewModel stationInfoViewModel,
-                                ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel,
-                                ViewManagerModel viewManagerModel) {
+    public StationAmenitiesInfoPresenter(StationAmenitiesInfoViewModel stationInfoViewModel,
+                                         ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel,
+                                         ViewManagerModel viewManagerModel) {
         this.stationInfoViewModel = stationInfoViewModel;
         this.showIncomingVehiclesViewModel = showIncomingVehiclesViewModel;
         this.viewManagerModel = viewManagerModel;
     }
     @Override
-    public void prepareSuccessView(StationInfoOutputData response) {
-        StationInfoState stationInfoState = stationInfoViewModel.getState();
-        stationInfoState.setStateStationName(response.getStationName());
-        stationInfoState.setIncomingVehiclesError(null);
+    public void prepareSuccessView(ShowIncomingVehiclesOutputData response) {
+        StationAmenitiesInfoState stationAmenitiesInfoState = stationInfoViewModel.getState();
+        stationAmenitiesInfoState.setStateStationName(response.getStationName());
+        stationAmenitiesInfoState.setIncomingVehiclesError(null);
 
         // On success, switch to show incoming vehicles view.
 
@@ -38,8 +38,8 @@ public class StationInfoPresenter implements StationInfoOutputBoundary {
 
     @Override
     public void prepareFailView(String incomingVehiclesRetrievalError) {
-        StationInfoState stationInfoState = stationInfoViewModel.getState();
-        stationInfoState.setIncomingVehiclesError(incomingVehiclesRetrievalError);
+        StationAmenitiesInfoState stationAmenitiesInfoState = stationInfoViewModel.getState();
+        stationAmenitiesInfoState.setIncomingVehiclesError(incomingVehiclesRetrievalError);
         stationInfoViewModel.firePropertyChanged();
     }
 }
