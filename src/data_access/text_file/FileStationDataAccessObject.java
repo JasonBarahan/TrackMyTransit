@@ -111,7 +111,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
                 String scheduledTime = vehicles.get(4);
                 String departureTime = vehicles.get(5);
                 String tripNumber = vehicles.get(6);
-                String delay = null;  //TODO: get vehicle Delay
+                String delay = null;  // Leave as null for error
                 String latitude = vehicles.get(7);
                 String longitude = vehicles.get(8);
                 Train vehicle = trainFactory.create(lineCode, lineName, trainName, scheduledTime, departureTime,
