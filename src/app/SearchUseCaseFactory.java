@@ -31,7 +31,7 @@ public class SearchUseCaseFactory {
             SearchController searchController = createSearchUseCase(viewManagerModel, searchViewModel, searchDataAccessObject, stationInfoViewModel);
             return new SearchPanelView(searchViewModel, searchController);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
+            JOptionPane.showMessageDialog(null, "Could not open station data file.");
         }
 
         return null;
