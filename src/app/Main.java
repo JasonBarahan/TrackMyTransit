@@ -7,7 +7,6 @@ import entity.StationFactory;
 import entity.TrainFactory;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
 import interface_adapter.station_info.StationInfoViewModel;
 import interface_adapter.visualize.VisualizeViewModel;
