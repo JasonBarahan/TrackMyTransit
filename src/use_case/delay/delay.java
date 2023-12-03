@@ -16,6 +16,14 @@ public class delay {
     public final String MINUTES = " minute(s)";
     public final String HOURS = " hour(s)";
 
+    /**
+     * Calculates delay time using the Scheduled Time and Computed Time.
+     *
+     * @param scheduled
+     * @param computed
+     * @return Message relaying estimated time delay in string format
+     * @throws ParseException
+     */
     public Object delayTime(String scheduled, String computed) throws ParseException {
 
         String scheduleDate = scheduled.substring(11);
@@ -39,6 +47,12 @@ public class delay {
         } return NONE + " arriving in " + difference + SECONDS;
     }
 
+    /**
+     * Converts seconds to minutes, otherwise returns given time.
+     *
+     * @param time
+     * @return time
+     */
     public double calculated(double time){
         if (time >= 3600) {
             return time;
