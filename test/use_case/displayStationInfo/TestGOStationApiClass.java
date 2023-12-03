@@ -1,5 +1,6 @@
-package data_access.API;
+package use_case.displayStationInfo;
 
+import data_access.API.GOStationApiClass;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -14,13 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GOStationApiClass implements StationApiInterface {
-
+// NOTE: This class is a MOCK version of GoStationApiClass. Has the same functionalities, but calls the API using a fake key
+// This class is used for a error unit test in test/use_case.displayStationInfo/StationInfoTest
+public class TestGOStationApiClass extends GOStationApiClass {
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
 
     private final String API_METADATA_SUCCESS_MESSAGE = "OK";
 
-    public GOStationApiClass () {
+    public TestGOStationApiClass () {
     }
 
     @Override
@@ -31,14 +33,14 @@ public class GOStationApiClass implements StationApiInterface {
     // Return Type: Map<String, List<Object>>
     // Key of Map: Represents the MetaData error code.
     // Note: The text next to the : denotes the "message", see further comments for details
-        // Code 200: OK [Successful API Call]
-        // Code 503: Unavailable [Server hosting the GO API goes down]
-        // Code 401: Unauthorized [Invalid API used, either due to incorrect key input or key is deactivated]
-        // Code 204: No Content [GO Transit removes/renames a station code, but changes not reflected in text file]
+    // Code 200: OK [Successful API Call]
+    // Code 503: Unavailable [Server hosting the GO API goes down]
+    // Code 401: Unauthorized [Invalid API used, either due to incorrect key input or key is deactivated]
+    // Code 204: No Content [GO Transit removes/renames a station code, but changes not reflected in text file]
     //Value: A list containing Objects. The list specifically contains [String, JSONObject]
-        // List[0]: Contains a String. This string would be the "message" based on what error code you have
-            // Eg: If the error code is 200, then the "message" would be "OK".
-        // List[1]: Contains the full stop JSON object, contains the information from the stop/details endpoints.
+    // List[0]: Contains a String. This string would be the "message" based on what error code you have
+    // Eg: If the error code is 200, then the "message" would be "OK".
+    // List[1]: Contains the full stop JSON object, contains the information from the stop/details endpoints.
 
     @Override
     public Map<String, List<Object>> stationAmenitiesCallResult(String stationId) {
@@ -53,7 +55,7 @@ public class GOStationApiClass implements StationApiInterface {
                 .addPathSegment("Stop")
                 .addPathSegment("Details")
                 .addPathSegment(stationId) //getting station information for the station with the id denoted by stationId
-                .addQueryParameter("key", API_KEY)
+                .addQueryParameter("key", "test_key_123") //IMPORTANT: Passed in FAKE API key for use in StationInfoTest
                 .build();
 
         Request request = new Request.Builder()
@@ -92,4 +94,42 @@ public class GOStationApiClass implements StationApiInterface {
         }
         return amenitiesList;
     }
+
+    //TODO: This was the ORIGINAL retrieveStationAmenities method prior to changes to handle error API calls
+    /*public List<String> retrieveStationAmenities2(String stationId){
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host("api.openmetrolinx.com")
+                .addPathSegment(PARTIAL_API_URL)
+                .addPathSegment("Stop")
+                .addPathSegment("Details")
+                .addPathSegment(stationId) //getting station information for the station with the id denoted by stationId
+                .addQueryParameter("key", API_KEY)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .addHeader("content-type", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String fullStopJsonData = response.body().string();
+            JSONObject fullStopJsonObj = new JSONObject(fullStopJsonData); // This is where the metadata is located at
+            JSONObject stopJsonDataObj = fullStopJsonObj.getJSONObject("Stop");
+            JSONArray amenitiesJsonArray = stopJsonDataObj.getJSONArray("Facilities");
+            List<String> amenitiesList = new ArrayList<String>();
+            for (int i = 0; i < amenitiesJsonArray.length(); i++) {
+                JSONObject currAmenitiesEntry = amenitiesJsonArray.getJSONObject(i);
+                amenitiesList.add(currAmenitiesEntry.getString("Description"));
+                //System.out.println(currAmenitiesEntry.getString("Description")); // For debugging purposes
+            }
+            return amenitiesList;
+
+        } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+    }*/
 }
