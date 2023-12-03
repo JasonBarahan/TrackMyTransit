@@ -1,5 +1,6 @@
-package data_access.API;
+package use_case.displayStationInfo;
 
+import data_access.API.GOStationApiClass;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 // NOTE: This class is a MOCK version of GoStationApiClass. Has the same functionalities, but calls the API using a fake key
 // This class is used for a error unit test in test/use_case.displayStationInfo/StationInfoTest
-public class TestGOStationApiClass extends GOStationApiClass{
+public class TestGOStationApiClass extends GOStationApiClass {
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
 
     private final String API_METADATA_SUCCESS_MESSAGE = "OK";
