@@ -103,7 +103,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
-    public List<Train> getIncomingVehicles(String inputStationName) {
+    public List<Train> getIncomingVehicles(String inputStationName) throws ParseException {
         //TODO: Consider moving the "construction" of the train object to a new method called setIncomingVehicles
         if (incomingVehiclesNotEmpty(inputStationName)) {
             String stationId = getStationID(inputStationName);
@@ -115,7 +115,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
                 String scheduledTime = vehicles.get(4);
                 String departureTime = vehicles.get(5);
                 String tripNumber = vehicles.get(6);
-                String delay = null;  // Leave as null for error
+                String delay = delayTime(scheduledTime, departureTime);  // Leave as null for error
                 String latitude = vehicles.get(7);
                 String longitude = vehicles.get(8);
                 Train vehicle = trainFactory.create(lineCode, lineName, trainName, scheduledTime, departureTime,
@@ -129,7 +129,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
-    public void setStation (Station stationObj) {
+    public void setStation (Station stationObj) throws ParseException {
         //Get station name
         String stationName = getStationName(stationObj);
 
