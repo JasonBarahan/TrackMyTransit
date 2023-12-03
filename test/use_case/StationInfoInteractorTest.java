@@ -94,6 +94,59 @@ public class StationInfoInteractorTest {
     }
 
     @Test
+    public void displayAllIfLessThan3Test() throws IOException {
+        StationInfoInputData inputData = new StationInfoInputData("Unionville GO"); //TODO: STATION NAME IS SUBJECT TO CHANGE
+        GOVehicleApiClass goVehicleApiClass = new GOVehicleApiClass();
+
+        try {
+            StationInfoDataAccessInterface stationRepository = new FileStationDataAccessObject("./revisedStopData.txt",
+                    new StationFactory(), new TrainFactory(), new GOStationApiClass(), goVehicleApiClass);
+
+            // This creates a successPresenter that tests whether the test case is as we expect.
+            StationInfoOutputBoundary successPresenter = new StationInfoOutputBoundary() {
+                @Override
+                public void prepareSuccessView(StationInfoOutputData stationInfoOutputData) {
+                    Station station = stationRepository.getStation("Unionville GO");
+                    assertEquals("Unionville GO", stationInfoOutputData.getStationName());
+                    assertEquals("Unionville GO", station.getName());
+
+                    assertTrue(stationRepository.incomingVehiclesNotEmpty("Unionville GO"));
+
+                    List<List<String>> goVehicleApiList = goVehicleApiClass.retrieveVehicleInfo(station.getId());
+                    List<List<String>> goVehicleOutputList = new ArrayList<>();
+                    for (List<String> vehicleInfo : goVehicleApiList) {
+                        List<String> goVehicleInfo = new ArrayList<>();
+                        goVehicleInfo.add("Vehicle Name: " + vehicleInfo.get(1));
+                        goVehicleInfo.add("Scheduled Departure Time: ");
+                        goVehicleInfo.add(vehicleInfo.get(4));
+                        goVehicleInfo.add("Computed Departure Time: ");
+                        goVehicleInfo.add(vehicleInfo.get(5));
+                    }
+                    sortByDateTime(goVehicleOutputList);
+                    List<List<String>> slicedGoVehiclesInfo;
+                    // We are testing stations that has less than or equal to 3 incoming vehicles,
+                    // thus we are not slicing the list.
+                    slicedGoVehiclesInfo = goVehicleOutputList;
+
+                    for (int i = 0; i < slicedGoVehiclesInfo.size(); i++) {
+                        assertEquals(slicedGoVehiclesInfo.get(i).get(i),
+                                stationInfoOutputData.getStationIncomingVehiclesInfo().get(i).get(i));
+                    }
+                }
+
+                @Override
+                public void parepareFailView(String error) {
+                    fail(error);
+                }
+            };
+            StationInfoInputBoundary interactor = new StationInfoInteractor(stationRepository, successPresenter);
+            interactor.execute(inputData);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
     public void failureVehicleApiCallTest() throws IOException {
         StationInfoInputData inputData = new StationInfoInputData("Milton GO");
         GOVehicleApiClass goVehicleApiClass = new GOVehicleApiClass();
