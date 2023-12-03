@@ -25,7 +25,7 @@ public class Main {
         // various cards, and the layout, and stitch them together.
 
         // The main application window.
-        JFrame application = new JFrame("FindMyStation");
+        JFrame application = new JFrame("TrackMyTransit");
         application.setPreferredSize(new Dimension(325, 600));
         application.pack();
         application.setLocationRelativeTo(null);
