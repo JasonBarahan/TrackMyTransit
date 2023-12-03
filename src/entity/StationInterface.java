@@ -18,4 +18,7 @@ public interface StationInterface {
 
     List<Train> getIncomingVehicles();
 
+    void setIncomingVehiclesList(List<Train> incomingVehiclesList);
+
+    void setAmenitiesList(List<String> stationAmenitiesList);
 }
