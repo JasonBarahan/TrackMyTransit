@@ -3,14 +3,14 @@ package use_case.delay;
 import java.text.ParseException;
 
 public interface Delay {
-    public final String NONE = "No Delay - ";
-    public final String MINIMAL = "Minimal Delay Time - ";
-    public final String DELAY = "Delay - ";
-    public final String MAJOR = "Major Delay - ";
+    String NONE = "No Delay - ";
+    String MINIMAL = "Minimal Delay Time - ";
+    String DELAY = "Delay - ";
+    String MAJOR = "Major Delay - ";
 
-    public final String SECONDS = " second(s)";
-    public final String MINUTES = " minute(s)";
-    public final String HOURS = " hour(s)";
+    String SECONDS = " second(s)";
+    String MINUTES = " minute(s)";
+    String HOURS = " hour(s)";
 
     String delayTime(String scheduled, String computed) throws ParseException;
     double calculated(double time);
