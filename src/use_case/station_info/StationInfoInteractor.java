@@ -1,6 +1,10 @@
 package use_case.station_info;
 
+import use_case.delay.*;
+
 import entity.*;
+
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,7 +23,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
     }
 
     @Override
-    public void execute(StationInfoInputData stationInfoInputData) {
+    public void execute(StationInfoInputData stationInfoInputData) throws ParseException {
         // if not empty
         if (stationInfoDataAccessObject.incomingVehiclesNotEmpty(stationInfoInputData.getStationName())) {
 
@@ -38,7 +42,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
 //             List<Train> will change into List<Vehicle> after implementing Vehicle class.
             List<List<String>> incomingVehiclesInfo = new ArrayList<>();
 
-            // We want to show line name, train direction, scheduled time, departure time and delay
+            // We want to show line name, train direction, scheduled time, departure time and Delay
             // and sort them by departure time
             for (int i = 0; i < incomingVehicles.size(); i++) {
                 List<String> vehicleinfo = new ArrayList<>();
@@ -48,7 +52,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
                 String vehicleLongitude = String.valueOf(incomingVehicles.get(i).getLongitude());
                 String vehicleScheduledTime = incomingVehicles.get(i).getScheduledTime();
                 String vehicleDepartureTime = incomingVehicles.get(i).getDepartureTime();
-                String vehicleDelay = incomingVehicles.get(i).getDelay();
+                String vehicleDelay = Delay.delayTime(vehicleScheduledTime, vehicleDepartureTime);//incomingVehicles.get(i).getDelay();
                 vehicleinfo.add("Vehicle Name: " + vehicleName);
                 vehicleinfo.add("Vehicle direction: " + vehicleDirection);
                 vehicleinfo.add("Vehicle Latitude: " + vehicleLatitude);
