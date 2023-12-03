@@ -30,7 +30,7 @@ public class StationInfoUseCaseFactory {
                     stationInfoViewModel, stationInfoDataAccessObject, showIncomingVehiclesViewModel);
             return new StationInfoView(stationInfoViewModel, stationInfoController);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
+            JOptionPane.showMessageDialog(null, "Could not open station data file.");
         }
 
         return null;
