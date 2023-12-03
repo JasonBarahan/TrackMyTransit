@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GOStationApiClass implements TrainApiInterface {
+public class GOStationApiClass implements StationApiInterface {
 
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
 
