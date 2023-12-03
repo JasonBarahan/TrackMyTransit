@@ -60,7 +60,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
             sortByDateTime(incomingVehiclesInfo);
             // sort incomingVehiclesInfo by date time
 
-            List<List<String>> slicedIncomingVehiclesInfo = new ArrayList<>();
+            List<List<String>> slicedIncomingVehiclesInfo;
             // slice incomingVehiclesInfo list to get the first three items.
             // i.e. we retrieve 3 vehicles that arrive the soonest
             // if incomingVehiclesInfo only has <= 3 items, keep it the same
@@ -80,7 +80,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
     }
 
     private static void sortByDateTime(List<List<String>> incomingVehiclesInfo) {
-        Collections.sort(incomingVehiclesInfo, (list1, list2) -> {
+        incomingVehiclesInfo.sort((list1, list2) -> {
             String dateTimeStr1 = list1.get(5);
             String dateTimeStr2 = list2.get(5);
 
