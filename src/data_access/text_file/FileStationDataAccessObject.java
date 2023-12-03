@@ -2,6 +2,7 @@ package data_access.text_file;
 
 import data_access.API.GOStationApiClass;
 import data_access.API.GOVehicleApiClass;
+import data_access.API.TrainApiInterface;
 import entity.*;
 import use_case.station_info.StationInfoDataAccessInterface;
 import use_case.search.SearchDataAccessInterface;
@@ -20,8 +21,8 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     private final StationFactory stationFactory;
     private final TrainFactory trainFactory;
 
-    private final GOStationApiClass goStationApiClass;
-    private final GOVehicleApiClass goVehicleApiClass;
+    private final TrainApiInterface goStationApiClass;
+    private final GOVehicleApiClass goVehicleApiClass; // TODO: Need to correct type of variable to TrainApiInterface
 
     public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, TrainFactory trainFactory,
                                        GOStationApiClass goStationApiClass, GOVehicleApiClass goVehicleApiClass) throws IOException {
@@ -156,9 +157,8 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     @Override
     public boolean stationExist(String identifier){
-        return stations.containsKey(identifier); //TODO: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
+        return stations.containsKey(identifier); //TODO: Limitation: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
                                                  // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
-                                                // TODO #2: What happens if the text file contains a station that the API no longer supports
     }
 
     //This is a method that returns the message associated with the attempted amenities API call
