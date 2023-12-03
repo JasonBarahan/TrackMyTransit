@@ -3,6 +3,7 @@ package use_case.station_info;
 import entity.Station;
 import entity.Train;
 
+import java.text.ParseException;
 import java.util.*;
 
 //TODO: Review the changes made to getStation, setStation and getIncomingVehicles
@@ -12,7 +13,7 @@ public interface StationInfoDataAccessInterface {
 
     Station getStation(String inputStationName);
 
-    void setStation(Station stationObj);
+    void setStation(Station stationObj) throws ParseException;
 
-    List<Train> getIncomingVehicles(String inputStationName);
+    List<Train> getIncomingVehicles(String inputStationName) throws ParseException;
 }
