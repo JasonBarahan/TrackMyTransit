@@ -1,9 +1,7 @@
 package view;
 
-import app.VisualizeUseCaseFactory;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
-import interface_adapter.station_amenites_info.StationAmenitiesInfoState;
 import interface_adapter.visualize.VisualizeController;
 
 import javax.swing.*;
