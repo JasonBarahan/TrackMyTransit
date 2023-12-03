@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static data_access.API.StationApiInterface.API_KEY;
-
 public class GOVehicleApiClass implements TrainApiInterface{
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
     public GOVehicleApiClass() {
