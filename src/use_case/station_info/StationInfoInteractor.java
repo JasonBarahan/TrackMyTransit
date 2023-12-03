@@ -1,6 +1,6 @@
 package use_case.station_info;
 
-import use_case.delay.*;
+// import use_case.delay.*;
 
 import entity.*;
 
@@ -52,7 +52,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
                 String vehicleLongitude = String.valueOf(incomingVehicles.get(i).getLongitude());
                 String vehicleScheduledTime = incomingVehicles.get(i).getScheduledTime();
                 String vehicleDepartureTime = incomingVehicles.get(i).getDepartureTime();
-                String vehicleDelay = Delay.delayTime(vehicleScheduledTime, vehicleDepartureTime);//incomingVehicles.get(i).getDelay();
+                String vehicleDelay = null;//incomingVehicles.get(i).getDelay();
                 vehicleinfo.add("Vehicle Name: " + vehicleName);
                 vehicleinfo.add("Vehicle direction: " + vehicleDirection);
                 vehicleinfo.add("Vehicle Latitude: " + vehicleLatitude);
