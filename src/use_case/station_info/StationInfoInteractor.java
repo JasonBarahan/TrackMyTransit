@@ -52,7 +52,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
                 String vehicleLongitude = String.valueOf(incomingVehicles.get(i).getLongitude());
                 String vehicleScheduledTime = incomingVehicles.get(i).getScheduledTime();
                 String vehicleDepartureTime = incomingVehicles.get(i).getDepartureTime();
-                String vehicleDelay = null;//incomingVehicles.get(i).getDelay();
+                String vehicleDelay = incomingVehicles.get(i).getDelay();
                 vehicleinfo.add("Vehicle Name: " + vehicleName);
                 vehicleinfo.add("Vehicle direction: " + vehicleDirection);
                 vehicleinfo.add("Vehicle Latitude: " + vehicleLatitude);
