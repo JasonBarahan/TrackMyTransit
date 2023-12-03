@@ -200,6 +200,11 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     @Override
     public double calculated(double time) {
-        return null;
+        {
+            if (time >= 3600) {
+                return time;
+            }
+            return time / 60;
+        }
     }
 }
