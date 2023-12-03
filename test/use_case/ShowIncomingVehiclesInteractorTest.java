@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ShowIncomingVehiclesInteractorTest {
     private static void sortByDateTime(List<List<String>> incomingVehiclesInfo) {
@@ -52,6 +53,8 @@ public class ShowIncomingVehiclesInteractorTest {
                     StationInterface station = stationRepository.getStation("Union Station");
                     assertEquals("Union Station", showIncomingVehiclesOutputData.getStationName());
                     assertEquals("Union Station", station.getName());
+
+                    assertNotNull(station);
 
                     assertFalse(stationRepository.incomingVehiclesIsEmpty("Union Station"));
 
@@ -113,6 +116,7 @@ public class ShowIncomingVehiclesInteractorTest {
                     assertEquals(stationName, showIncomingVehiclesOutputData.getStationName());
                     assertEquals(stationName, station.getName());
 
+                    assertNotNull(station);
                     assertFalse(stationRepository.incomingVehiclesIsEmpty(stationName));
 
                     List<List<String>> goVehicleApiList = goVehicleApiClass.retrieveVehicleInfo(station.getId());
@@ -155,7 +159,7 @@ public class ShowIncomingVehiclesInteractorTest {
     public void failureNoContentVehicleApiCallTest() throws IOException {
         ShowIncomingVehiclesInputData inputData = new ShowIncomingVehiclesInputData("Milton GO");
         GOVehicleApiClass goVehicleApiClass = new GOVehicleApiClass();
-        ShowIncomingVehiclesDataAccessInterface stationInfoRepository = new FileStationDataAccessObject("./revisedStopData.txt",
+        ShowIncomingVehiclesDataAccessInterface stationRepository = new FileStationDataAccessObject("./revisedStopData.txt",
                 new StationFactory(), new TrainFactory(), new GOStationApiClass(), goVehicleApiClass);
 
         // This creates a presenter that tests whether the test case is as we expect.
@@ -170,10 +174,41 @@ public class ShowIncomingVehiclesInteractorTest {
             @Override
             public void prepareFailView(String error) {
                 assertEquals("An error occurred during API call.\nError Message: No Content", error);
+                StationInterface station =stationRepository.getStation("Milton GO");
+                assertTrue(stationRepository.incomingVehiclesIsEmpty("Milton GO"));
+                assertEquals(station.getIncomingVehicles().size(), 0);
             }
         };
 
-        ShowIncomingVehiclesInputBoundary interactor = new ShowIncomingVehiclesInteractor(stationInfoRepository, failurePresenter);
+        ShowIncomingVehiclesInputBoundary interactor = new ShowIncomingVehiclesInteractor(stationRepository, failurePresenter);
+        interactor.execute(inputData);
+    }
+
+    // TODO: DO NOT SET API KEY/SET A WRONG KEY FOR THIS TEST AND NEED TO BE RUN INDIVIDUALLY
+    @Test
+    public void failureInvalidApiKeyTest() throws IOException {
+        ShowIncomingVehiclesInputData inputData = new ShowIncomingVehiclesInputData("Milton GO");
+        GOVehicleApiClass goVehicleApiClass = new GOVehicleApiClass();
+        ShowIncomingVehiclesDataAccessInterface stationRepository = new FileStationDataAccessObject("./revisedStopData.txt",
+                new StationFactory(), new TrainFactory(), new GOStationApiClass(), goVehicleApiClass);
+
+        // This creates a presenter that tests whether the test case is as we expect.
+        ShowIncomingVehiclesOutputBoundary failurePresenter = new ShowIncomingVehiclesOutputBoundary() {
+            @Override
+            public void prepareSuccessView(ShowIncomingVehiclesOutputData stationInfoOutputData) {
+                fail("Use case success is unexpected.");
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                assertEquals("An error occurred during API call.\nError Message: Unauthorized", error);
+                StationInterface station = stationRepository.getStation("Milton GO");
+                assertTrue(stationRepository.incomingVehiclesIsEmpty("Milton GO"));
+                assertEquals(station.getIncomingVehicles().size(), 0);
+            }
+        };
+
+        ShowIncomingVehiclesInputBoundary interactor = new ShowIncomingVehiclesInteractor(stationRepository, failurePresenter);
         interactor.execute(inputData);
     }
 
