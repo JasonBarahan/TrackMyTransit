@@ -5,24 +5,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-// TODO: remove static
 public class delay {
 
-    // yyyy-mm-dd hh:mm:ss
-    // split by " "
-    // no need to use yyyy-mm-dd
+    public final String NONE = "No delay";
+    public final String MINIMAL = "Minimal Delay Time ";
+    public final String DELAY = "Delay ";
+    public final String MAJOR = "Major Delay ";
 
-    // TODO: Change to private
-    public static final String NONE = "No delay";
-    public static final String MINIMAL = "Minimal Delay Time ";
-    public static final String DELAY = "Delay ";
-    public static final String MAJOR = "Major Delay ";
+    public final String SECONDS = " second(s)";
+    public final String MINUTES = " minute(s)";
+    public final String HOURS = " hour(s)";
 
-    public static final String SECONDS = " second(s)";
-    public static final String MINUTES = " minute(s)";
-    public static final String HOURS = " hour(s)";
-
-    public static Object delayTime(String scheduled, String computed) throws ParseException {
+    public Object delayTime(String scheduled, String computed) throws ParseException {
 
         String scheduleDate = scheduled.substring(11);
         String computedDate = computed.substring(11);
@@ -33,8 +27,6 @@ public class delay {
 
         double difference = (computedTime.getTime() - scheduleTime.getTime()) * 0.001; // in seconds
 
-        //System.out.println(difference); // testing
-
         // if cases for returning the differences in time
         if (difference >= 3600) {
             return MAJOR + calculated(difference) + HOURS;
@@ -44,11 +36,10 @@ public class delay {
             return DELAY + calculated(difference) + MINUTES;
         } else if (difference >= 60) {
             return MINIMAL + calculated(difference) + MINUTES;
-        }
-        return NONE + " arriving in " + difference + SECONDS;
+        } return NONE + " arriving in " + difference + SECONDS;
     }
 
-    public static double calculated(double time){
+    public double calculated(double time){
         if (time >= 3600) {
             return time;
         }
