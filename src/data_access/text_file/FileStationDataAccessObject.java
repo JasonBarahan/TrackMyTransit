@@ -5,6 +5,7 @@ import data_access.API.GOVehicleApiClass;
 import entity.*;
 import use_case.station_info.StationInfoDataAccessInterface;
 import use_case.search.SearchDataAccessInterface;
+import use_case.delay.DelayInteractor;
 
 import java.io.*;
 import java.util.*;
@@ -14,7 +15,7 @@ import entity.Station;
 
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
-public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface {
+public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface, DelayInteractor {
     private final File stationTxtFile;
     private final Map<String, Station> stations = new HashMap<>();
     private final StationFactory stationFactory;
@@ -170,4 +171,13 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
         return (String) (amenitiesAPICallResult.get(amenitiesAPICallMetadataCode)).get(0);
     }
 
+    @Override
+    public String delayTime(String scheduled, String computed) {
+        return null;
+    }
+
+    @Override
+    public double calculated(double time) {
+        return null;
+    }
 }
