@@ -9,10 +9,8 @@ import interface_adapter.search.SearchViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
 import interface_adapter.station_amenites_info.StationAmenitiesInfoViewModel;
-import view.SearchPanelView;
-import view.ShowIncomingVehiclesView;
-import view.StationAmenitiesView;
-import view.ViewManager;
+import interface_adapter.visualize.VisualizeViewModel;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +46,7 @@ public class Main {
         SearchViewModel searchViewModel = new SearchViewModel();
         StationAmenitiesInfoViewModel stationInfoViewModel = new StationAmenitiesInfoViewModel();
         ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel = new ShowIncomingVehiclesViewModel();
+        VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
 
 
         // Creating a DAO called stationDataAccessObject by reading from file revisedStopData.txt, with the creation of the object being done by StationFactory()
@@ -72,8 +71,11 @@ public class Main {
         StationAmenitiesView stationInfoView = ShowIncomingVehiclesUseCaseFactory.create(viewManagerModel, stationInfoViewModel, stationDataAccessObject, showIncomingVehiclesViewModel);
         views.add(stationInfoView, stationInfoView.viewName);
 
-        ShowIncomingVehiclesView showIncomingVehiclesView = new ShowIncomingVehiclesView(showIncomingVehiclesViewModel);
+        ShowIncomingVehiclesView showIncomingVehiclesView = new ShowIncomingVehiclesView(showIncomingVehiclesViewModel,
+                VisualizeUseCaseFactory.create(viewManagerModel, visualizeViewModel));
         views.add(showIncomingVehiclesView, showIncomingVehiclesView.viewName);
+
+        new MapVisualizationView(visualizeViewModel);
 
         // When initially booting up the application, the stationPanel is the 1st panel displayed to viewers.
         viewManagerModel.setActiveView(stationPanelView.viewName);
