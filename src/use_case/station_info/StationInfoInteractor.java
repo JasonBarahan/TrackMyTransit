@@ -21,7 +21,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
     @Override
     public void execute(StationInfoInputData stationInfoInputData) {
         // if not empty
-        if (stationInfoDataAccessObject.incomingVehiclesNotEmpty(stationInfoInputData.getStationName())) {
+        if (!stationInfoDataAccessObject.incomingVehiclesIsEmpty(stationInfoInputData.getStationName())) {
 
             // First, fetching the constructed, but incomplete station object. This object is created based on reading from revisedStopData.txt
 //            Station incompleteStation = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName());
@@ -31,7 +31,7 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
             Station station = stationInfoDataAccessObject.getStation(stationInfoInputData.getStationName()); // Now, re-retrieve the fully complete Station object
 
             // Packaging key details from the above Station object into a SearchOutputData object
-            List<Train> incomingVehicles = station.getIncomingVehicles();
+            List<Train> incomingVehicles = stationInfoDataAccessObject.getIncomingVehicles(stationInfoInputData.getStationName());
 
             List<List<String>> incomingVehiclesInfo = new ArrayList<>();
 
@@ -75,7 +75,8 @@ public class StationInfoInteractor implements StationInfoInputBoundary{
             // return the output data to the user
             stationInfoPresenter.prepareSuccessView(stationInfoOutputData);
         } else {
-            stationInfoPresenter.prepareFailView("Incoming Vehicles Info Retrieval Failed...\nSome error occurred during API call");
+            String errorMsg = stationInfoDataAccessObject.getVehicleInfoRetrievalErrorMsg(stationInfoInputData.getStationName());
+            stationInfoPresenter.prepareFailView("An error occurred during API call.\nError Message: " + errorMsg);
         }
     }
 
