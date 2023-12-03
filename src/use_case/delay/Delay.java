@@ -5,26 +5,26 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class delay {
+public class Delay {
 
-    public final String NONE = "No delay";
-    public final String MINIMAL = "Minimal Delay Time ";
-    public final String DELAY = "Delay ";
-    public final String MAJOR = "Major Delay ";
+    public static final String NONE = "No Delay";
+    public static final String MINIMAL = "Minimal Delay Time ";
+    public static final String DELAY = "Delay ";
+    public static final String MAJOR = "Major Delay ";
 
-    public final String SECONDS = " second(s)";
-    public final String MINUTES = " minute(s)";
-    public final String HOURS = " hour(s)";
+    public static final String SECONDS = " second(s)";
+    public static final String MINUTES = " minute(s)";
+    public static final String HOURS = " hour(s)";
 
     /**
-     * Calculates delay time using the Scheduled Time and Computed Time.
+     * Calculates Delay time using the Scheduled Time and Computed Time.
      *
      * @param scheduled
      * @param computed
-     * @return Message relaying estimated time delay in string format
+     * @return Message relaying estimated time Delay in string format
      * @throws ParseException
      */
-    public Object delayTime(String scheduled, String computed) throws ParseException {
+    public static String delayTime(String scheduled, String computed) throws ParseException {
 
         String scheduleDate = scheduled.substring(11);
         String computedDate = computed.substring(11);
@@ -53,7 +53,7 @@ public class delay {
      * @param time
      * @return time
      */
-    public double calculated(double time){
+    public static double calculated(double time){
         if (time >= 3600) {
             return time;
         }
