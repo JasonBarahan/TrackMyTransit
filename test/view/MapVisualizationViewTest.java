@@ -31,6 +31,22 @@ public class MapVisualizationViewTest {
         inputData.add(vehicle1);
         return inputData;
     }
+    private List<List<String>> createOneMockTrain() {
+        List<List<String>> inputData = new ArrayList<>();
+
+        List<String> vehicle1 = new ArrayList<>();
+        vehicle1.add("LW");
+        vehicle1.add("Vehicle Route Name: LW - Union Station");
+        vehicle1.add("Vehicle Latitude: 43.3419870");
+        vehicle1.add("Vehicle Longitude: -79.8076960");
+        vehicle1.add("");
+        vehicle1.add("2023-11-27 16:31:00");
+        vehicle1.add("");
+        vehicle1.add("2023-11-27 16:31:00");
+
+        inputData.add(vehicle1);
+        return inputData;
+    }
     private List<List<String>> createTwoMockTrains() {
         List<List<String>> inputData = new ArrayList<>();
 
@@ -58,6 +74,11 @@ public class MapVisualizationViewTest {
         inputData.add(vehicle1);
         inputData.add(vehicle2);
         return inputData;
+    }
+
+    @org.junit.Test
+    public void testInteractor() {
+
     }
     public MapVisualizationViewTest() {
         VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
