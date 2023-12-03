@@ -105,23 +105,24 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
     @Override
     public void setStation (String stationName) {
-        //Get station name
-        Station stationObj = getStation(stationName);
+        //Get station object
+//        Station stationObj = getStation(stationName);  // we dont need a station object anymore
 
         // Set station amenities
-        setStationAmenities(stationObj);
+        setStationAmenities(stationName);
 
-        setIncomingVehiclesList(stationObj);
+        setIncomingVehiclesList(stationName);
 
     }
 
     @Override
-    public void setIncomingVehiclesList(Station stationObj){
-        String stationName = stationObj.getName();
-        if (incomingVehiclesNotEmpty(stationName)) {
-            String stationID = stationObj.getId();
+    public void setIncomingVehiclesList(String stationName){
+        Station stationObj = getStation(stationName);
+        String stationID = stationObj.getId();
+        if (!incomingVehiclesIsEmpty(stationName)) {
+            List<List<String>> goVehicleInfo = goVehicleApiClass.retrieveVehicleInfo(stationID);
             List<Train> incomingVehiclesList = new ArrayList<>();
-            for (List<String> vehicles : goVehicleApiClass.retrieveVehicleInfo(stationID)) {
+            for (List<String> vehicles : goVehicleInfo) {
                 String lineName = vehicles.get(0);
                 String lineCode = vehicles.get(1);
                 String trainName = vehicles.get(3);
@@ -137,21 +138,24 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
             }
             stationObj.setIncomingVehiclesList(incomingVehiclesList);
         }
-        else {
-            stationObj.setIncomingVehiclesList(null);
-        }
     }
 
     @Override
-    public void setStationAmenities(Station stationObj){
+    public void setStationAmenities(String stationName) {
+        Station stationObj = getStation(stationName);
         String stationID = stationObj.getId();
         List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);
         stationObj.setAmenitiesList(stationAmenitiesList);
     }
 
     @Override
-    public boolean incomingVehiclesNotEmpty(String stationName) {
-        return goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId()) != (null);
+    public boolean incomingVehiclesIsEmpty(String stationName) {
+        return goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId()) instanceof String;
+    }
+
+    @Override
+    public String getVehicleInfoRetrievalErrorMsg(String stationName){
+        return goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId());
     }
 
     @Override
