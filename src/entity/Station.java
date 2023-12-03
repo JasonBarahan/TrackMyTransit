@@ -8,11 +8,8 @@ public class Station implements StationInterface{
     private final String parentLine;
     private final float latitude;
     private final float longitude;
-    private List<String> amenitiesList; //TODO: Due to this variable being assigned a valid value AFTER initial text file is read, we need to make this non-final. But this violates CAE?
-
+    private List<String> amenitiesList;
     private List<Train> incomingVehicles;
-    //TODO: Due to this variable being assigned a valid value AFTER initial text file is read,
-    // we need to make this non-final. But this violates CAE?
 
     /**
      * Requirement: stationId and name exist.
@@ -26,7 +23,6 @@ public class Station implements StationInterface{
      */
 
     Station(String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Train> incomingVehicles) {
-        //String name, String stationId, String parentLine, float latitude, float longitude, List<String> amenitiesList, List<Train> incomingVehicles
         this.stationId = stationId;
         this.name = name;
         this.parentLine = parentLine;
@@ -75,6 +71,7 @@ public class Station implements StationInterface{
         return incomingVehicles;
     }
 
+    @Override
     public void setIncomingVehiclesList(List<Train> incomingVehiclesList) {
         this.incomingVehicles = incomingVehiclesList;
     }

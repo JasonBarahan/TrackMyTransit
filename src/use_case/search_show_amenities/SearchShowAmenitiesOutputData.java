@@ -3,9 +3,7 @@ package use_case.search_show_amenities;
 public class SearchShowAmenitiesOutputData {
     private final String stationName;
     private final String stationParentLine;
-    private final String stationAmenities; //TODO: TEMP CHANGE TO STRING TYPE
-    //  After clicking "Find Info" button, the app directs us to Panel #2
-    //  We still need to figure out Amenities output
+    private final String stationAmenities;
 
     /**
      * Requirement: Fail case considers the user misspells(spells the wrong letter) the station name.
