@@ -17,7 +17,7 @@ import entity.Station;
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
 public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface {
     private final File stationTxtFile;
-    private final Map<String, StationInterface> stations = new HashMap<>();
+    private final Map<String, StationInterface> stations = new HashMap<>(); // Hashmap of station objects
     private final StationFactory stationFactory;
     private final TrainFactory trainFactory;
 
