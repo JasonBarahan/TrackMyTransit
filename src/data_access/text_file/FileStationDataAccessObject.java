@@ -5,10 +5,10 @@ import data_access.API.GOVehicleApiClass;
 import entity.*;
 import use_case.station_info.StationInfoDataAccessInterface;
 import use_case.search.SearchDataAccessInterface;
-import use_case.delay.Delay;
 
 import java.io.*;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -18,7 +18,7 @@ import entity.Station;
 
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
-public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface, Delay {
+public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface {
     private final File stationTxtFile;
     private final Map<String, Station> stations = new HashMap<>();
     private final StationFactory stationFactory;
@@ -201,10 +201,12 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     @Override
     public double calculated(double time) {
         {
+            DecimalFormat df = new DecimalFormat("#.#");
+
             if (time >= 3600) {
-                return time;
+                return Double.parseDouble(df.format(time));
             }
-            return time / 60;
+            return Double.parseDouble(df.format(time / 60));
         }
     }
 }
