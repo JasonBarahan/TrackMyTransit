@@ -12,7 +12,6 @@ public class ShowIncomingVehiclesInteractor implements ShowIncomingVehiclesInput
     final ShowIncomingVehiclesDataAccessInterface showIncomingVehiclesDataAccessObject;
     final ShowIncomingVehiclesOutputBoundary showIncomingVehiclesPresenter;
 
-    //TODO: need to consider if we need vehicleFactory
     public ShowIncomingVehiclesInteractor(ShowIncomingVehiclesDataAccessInterface showIncomingVehiclesDataAccessInterface,
                                           ShowIncomingVehiclesOutputBoundary showIncomingVehiclesOutputBoundary) {
         this.showIncomingVehiclesDataAccessObject = showIncomingVehiclesDataAccessInterface;

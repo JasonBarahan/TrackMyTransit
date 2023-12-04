@@ -117,8 +117,8 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
             List<List<String>> goVehicleInfo = goVehicleApiClass.retrieveVehicleInfo(stationID);
             List<Train> incomingVehiclesList = new ArrayList<>();
             for (List<String> vehicles : goVehicleInfo) {
-                String lineName = vehicles.get(0);
-                String lineCode = vehicles.get(1);
+                String lineName = vehicles.get(1);
+                String lineCode = vehicles.get(0);
                 String trainName = vehicles.get(3);
                 String scheduledTime = vehicles.get(4);
                 String departureTime = vehicles.get(5);
@@ -126,7 +126,7 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
                 String delay = delayTime(scheduledTime, departureTime);
                 String latitude = vehicles.get(7);
                 String longitude = vehicles.get(8);
-                Train vehicle = trainFactory.create(lineCode, lineName, trainName, scheduledTime, departureTime,
+                Train vehicle = trainFactory.create(lineName, lineCode, trainName, scheduledTime, departureTime,
                         tripNumber, delay, Float.parseFloat(latitude), Float.parseFloat(longitude));
                 incomingVehiclesList.add(vehicle);
             }
