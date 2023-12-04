@@ -10,6 +10,7 @@ import org.junit.Test;
 import use_case.show_incoming_vehicles.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -95,6 +96,8 @@ public class ShowIncomingVehiclesInteractorTest {
             interactor.execute(inputData);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -150,13 +153,13 @@ public class ShowIncomingVehiclesInteractorTest {
             };
             ShowIncomingVehiclesInputBoundary interactor = new ShowIncomingVehiclesInteractor(stationRepository, successPresenter);
             interactor.execute(inputData);
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Test
-    public void failureNoContentVehicleApiCallTest() throws IOException {
+    public void failureNoContentVehicleApiCallTest() throws IOException, ParseException {
         ShowIncomingVehiclesInputData inputData = new ShowIncomingVehiclesInputData("Milton GO");
         GOVehicleApiClass goVehicleApiClass = new GOVehicleApiClass();
         ShowIncomingVehiclesDataAccessInterface stationRepository = new FileStationDataAccessObject("./revisedStopData.txt",
@@ -186,7 +189,7 @@ public class ShowIncomingVehiclesInteractorTest {
 
     // TODO: DO NOT SET API KEY/SET A WRONG KEY FOR THIS TEST AND NEED TO BE RUN INDIVIDUALLY
     @Test
-    public void failureInvalidApiKeyTest() throws IOException {
+    public void failureInvalidApiKeyTest() throws IOException, ParseException {
         ShowIncomingVehiclesInputData inputData = new ShowIncomingVehiclesInputData("Milton GO");
         GOVehicleApiClass goVehicleApiClass = new GOVehicleApiClass();
         ShowIncomingVehiclesDataAccessInterface stationRepository = new FileStationDataAccessObject("./revisedStopData.txt",
