@@ -5,18 +5,18 @@ import interface_adapter.ViewModel;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class StationAmenitiesInfoViewModel extends ViewModel {
+public class StationGeneralInfoViewModel extends ViewModel {
     public final String TITLE_LABEL = "Station Info View";
 
     public final String SHOW_INCOMING_VEHICLES_BUTTON_LABEL = "Show Incoming Vehicles";
 
-    private StationAmenitiesInfoState state = new StationAmenitiesInfoState();
+    private StationGeneralInfoState state = new StationGeneralInfoState();
 
-    public StationAmenitiesInfoViewModel() {
+    public StationGeneralInfoViewModel() {
         super("stationInfo");
     }
 
-    public void setState(StationAmenitiesInfoState state) {
+    public void setState(StationGeneralInfoState state) {
         this.state = state;
     }
 
@@ -32,7 +32,7 @@ public class StationAmenitiesInfoViewModel extends ViewModel {
         support.addPropertyChangeListener(listener);
     }
 
-    public StationAmenitiesInfoState getState() {
+    public StationGeneralInfoState getState() {
         return state;
     }
 }

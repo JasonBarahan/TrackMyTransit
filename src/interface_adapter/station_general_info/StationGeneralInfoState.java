@@ -1,6 +1,6 @@
 package interface_adapter.station_general_info;
 
-public class StationAmenitiesInfoState {
+public class StationGeneralInfoState {
     //Purpose of class: Contains the information we need to have during the station info state (the state after successful user input is received)
     private String stationName;
     private String stationAmenities; //TODO: Tentatively, it is a String type
@@ -9,14 +9,14 @@ public class StationAmenitiesInfoState {
     private String stationParentLine;
 
     //TODO: If this "copy" constructor is unused, delete in the final project implementation
-    public StationAmenitiesInfoState(StationAmenitiesInfoState copy) {
+    public StationGeneralInfoState(StationGeneralInfoState copy) {
         stationName = copy.stationName;
         stationAmenities = copy.stationAmenities;
         incomingVehiclesError = copy.incomingVehiclesError;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
-    public StationAmenitiesInfoState() {
+    public StationGeneralInfoState() {
     }
 
     public String getStateStationName() {

@@ -1,12 +1,12 @@
 package interface_adapter.station_general_info;
 
-import use_case.station_general_info.ShowIncomingVehiclesInputBoundary;
-import use_case.station_general_info.ShowIncomingVehiclesInputData;
+import use_case.show_incoming_vehicles.ShowIncomingVehiclesInputBoundary;
+import use_case.show_incoming_vehicles.ShowIncomingVehiclesInputData;
 
-public class StationAmenitiesInfoController {
+public class StationGeneralInfoController {
     final ShowIncomingVehiclesInputBoundary stationInfoUseCaseInteractor;
 
-    public StationAmenitiesInfoController(ShowIncomingVehiclesInputBoundary stationInfoUseCaseInteractor) {
+    public StationGeneralInfoController(ShowIncomingVehiclesInputBoundary stationInfoUseCaseInteractor) {
         this.stationInfoUseCaseInteractor = stationInfoUseCaseInteractor;
     }
 
