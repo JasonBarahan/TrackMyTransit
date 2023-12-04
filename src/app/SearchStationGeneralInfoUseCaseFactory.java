@@ -16,10 +16,10 @@ import view.SearchPanelView;
 import javax.swing.*;
 import java.io.IOException;
 
-public class SearchShowAmenitiesUseCaseFactory {
+public class SearchStationGeneralInfoUseCaseFactory {
 
     /** Prevent instantiation. */
-    private SearchShowAmenitiesUseCaseFactory() {}
+    private SearchStationGeneralInfoUseCaseFactory() {}
 
     public static SearchPanelView create(
             ViewManagerModel viewManagerModel,

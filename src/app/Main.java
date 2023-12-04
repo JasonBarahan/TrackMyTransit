@@ -63,7 +63,7 @@ public class Main {
         }
 
         // Creating an instance of SearchPanelView, which is linked to the Search Use case (the use case is created by class SearchUseCaseFactory)
-        SearchPanelView stationPanelView = SearchShowAmenitiesUseCaseFactory.create(viewManagerModel, searchViewModel, stationDataAccessObject, stationInfoViewModel);
+        SearchPanelView stationPanelView = SearchStationGeneralInfoUseCaseFactory.create(viewManagerModel, searchViewModel, stationDataAccessObject, stationInfoViewModel);
         views.add(stationPanelView, stationPanelView.viewName);
 
         // Creating an instance of StationInfoView. Note: Although this view should have its own use case, for now, since we are NOT displaying other data besides the station name, there is no useCaseFactory for this case
