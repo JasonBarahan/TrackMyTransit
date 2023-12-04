@@ -1,4 +1,4 @@
-package interface_adapter.station_amenites_info;
+package interface_adapter.station_general_info;
 
 public class StationAmenitiesInfoState {
     //Purpose of class: Contains the information we need to have during the station info state (the state after successful user input is received)

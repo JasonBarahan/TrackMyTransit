@@ -1,4 +1,4 @@
-package interface_adapter.station_amenites_info;
+package interface_adapter.station_general_info;
 
 import interface_adapter.ViewModel;
 

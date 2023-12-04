@@ -1,10 +1,10 @@
-package interface_adapter.station_amenites_info;
+package interface_adapter.station_general_info;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
-import use_case.show_incoming_vehicles.ShowIncomingVehiclesOutputBoundary;
-import use_case.show_incoming_vehicles.ShowIncomingVehiclesOutputData;
+import use_case.station_general_info.ShowIncomingVehiclesOutputBoundary;
+import use_case.station_general_info.ShowIncomingVehiclesOutputData;
 
 public class StationAmenitiesInfoPresenter implements ShowIncomingVehiclesOutputBoundary {
     private final StationAmenitiesInfoViewModel stationInfoViewModel;

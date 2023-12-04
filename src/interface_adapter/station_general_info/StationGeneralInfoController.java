@@ -1,7 +1,7 @@
-package interface_adapter.station_amenites_info;
+package interface_adapter.station_general_info;
 
-import use_case.show_incoming_vehicles.ShowIncomingVehiclesInputBoundary;
-import use_case.show_incoming_vehicles.ShowIncomingVehiclesInputData;
+import use_case.station_general_info.ShowIncomingVehiclesInputBoundary;
+import use_case.station_general_info.ShowIncomingVehiclesInputData;
 
 public class StationAmenitiesInfoController {
     final ShowIncomingVehiclesInputBoundary stationInfoUseCaseInteractor;
