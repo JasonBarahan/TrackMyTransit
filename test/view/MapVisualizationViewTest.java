@@ -6,7 +6,9 @@ import interface_adapter.visualize.VisualizePresenter;
 import interface_adapter.visualize.VisualizeState;
 import interface_adapter.visualize.VisualizeViewModel;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
-import use_case.visualize.VisualizeInteractor;
+import use_case.search.SearchOutputBoundary;
+import use_case.search.SearchOutputData;
+import use_case.visualize.*;
 
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalComboBoxButton;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
+import static org.junit.Assert.fail;
 
 /**
  * TODO: Convert to unit test
@@ -73,6 +76,7 @@ public class MapVisualizationViewTest {
         }
     }
 
+    // Creates input data containing a null train.
     private List<List<String>> createNullTrain() {
         List<List<String>> inputData = new ArrayList<>();
 
@@ -89,6 +93,8 @@ public class MapVisualizationViewTest {
         inputData.add(vehicle1);
         return inputData;
     }
+
+    // Creates input data containing one in-service train.
     private List<List<String>> createOneMockTrain() {
         List<List<String>> inputData = new ArrayList<>();
 
@@ -105,6 +111,8 @@ public class MapVisualizationViewTest {
         inputData.add(vehicle1);
         return inputData;
     }
+
+    // Creates input data containing two in-service trains.
     private List<List<String>> createTwoMockTrains() {
         List<List<String>> inputData = new ArrayList<>();
 
@@ -133,6 +141,31 @@ public class MapVisualizationViewTest {
         inputData.add(vehicle2);
         return inputData;
     }
+
+    // Executes the controller given some input and returns a specified element for testing.
+    // (Not to sure if this is good practice...)
+    private <T> T executeController(List<List<String>> input, String testElement) {
+        VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        VisualizePresenter visualizePresenter = new VisualizePresenter(visualizeViewModel, viewManagerModel);
+        VisualizeInteractor visualizeInteractor = new VisualizeInteractor(visualizePresenter);
+        VisualizeController controller = new VisualizeController(visualizeInteractor);
+
+        controller.execute(input);
+        switch (testElement) {
+            case "viewModel":
+                return (T) visualizeViewModel;
+            case "controller":
+                return (T) controller;
+            case "presenter":
+                return (T) visualizePresenter;
+            case "interactor":
+                return (T) visualizeInteractor;
+        }
+        return null;
+    }
+
+    // Returns the view model instance.
     private VisualizeViewModel executeController(List<List<String>> input) {
         VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
@@ -144,15 +177,71 @@ public class MapVisualizationViewTest {
         return visualizeViewModel;
     }
 
+    // Extracts the combo box panel from MapVisualizationView.
+    private JPanel extractComboBoxPanel(VisualizeViewModel visualizeViewModel) {
+        MapVisualizationView mapVisualizationView = new MapVisualizationView(visualizeViewModel);
+        JRootPane pane = (JRootPane) mapVisualizationView.getComponent(0);
+        JPanel panel = (JPanel) pane.getContentPane().getComponent(1);
+        JPanel panel2 = (JPanel) panel.getComponent(0);
+        for (int i = 0; i < panel2.getComponentCount(); i++) {
+            System.out.println(panel2.getComponent(i));
+        }
+        return panel2;
+    }
+
+    /**
+     * Checks that, upon reaching the presenter, the desired state data is correct.
+     */
+    @org.junit.Test
+    public void testPresenterSuccessView() {
+        // Generate input data
+        VisualizeInputData visualizeInputData = new VisualizeInputData(createOneMockTrain());
+
+        // create a custom presenter whose success view checks that it works as anticipated
+        VisualizeOutputBoundary visualizeOutputBoundary = new VisualizeOutputBoundary() {
+            @Override
+            public void prepareSuccessView(VisualizeOutputData data) {
+                // coordinate checks
+                assert data.getCoordinateData().get(0).getLat() == 43.3419870;
+                assert data.getCoordinateData().get(0).getLon() == -79.8076960;
+
+                // string metadata checks
+                assert data.getStringData().get(0).equals(
+                        "[16:31:00]  LW - Union Station");
+
+                // size check
+                assert data.getSize() == 1;
+                assert data.getCoordinateData().size() == 1;
+                assert data.getStringData().size() == 1;
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+                fail("Not supposed to happen");
+            }
+        };
+        // execute the interactor to test mock output boundary file
+        VisualizeInputBoundary visualizeInteractor = new VisualizeInteractor(visualizeOutputBoundary);
+        visualizeInteractor.execute(visualizeInputData);
+    }
+
+    /**
+     * Checks that the state error is null if the success view is triggered.
+     */
     @org.junit.Test
     public void testStateErrorIsNullOnInstantiation() {
         VisualizeState state = new VisualizeState();
         assert state.getErrorString() == null;
     }
+
+    /**
+     * Checks that state data as retrieved from the view model returns accurate results for a list containing
+     * two in-service trains.
+     */
     @org.junit.Test
     public void testInteractorTwoTrains() {
         // execute the controller, pass through all layers, return the view model
-        VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains());
+        VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains(), "viewModel");
 
         // get the state
         VisualizeState visualizeState = visualizeViewModel.getVisualizationState();
@@ -176,6 +265,10 @@ public class MapVisualizationViewTest {
         assert visualizeState.getVehicleInformationList().size() == 2;
     }
 
+    /**
+     * Checks that state data as retrieved from the view model returns accurate results for a list containing
+     * one in-service train.
+     */
     @org.junit.Test
     public void testInteractorOneTrain() {
         // execute the controller, pass through all layers, return the view model
@@ -197,6 +290,11 @@ public class MapVisualizationViewTest {
         assert visualizeState.getCoordinateList().size() == 1;
         assert visualizeState.getVehicleInformationList().size() == 1;
     }
+
+    /**
+     * Checks that state data as retrieved from the view model returns accurate results for a list containing
+     * one out-of-service train.
+     */
     @org.junit.Test
     public void testInteractorNull() {
         // execute the controller, pass through all layers, return the view model
@@ -242,17 +340,6 @@ public class MapVisualizationViewTest {
         assert visualizeViewModel.getVisualizationState().getCoordinateList().get(0).getLat() == -1;
         assert visualizeViewModel.getVisualizationState().getVehicleInformationList().get(0).equals("a");
         assert visualizeViewModel.getVisualizationState().getVehicleInformationSize() == 1;
-    }
-
-    private JPanel extractComboBoxPanel(VisualizeViewModel visualizeViewModel) {
-        MapVisualizationView mapVisualizationView = new MapVisualizationView(visualizeViewModel);
-        JRootPane pane = (JRootPane) mapVisualizationView.getComponent(0);
-        JPanel panel = (JPanel) pane.getContentPane().getComponent(1);
-        JPanel panel2 = (JPanel) panel.getComponent(0);
-        for (int i = 0; i < panel2.getComponentCount(); i++) {
-            System.out.println(panel2.getComponent(i));
-        }
-        return panel2;
     }
 
     @org.junit.Test
