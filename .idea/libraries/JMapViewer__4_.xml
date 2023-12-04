@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="JMapViewer (4)">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/src/resources/map/JMapViewer.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
