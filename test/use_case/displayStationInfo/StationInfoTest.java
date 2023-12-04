@@ -7,7 +7,7 @@ import entity.StationFactory;
 import entity.StationInterface;
 import entity.TrainFactory;
 import org.junit.jupiter.api.Test;
-import use_case.search_show_amenities.*;
+import use_case.station_general_info.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 
@@ -16,13 +16,13 @@ public class StationInfoTest {
     //This is a unit test that tests whether the program can handle a valid input
     @Test
     void successTest() {
-        SearchShowAmenitiesInputData inputData = new SearchShowAmenitiesInputData("Aurora GO");
+        StationGeneralInfoInputData inputData = new StationGeneralInfoInputData("Aurora GO");
         try {
-            SearchShowAmenitiesDataAccessInterface stationObjRepository = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new TrainFactory(), new GOStationApiClass(), new GOVehicleApiClass());
+            StationGeneralInfoDataAccessInterface stationObjRepository = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new TrainFactory(), new GOStationApiClass(), new GOVehicleApiClass());
         // This creates a successPresenter that tests whether the test case is as we expect.
-        SearchShowAmenitiesOutputBoundary successPresenter = new SearchShowAmenitiesOutputBoundary() {
+        StationGeneralInfoOutputBoundary successPresenter = new StationGeneralInfoOutputBoundary() {
             @Override
-            public void prepareSuccessView(SearchShowAmenitiesOutputData searchOutputData) {
+            public void prepareSuccessView(StationGeneralInfoOutputData searchOutputData) {
 
                 StationInterface stationObj = stationObjRepository.getStation("Aurora GO");
 
@@ -44,7 +44,7 @@ public class StationInfoTest {
             }
         };
 
-        SearchShowAmenitiesInputBoundary searchInteractor = new SearchShowAmenitiesInteractor(stationObjRepository, successPresenter);
+        StationGeneralInfoInputBoundary searchInteractor = new StationGeneralInfoInteractor(stationObjRepository, successPresenter);
         searchInteractor.execute(inputData);
 
         } catch (IOException e) {
@@ -56,13 +56,13 @@ public class StationInfoTest {
     //This is a unit test that tests whether the program can handle an invalid input
     @Test
     void failureInvalidInputTest() {
-        SearchShowAmenitiesInputData inputData = new SearchShowAmenitiesInputData("ABCDEFG");
+        StationGeneralInfoInputData inputData = new StationGeneralInfoInputData("ABCDEFG");
         try {
-            SearchShowAmenitiesDataAccessInterface stationObjRepository = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new TrainFactory(), new GOStationApiClass(), new GOVehicleApiClass());
+            StationGeneralInfoDataAccessInterface stationObjRepository = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new TrainFactory(), new GOStationApiClass(), new GOVehicleApiClass());
             // This creates a successPresenter that tests whether the test case is as we expect.
-            SearchShowAmenitiesOutputBoundary failurePresenter = new SearchShowAmenitiesOutputBoundary() {
+            StationGeneralInfoOutputBoundary failurePresenter = new StationGeneralInfoOutputBoundary() {
                 @Override
-                public void prepareSuccessView(SearchShowAmenitiesOutputData searchOutputData) {
+                public void prepareSuccessView(StationGeneralInfoOutputData searchOutputData) {
                     // 2 things to check: the output data is correct, and the user has been created in the DAO.
                     fail("Use case success is unexpected.");
                 }
@@ -75,7 +75,7 @@ public class StationInfoTest {
                 }
             };
 
-            SearchShowAmenitiesInputBoundary searchInteractor = new SearchShowAmenitiesInteractor(stationObjRepository, failurePresenter);
+            StationGeneralInfoInputBoundary searchInteractor = new StationGeneralInfoInteractor(stationObjRepository, failurePresenter);
             searchInteractor.execute(inputData);
 
         } catch (IOException e) {
@@ -86,13 +86,13 @@ public class StationInfoTest {
 
     @Test
     void failureInvalidAPIKeyTest() {
-        SearchShowAmenitiesInputData inputData = new SearchShowAmenitiesInputData("Union Station");
+        StationGeneralInfoInputData inputData = new StationGeneralInfoInputData("Union Station");
         try {
-            SearchShowAmenitiesDataAccessInterface stationObjRepository = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new TrainFactory(), new TestGOStationApiClass(), new GOVehicleApiClass());
+            StationGeneralInfoDataAccessInterface stationObjRepository = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(), new TrainFactory(), new TestGOStationApiClass(), new GOVehicleApiClass());
             // This creates a successPresenter that tests whether the test case is as we expect.
-            SearchShowAmenitiesOutputBoundary failurePresenter = new SearchShowAmenitiesOutputBoundary() {
+            StationGeneralInfoOutputBoundary failurePresenter = new StationGeneralInfoOutputBoundary() {
                 @Override
-                public void prepareSuccessView(SearchShowAmenitiesOutputData searchOutputData) {
+                public void prepareSuccessView(StationGeneralInfoOutputData searchOutputData) {
                     // 2 things to check: the output data is correct, and the user has been created in the DAO.
                     fail("Use case success is unexpected.");
                 }
@@ -108,7 +108,7 @@ public class StationInfoTest {
                 }
             };
 
-            SearchShowAmenitiesInputBoundary searchInteractor = new SearchShowAmenitiesInteractor(stationObjRepository, failurePresenter);
+            StationGeneralInfoInputBoundary searchInteractor = new StationGeneralInfoInteractor(stationObjRepository, failurePresenter);
             searchInteractor.execute(inputData);
 
         } catch (IOException e) {

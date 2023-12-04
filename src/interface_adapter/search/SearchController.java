@@ -1,15 +1,15 @@
 package interface_adapter.search;
-import use_case.search_show_amenities.SearchShowAmenitiesInputBoundary;
-import use_case.search_show_amenities.SearchShowAmenitiesInputData;
+import use_case.station_general_info.StationGeneralInfoInputBoundary;
+import use_case.station_general_info.StationGeneralInfoInputData;
 
 public class SearchController {
-    final SearchShowAmenitiesInputBoundary userSearchUseCaseInteractor;
-    public SearchController(SearchShowAmenitiesInputBoundary userSearchUseCaseInteractor) {
+    final StationGeneralInfoInputBoundary userSearchUseCaseInteractor;
+    public SearchController(StationGeneralInfoInputBoundary userSearchUseCaseInteractor) {
         this.userSearchUseCaseInteractor = userSearchUseCaseInteractor;
     }
 
     public void execute(String stationName) {
-        SearchShowAmenitiesInputData searchInputData = new SearchShowAmenitiesInputData(stationName);
+        StationGeneralInfoInputData searchInputData = new StationGeneralInfoInputData(stationName);
         userSearchUseCaseInteractor.execute(searchInputData);
     }
 }

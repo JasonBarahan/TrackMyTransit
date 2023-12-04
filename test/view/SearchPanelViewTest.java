@@ -3,7 +3,7 @@ package view;
 import app.Main;
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchViewModel;
-import use_case.search_show_amenities.SearchShowAmenitiesInputBoundary;
+import use_case.station_general_info.StationGeneralInfoInputBoundary;
 
 import javax.swing.*;
 
@@ -95,7 +95,7 @@ public class SearchPanelViewTest {
         JPanel jp2 = (JPanel) jp.getComponent(0);
 
         // We are checking the StationInfoView, component number 1
-        StationAmenitiesView siv = (StationAmenitiesView) jp2.getComponent(1);
+        StationGeneralInfoView siv = (StationGeneralInfoView) jp2.getComponent(1);
 
         // We are checking the station name JLabel, component number 2
         // Return the search panel (this should be the only panel on there)
@@ -212,7 +212,7 @@ public class SearchPanelViewTest {
      */
     @org.junit.Test
     public void testValidQueryWithoutTypos() {
-        SearchShowAmenitiesInputBoundary sib = null;
+        StationGeneralInfoInputBoundary sib = null;
         SearchViewModel searchViewModel = new SearchViewModel();
 
         // controller
@@ -334,7 +334,7 @@ public class SearchPanelViewTest {
     @org.junit.Test
     public void testValidQueryFixedTypoAtEnd2() {
 
-        SearchShowAmenitiesInputBoundary sib = null;
+        StationGeneralInfoInputBoundary sib = null;
         SearchViewModel searchViewModel = new SearchViewModel();
 
         // controller
@@ -405,7 +405,7 @@ public class SearchPanelViewTest {
      */
     @org.junit.Test
     public void testValidQueryFixedTypoInMiddle() {
-        SearchShowAmenitiesInputBoundary sib = null;
+        StationGeneralInfoInputBoundary sib = null;
         SearchViewModel searchViewModel = new SearchViewModel();
 
         // controller
@@ -533,7 +533,7 @@ public class SearchPanelViewTest {
      */
     @org.junit.Test
     public void testValidQueryFixedTypoInMiddle3() {
-        SearchShowAmenitiesInputBoundary sib = null;
+        StationGeneralInfoInputBoundary sib = null;
         SearchViewModel searchViewModel = new SearchViewModel();
 
         // controller

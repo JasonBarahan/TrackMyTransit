@@ -1,11 +1,11 @@
-package use_case.search_show_amenities;
+package use_case.station_general_info;
 
 import entity.Station;
 import entity.StationInterface;
 
 import java.util.List;
 
-public interface SearchShowAmenitiesDataAccessInterface {
+public interface StationGeneralInfoDataAccessInterface {
     boolean stationExist(String identifier);
 
     String getAPIMetadataSuccessMessage();

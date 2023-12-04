@@ -8,7 +8,7 @@ import entity.TrainFactory;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
-import interface_adapter.station_amenites_info.StationAmenitiesInfoViewModel;
+import interface_adapter.station_general_info.StationGeneralInfoViewModel;
 import interface_adapter.visualize.VisualizeViewModel;
 import view.*;
 
@@ -44,7 +44,7 @@ public class Main {
         // results from the use case. The ViewModels are observable, and will
         // be observed by the Views.
         SearchViewModel searchViewModel = new SearchViewModel();
-        StationAmenitiesInfoViewModel stationInfoViewModel = new StationAmenitiesInfoViewModel();
+        StationGeneralInfoViewModel stationInfoViewModel = new StationGeneralInfoViewModel();
         ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel = new ShowIncomingVehiclesViewModel();
         VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
 
@@ -68,7 +68,7 @@ public class Main {
 
         // Creating an instance of StationInfoView. Note: Although this view should have its own use case, for now, since we are NOT displaying other data besides the station name, there is no useCaseFactory for this case
         // This View is only linked to transition from the SearchPanelView (once the other use case are integrated into this view, this will NO LONGER be the case)
-        StationAmenitiesView stationInfoView = ShowIncomingVehiclesUseCaseFactory.create(viewManagerModel, stationInfoViewModel, stationDataAccessObject, showIncomingVehiclesViewModel);
+        StationGeneralInfoView stationInfoView = ShowIncomingVehiclesUseCaseFactory.create(viewManagerModel, stationInfoViewModel, stationDataAccessObject, showIncomingVehiclesViewModel);
         views.add(stationInfoView, stationInfoView.viewName);
 
         ShowIncomingVehiclesView showIncomingVehiclesView = new ShowIncomingVehiclesView(showIncomingVehiclesViewModel,

@@ -1,22 +1,22 @@
-package interface_adapter.station_amenites_info;
+package interface_adapter.stationInfo.ControllerTest;
 
 import interface_adapter.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class StationAmenitiesInfoViewModel extends ViewModel {
+public class MockControllerStationGeneralInfoViewModel extends ViewModel {
     public final String TITLE_LABEL = "Station Info View";
 
     public final String SHOW_INCOMING_VEHICLES_BUTTON_LABEL = "Show Incoming Vehicles";
 
-    private StationAmenitiesInfoState state = new StationAmenitiesInfoState();
+    private MockControllerStationGeneralInfoState state = new MockControllerStationGeneralInfoState();
 
-    public StationAmenitiesInfoViewModel() {
+    public MockControllerStationGeneralInfoViewModel() {
         super("stationInfo");
     }
 
-    public void setState(StationAmenitiesInfoState state) {
+    public void setState(MockControllerStationGeneralInfoState state) {
         this.state = state;
     }
 
@@ -32,7 +32,7 @@ public class StationAmenitiesInfoViewModel extends ViewModel {
         support.addPropertyChangeListener(listener);
     }
 
-    public StationAmenitiesInfoState getState() {
+    public MockControllerStationGeneralInfoState getState() {
         return state;
     }
 }
