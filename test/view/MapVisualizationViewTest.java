@@ -5,6 +5,7 @@ import interface_adapter.visualize.VisualizeController;
 import interface_adapter.visualize.VisualizePresenter;
 import interface_adapter.visualize.VisualizeState;
 import interface_adapter.visualize.VisualizeViewModel;
+import org.junit.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import use_case.search.SearchOutputBoundary;
 import use_case.search.SearchOutputData;
@@ -142,29 +143,6 @@ public class MapVisualizationViewTest {
         return inputData;
     }
 
-    // Executes the controller given some input and returns a specified element for testing.
-    // (Not to sure if this is good practice...)
-    private <T> T executeController(List<List<String>> input, String testElement) {
-        VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        VisualizePresenter visualizePresenter = new VisualizePresenter(visualizeViewModel, viewManagerModel);
-        VisualizeInteractor visualizeInteractor = new VisualizeInteractor(visualizePresenter);
-        VisualizeController controller = new VisualizeController(visualizeInteractor);
-
-        controller.execute(input);
-        switch (testElement) {
-            case "viewModel":
-                return (T) visualizeViewModel;
-            case "controller":
-                return (T) controller;
-            case "presenter":
-                return (T) visualizePresenter;
-            case "interactor":
-                return (T) visualizeInteractor;
-        }
-        return null;
-    }
-
     // Returns the view model instance.
     private VisualizeViewModel executeController(List<List<String>> input) {
         VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
@@ -235,13 +213,57 @@ public class MapVisualizationViewTest {
     }
 
     /**
+     * Checks that input data is not modified before reaching the Controller.
+     */
+    @Test
+    public void testController() {
+        // create expected input data ( this is the exact same data from CreateTwoMockTrains() )
+        List<List<String>> expectedInputData = new ArrayList<>();
+
+        List<String> vehicle1 = new ArrayList<>();
+        vehicle1.add("LW");
+        vehicle1.add("Vehicle Route Name: LW - Union Station");
+        vehicle1.add("Vehicle Latitude: 43.3419870");
+        vehicle1.add("Vehicle Longitude: -79.8076960");
+        vehicle1.add("");
+        vehicle1.add("2023-11-27 16:31:00");
+        vehicle1.add("");
+        vehicle1.add("2023-11-27 16:31:00");
+
+        List<String> vehicle2 = new ArrayList<>();
+        vehicle2.add("LE");
+        vehicle2.add("Vehicle Route Name: LE - Durham College Oshawa GO");
+        vehicle2.add("Vehicle Latitude: 43.6448050");
+        vehicle2.add("Vehicle Longitude: -79.3777040");
+        vehicle2.add("");
+        vehicle2.add("2023-11-27 16:31:00");
+        vehicle2.add("");
+        vehicle2.add("2023-11-27 16:35:33");
+
+
+        expectedInputData.add(vehicle1);
+        expectedInputData.add(vehicle2);
+
+        // create mock input boundary
+        VisualizeInputBoundary visualizeInteractor = new VisualizeInputBoundary() {
+            @Override
+            public void execute(VisualizeInputData visualizeInputData) {
+                assert visualizeInputData.getVehicleData().equals(expectedInputData);
+            }
+        };
+
+        // check that executing this will trigger a match
+        VisualizeController controller = new VisualizeController(visualizeInteractor);
+        controller.execute(createTwoMockTrains());
+    }
+    /**
      * Checks that state data as retrieved from the view model returns accurate results for a list containing
      * two in-service trains.
      */
     @org.junit.Test
     public void testInteractorTwoTrains() {
         // execute the controller, pass through all layers, return the view model
-        VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains(), "viewModel");
+        VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains());
 
         // get the state
         VisualizeState visualizeState = visualizeViewModel.getVisualizationState();
@@ -342,6 +364,9 @@ public class MapVisualizationViewTest {
         assert visualizeViewModel.getVisualizationState().getVehicleInformationSize() == 1;
     }
 
+    /**
+     * Checks if the button is present in MapVisualizationView.
+     */
     @org.junit.Test
     public void checkButtonPresent() {
         VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains());
@@ -355,8 +380,11 @@ public class MapVisualizationViewTest {
         assert button.getText().equals(VisualizeViewModel.RESIZE_BUTTON_LABEL);
     }
 
+    /**
+     * Checks that the 'resize map to fit markers' function works as intended.
+     */
     @org.junit.Test
-    public void checkButtonFunctions() {
+    public void checkDisplayFitting() {
         VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains());
         JPanel panel = extractComboBoxPanel(visualizeViewModel);
         // get the button (no additional components found)
@@ -372,8 +400,11 @@ public class MapVisualizationViewTest {
         assert oldLon != mapVisualizationView.map.getPosition().getLon();
     }
 
+    /**
+     * Checks that the 'resize map to fit markers' function works as intended.
+     */
     @org.junit.Test
-    public void checkItemStateChangeFires() {
+    public void checkDisplayFitting2() {
         VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains());
         JPanel panel = extractComboBoxPanel(visualizeViewModel);
         // get the button (no additional components found)
@@ -389,6 +420,9 @@ public class MapVisualizationViewTest {
         assert oldLon != mapVisualizationView.map.getPosition().getLon();
     }
 
+    /**
+     * Checks if the JCheckbox to change the map tiles to satellite view is present.
+     */
     @org.junit.Test
     public void checkSatelliteCheckboxPresent() {
         JPanel panel = extractComboBoxPanel(executeController(createTwoMockTrains()));
@@ -402,6 +436,10 @@ public class MapVisualizationViewTest {
         assert checkBox.getText().equals(VisualizeViewModel.SHOW_SATELLITE_IMAGERY_CHECKBOX_LABEL);
     }
 
+    /**
+     * Checks if the JComboBox (vehicle selector) is present, and stores the correct coordinates associated with a
+     * vehicle position. Also checks if key elements associated with the JComboBox are present.
+     */
     @org.junit.Test
     public void checkJComboBox() {
         JPanel panel = extractComboBoxPanel(executeController(createTwoMockTrains()));
@@ -425,16 +463,12 @@ public class MapVisualizationViewTest {
         assert comboBox.getRenderer().toString().contains("myRenderer");
     }
 
+    /**
+     * Checks that selecting an in-service train repositions the map as intended.
+     */
     @org.junit.Test
     public void checkMapFunctionality() {
-        VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        VisualizePresenter visualizePresenter = new VisualizePresenter(visualizeViewModel, viewManagerModel);
-        VisualizeInteractor visualizeInteractor = new VisualizeInteractor(visualizePresenter);
-        VisualizeController controller = new VisualizeController(visualizeInteractor);
-
-        // execute the controller
-        controller.execute(createTwoMockTrains());
+        VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains());
 
         MapVisualizationView mapVisualizationView = new MapVisualizationView(visualizeViewModel);
         JRootPane pane = (JRootPane) mapVisualizationView.getComponent(0);
@@ -452,6 +486,24 @@ public class MapVisualizationViewTest {
         assert mapVisualizationView.map.getPosition().getLat() - 2 < 0.00001;
         assert -0.00001 < mapVisualizationView.map.getPosition().getLon() - 3;
         assert mapVisualizationView.map.getPosition().getLon() - 3 < 0.00001;
+    }
+
+    /**
+     * Checks that selecting an out-of-service train triggers the relevant popup.
+     */
+    @Test
+    public void checkNotInServicePopupFunctions() {
+        VisualizeViewModel visualizeViewModel = executeController(createTwoMockTrains());
+
+        MapVisualizationView mapVisualizationView = new MapVisualizationView(visualizeViewModel);
+        JRootPane pane = (JRootPane) mapVisualizationView.getComponent(0);
+        JPanel panel = (JPanel) pane.getContentPane().getComponent(1);
+        JPanel panel2 = (JPanel) panel.getComponent(0);
+        JComboBox comboBox = (JComboBox) panel2.getComponent(2);
+
+        // check that the coordinates have changed to where they are required
+        ItemEvent e = new ItemEvent(comboBox, 2, new Coordinate(2, 3), ItemEvent.DESELECTED);
+        comboBox.getItemListeners()[0].itemStateChanged(e);
 
         // now we check that the other branch is executed
         createCloseTimer().start();
@@ -460,12 +512,14 @@ public class MapVisualizationViewTest {
         assert mapVisualizationView.map.getPosition().getLat() != -1;
         assert mapVisualizationView.map.getPosition().getLon() != -1;
         assert popUpDiscovered;
-
-        checkMapDoesNotAppear();
-        checkMapAppears();
     }
 
-    public void checkMapDoesNotAppear() {
+    /**
+     * Checks that property event changes fired from OSM sources do not make the map visible.
+     * This is because, when the map initially runs, the instantiation of OSM-related objects fire property changes.
+     */
+    @Test
+    public void checkOSMSourcesDoNotTriggerMap() {
         MapVisualizationView mapVisualizationView = new MapVisualizationView(new VisualizeViewModel());
         VisualizeState state = executeController(createTwoMockTrains()).getVisualizationState();
 
@@ -475,7 +529,11 @@ public class MapVisualizationViewTest {
         assert !(mapVisualizationView.isActive());
     }
 
-    public void checkMapAppears() {
+    /**
+     * Checks that firing a change of state event to VisualizeViewModel triggers the display of MapVisualizationView.
+     */
+    @Test
+    public void checkStateEventChangeTriggersMap() {
         MapVisualizationView mapVisualizationView = new MapVisualizationView(new VisualizeViewModel());
         VisualizeState state = executeController(createTwoMockTrains()).getVisualizationState();
 
