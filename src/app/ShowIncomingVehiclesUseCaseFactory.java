@@ -2,9 +2,9 @@ package app;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
-import interface_adapter.station_amenites_info.StationAmenitiesInfoController;
-import interface_adapter.station_amenites_info.StationAmenitiesInfoPresenter;
-import interface_adapter.station_amenites_info.StationAmenitiesInfoViewModel;
+import interface_adapter.station_general_info.StationGeneralInfoController;
+import interface_adapter.station_general_info.StationGeneralInfoPresenter;
+import interface_adapter.station_general_info.StationGeneralInfoViewModel;
 import use_case.show_incoming_vehicles.ShowIncomingVehiclesDataAccessInterface;
 import use_case.show_incoming_vehicles.ShowIncomingVehiclesInputBoundary;
 import use_case.show_incoming_vehicles.ShowIncomingVehiclesInteractor;
@@ -21,12 +21,12 @@ public class ShowIncomingVehiclesUseCaseFactory {
 
     public static StationAmenitiesView create(
             ViewManagerModel viewManagerModel,
-            StationAmenitiesInfoViewModel stationAmenitiesInfoViewModel,
+            StationGeneralInfoViewModel stationAmenitiesInfoViewModel,
             ShowIncomingVehiclesDataAccessInterface stationAmenitiesInfoDataAccessObject,
             ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel) {
 
         try {
-            StationAmenitiesInfoController stationAmenitiesInfoController = createStationInfoUseCase(viewManagerModel,
+            StationGeneralInfoController stationAmenitiesInfoController = createStationInfoUseCase(viewManagerModel,
                     stationAmenitiesInfoViewModel, stationAmenitiesInfoDataAccessObject, showIncomingVehiclesViewModel);
             return new StationAmenitiesView(stationAmenitiesInfoViewModel, stationAmenitiesInfoController);
         } catch (IOException e) {
@@ -36,19 +36,19 @@ public class ShowIncomingVehiclesUseCaseFactory {
         return null;
     }
 
-    private static StationAmenitiesInfoController createStationInfoUseCase(
+    private static StationGeneralInfoController createStationInfoUseCase(
             ViewManagerModel viewManagerModel,
-            StationAmenitiesInfoViewModel stationAmenitiesInfoViewModel,
+            StationGeneralInfoViewModel stationAmenitiesInfoViewModel,
             ShowIncomingVehiclesDataAccessInterface stationAmenitiesInfoDataAccessObject,
             ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        ShowIncomingVehiclesOutputBoundary showIncomingVehiclesOutputBoundary = new StationAmenitiesInfoPresenter(
+        ShowIncomingVehiclesOutputBoundary showIncomingVehiclesOutputBoundary = new StationGeneralInfoPresenter(
                 stationAmenitiesInfoViewModel, showIncomingVehiclesViewModel, viewManagerModel);
 
         ShowIncomingVehiclesInputBoundary showIncomingVehiclesInteractor = new ShowIncomingVehiclesInteractor(
                 stationAmenitiesInfoDataAccessObject, showIncomingVehiclesOutputBoundary);
 
-        return new StationAmenitiesInfoController(showIncomingVehiclesInteractor);
+        return new StationGeneralInfoController(showIncomingVehiclesInteractor);
     }
 }
