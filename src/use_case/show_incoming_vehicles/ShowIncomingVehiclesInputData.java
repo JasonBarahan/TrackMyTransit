@@ -1,4 +1,4 @@
-package use_case.station_general_info;
+package use_case.show_incoming_vehicles;
 
 public class ShowIncomingVehiclesInputData {
     final private String stationName;
