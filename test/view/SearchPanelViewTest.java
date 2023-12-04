@@ -239,7 +239,7 @@ public class SearchPanelViewTest {
             panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
             // pause for a bit
-            pause(100);
+            pause(10);
 
             // move to the right in the field
             panel.dispatchEvent(generateMoveRightEvent(searchField));
@@ -280,7 +280,7 @@ public class SearchPanelViewTest {
                 panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
                 // pause for a bit
-                pause(100);
+                pause(10);
 
                 // move to the right in the field
                 panel.dispatchEvent(generateMoveRightEvent(searchField));
@@ -319,7 +319,7 @@ public class SearchPanelViewTest {
         button.doClick();
 
         // check that a popup did not occur
-        //assert !(popUpDiscovered);
+        assert !(popUpDiscovered);
 
         // check that the view is returned and data matches
         // TODO: This only checks the station name. May need to change this in the future
@@ -363,7 +363,7 @@ public class SearchPanelViewTest {
                 panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
                 // pause for a bit
-                pause(100);
+                pause(10);
 
                 // move to the right in the field
                 panel.dispatchEvent(generateMoveRightEvent(searchField));
@@ -434,7 +434,7 @@ public class SearchPanelViewTest {
                 panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
                 // pause for a bit
-                pause(100);
+                pause(10);
 
                 // move to the right in the field
                 panel.dispatchEvent(generateMoveRightEvent(searchField));
@@ -489,7 +489,7 @@ public class SearchPanelViewTest {
                 panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
                 // pause for a bit
-                pause(200);
+                pause(20);
 
                 // move to the right in the field
                 panel.dispatchEvent(generateMoveRightEvent(searchField));
@@ -562,7 +562,7 @@ public class SearchPanelViewTest {
                 panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
                 // pause for a bit
-                pause(200);
+                pause(10);
 
                 // move to the right in the field
                 panel.dispatchEvent(generateMoveRightEvent(searchField));
@@ -620,7 +620,7 @@ public class SearchPanelViewTest {
                 panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
                 // pause for a bit
-                pause(200);
+                pause(20);
 
                 // move to the right in the field
                 panel.dispatchEvent(generateMoveRightEvent(searchField));
@@ -684,7 +684,7 @@ public class SearchPanelViewTest {
                 panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
                 // pause for a bit
-                pause(100);
+                pause(10);
 
                 // move to the right in the field
                 panel.dispatchEvent(generateMoveRightEvent(searchField));
@@ -737,7 +737,7 @@ public class SearchPanelViewTest {
                 panel.dispatchEvent(generateKeyTypedEvent(searchField, c));
 
                 // pause for a bit
-                pause(100);
+                pause(10);
 
                 // move to the right in the field
                 panel.dispatchEvent(generateMoveRightEvent(searchField));

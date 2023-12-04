@@ -60,6 +60,13 @@ public class VisualizePresenter implements VisualizeOutputBoundary {
      */
     @Override
     public void prepareFailView(String error) {
+        /*
+            Why is this blank?
 
+            The way this is integrated, all fail views are handled by the presenter of the use case which occurs
+            before this one. A fail view should not be displayed to the user once the visualize use case is triggered.
+            If for some reason the data provided does not trigger the success view, it is a bug and should be reported
+            to developers.
+         */
     }
 }
