@@ -1,11 +1,12 @@
-package interface_adapter.search;
-public class SearchState {
+package interface_adapter.stationInfo.ControllerTest;
+
+public class MockControllerSearchState {
     //Purpose of class: Contains the information we need to have during the search state
-    private String stationName;
+    private String stationName = "Union Station";
     private String stationError;
-    
+
     // Because of the previous copy constructor, the default constructor must be explicit.
-    public SearchState() {
+    public MockControllerSearchState() {
     }
 
     public String getStateStationName() {
@@ -21,6 +22,4 @@ public class SearchState {
     public void setStateStationError(String stationError) {
         this.stationError = stationError;
     }
-
-
 }

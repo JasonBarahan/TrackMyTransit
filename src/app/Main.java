@@ -7,9 +7,8 @@ import entity.StationFactory;
 import entity.TrainFactory;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
-import interface_adapter.station_info.StationInfoViewModel;
+import interface_adapter.station_general_info.StationGeneralInfoViewModel;
 import interface_adapter.visualize.VisualizeViewModel;
 import view.*;
 
@@ -23,7 +22,7 @@ public class Main {
         // various cards, and the layout, and stitch them together.
 
         // The main application window.
-        JFrame application = new JFrame("FindMyStation");
+        JFrame application = new JFrame("TrackMyTransit");
         application.setPreferredSize(new Dimension(325, 600));
         application.pack();
         application.setLocationRelativeTo(null);
@@ -45,7 +44,7 @@ public class Main {
         // results from the use case. The ViewModels are observable, and will
         // be observed by the Views.
         SearchViewModel searchViewModel = new SearchViewModel();
-        StationInfoViewModel stationInfoViewModel = new StationInfoViewModel();
+        StationGeneralInfoViewModel stationInfoViewModel = new StationGeneralInfoViewModel();
         ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel = new ShowIncomingVehiclesViewModel();
         VisualizeViewModel visualizeViewModel = new VisualizeViewModel();
 
@@ -55,7 +54,6 @@ public class Main {
         
       
         // Note #2: There is no argument passed in to StationFactory(), since we are creating new Stations from the text file
-        // TODO [Implementation question]: Is there suppose to be NO ARGUMENT for the StationFactory() instance passed inside?
         FileStationDataAccessObject stationDataAccessObject;
         try {
             stationDataAccessObject = new FileStationDataAccessObject("./revisedStopData.txt", new StationFactory(),
@@ -65,19 +63,19 @@ public class Main {
         }
 
         // Creating an instance of SearchPanelView, which is linked to the Search Use case (the use case is created by class SearchUseCaseFactory)
-        SearchPanelView stationPanelView = SearchUseCaseFactory.create(viewManagerModel, searchViewModel, stationDataAccessObject, stationInfoViewModel);
+        SearchPanelView stationPanelView = SearchStationGeneralInfoUseCaseFactory.create(viewManagerModel, searchViewModel, stationDataAccessObject, stationInfoViewModel);
         views.add(stationPanelView, stationPanelView.viewName);
 
         // Creating an instance of StationInfoView. Note: Although this view should have its own use case, for now, since we are NOT displaying other data besides the station name, there is no useCaseFactory for this case
         // This View is only linked to transition from the SearchPanelView (once the other use case are integrated into this view, this will NO LONGER be the case)
-        StationInfoView stationInfoView = StationInfoUseCaseFactory.create(viewManagerModel, stationInfoViewModel, stationDataAccessObject, showIncomingVehiclesViewModel);
+        StationGeneralInfoView stationInfoView = ShowIncomingVehiclesUseCaseFactory.create(viewManagerModel, stationInfoViewModel, stationDataAccessObject, showIncomingVehiclesViewModel);
         views.add(stationInfoView, stationInfoView.viewName);
 
         ShowIncomingVehiclesView showIncomingVehiclesView = new ShowIncomingVehiclesView(showIncomingVehiclesViewModel,
                 VisualizeUseCaseFactory.create(viewManagerModel, visualizeViewModel));
         views.add(showIncomingVehiclesView, showIncomingVehiclesView.viewName);
 
-        MapVisualizationView mapVisualizationView = new MapVisualizationView(visualizeViewModel);
+        new MapVisualizationView(visualizeViewModel);
 
         // When initially booting up the application, the stationPanel is the 1st panel displayed to viewers.
         viewManagerModel.setActiveView(stationPanelView.viewName);
