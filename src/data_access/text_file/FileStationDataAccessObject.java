@@ -5,7 +5,7 @@ import data_access.API.GOVehicleApiClass;
 import data_access.API.StationApiInterface;
 import data_access.API.TrainApiInterface;
 import entity.*;
-import use_case.search_show_amenities.SearchShowAmenitiesDataAccessInterface;
+import use_case.station_general_info.StationGeneralInfoDataAccessInterface;
 
 import java.io.*;
 import java.util.*;
@@ -16,7 +16,7 @@ import use_case.show_incoming_vehicles.ShowIncomingVehiclesDataAccessInterface;
 
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
-public class FileStationDataAccessObject implements SearchShowAmenitiesDataAccessInterface, ShowIncomingVehiclesDataAccessInterface {
+public class FileStationDataAccessObject implements StationGeneralInfoDataAccessInterface, ShowIncomingVehiclesDataAccessInterface {
     private final File stationTxtFile;
     private final Map<String, StationInterface> stations = new HashMap<>(); // Hashmap of station objects
     private final StationFactory stationFactory;
