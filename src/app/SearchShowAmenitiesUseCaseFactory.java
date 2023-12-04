@@ -6,11 +6,11 @@ import interface_adapter.search.SearchPresenter;
 import interface_adapter.search.SearchViewModel;
 
 
-import interface_adapter.station_amenites_info.StationAmenitiesInfoViewModel;
-import use_case.search_show_amenities.SearchShowAmenitiesDataAccessInterface;
-import use_case.search_show_amenities.SearchShowAmenitiesInputBoundary;
-import use_case.search_show_amenities.SearchShowAmenitiesInteractor;
-import use_case.search_show_amenities.SearchShowAmenitiesOutputBoundary;
+import interface_adapter.station_general_info.StationGeneralInfoViewModel;
+import use_case.station_general_info.StationGeneralInfoDataAccessInterface;
+import use_case.station_general_info.StationGeneralInfoInputBoundary;
+import use_case.station_general_info.StationGeneralInfoInteractor;
+import use_case.station_general_info.StationGeneralInfoOutputBoundary;
 import view.SearchPanelView;
 
 import javax.swing.*;
@@ -24,8 +24,8 @@ public class SearchShowAmenitiesUseCaseFactory {
     public static SearchPanelView create(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
-            SearchShowAmenitiesDataAccessInterface searchShowAmenitiesDataAccessInterface,
-            StationAmenitiesInfoViewModel stationAmenitiesInfoViewModel) {
+            StationGeneralInfoDataAccessInterface searchShowAmenitiesDataAccessInterface,
+            StationGeneralInfoViewModel stationAmenitiesInfoViewModel) {
 
         try {
             SearchController searchController = createSearchUseCase(viewManagerModel, searchViewModel,
@@ -41,14 +41,14 @@ public class SearchShowAmenitiesUseCaseFactory {
     private static SearchController createSearchUseCase(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
-            SearchShowAmenitiesDataAccessInterface searchShowAmenitiesDataAccessInterface,
-            StationAmenitiesInfoViewModel stationInfoViewModel) throws IOException {
+            StationGeneralInfoDataAccessInterface searchShowAmenitiesDataAccessInterface,
+            StationGeneralInfoViewModel stationInfoViewModel) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        SearchShowAmenitiesOutputBoundary searchShowAmenitiesOutputBoundary = new SearchPresenter(searchViewModel,
+        StationGeneralInfoOutputBoundary searchShowAmenitiesOutputBoundary = new SearchPresenter(searchViewModel,
                 stationInfoViewModel, viewManagerModel);
 
-        SearchShowAmenitiesInputBoundary searchShowAmenitiesInteractor = new SearchShowAmenitiesInteractor(
+        StationGeneralInfoInputBoundary searchShowAmenitiesInteractor = new StationGeneralInfoInteractor(
                 searchShowAmenitiesDataAccessInterface, searchShowAmenitiesOutputBoundary);
 
         return new SearchController(searchShowAmenitiesInteractor);
