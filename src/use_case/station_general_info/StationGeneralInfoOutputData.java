@@ -1,6 +1,6 @@
-package use_case.search_show_amenities;
+package use_case.station_general_info;
 
-public class SearchShowAmenitiesOutputData {
+public class StationGeneralInfoOutputData {
     private final String stationName;
     private final String stationParentLine;
     private final String stationAmenities;
@@ -13,7 +13,7 @@ public class SearchShowAmenitiesOutputData {
      * @param stationParentLine
      * @param stationAmenities
      */
-    public SearchShowAmenitiesOutputData(String stationName, String stationParentLine, String stationAmenities) {
+    public StationGeneralInfoOutputData(String stationName, String stationParentLine, String stationAmenities) {
         this.stationName = stationName;
         this.stationParentLine = stationParentLine;
         this.stationAmenities = stationAmenities;

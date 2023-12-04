@@ -1,5 +1,5 @@
-package use_case.search_show_amenities;
+package use_case.station_general_info;
 
-public interface SearchShowAmenitiesInputBoundary {
-    void execute(SearchShowAmenitiesInputData searchInputData);
+public interface StationGeneralInfoInputBoundary {
+    void execute(StationGeneralInfoInputData searchInputData);
 }

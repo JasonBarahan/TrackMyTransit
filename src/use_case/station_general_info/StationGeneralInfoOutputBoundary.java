@@ -1,6 +1,6 @@
-package use_case.search_show_amenities;
+package use_case.station_general_info;
 
-public interface SearchShowAmenitiesOutputBoundary {
-    void prepareSuccessView(SearchShowAmenitiesOutputData searchOutputData);
+public interface StationGeneralInfoOutputBoundary {
+    void prepareSuccessView(StationGeneralInfoOutputData searchOutputData);
     void prepareFailView(String error);
 }
