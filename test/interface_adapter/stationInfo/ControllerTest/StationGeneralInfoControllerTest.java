@@ -14,6 +14,7 @@ import use_case.station_general_info.StationGeneralInfoDataAccessInterface;
 import use_case.station_general_info.StationGeneralInfoOutputBoundary;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 class StationGeneralInfoControllerTest {
 
@@ -50,7 +51,7 @@ class StationGeneralInfoControllerTest {
     }
 
     @Test
-    void validSuccessfulExecute() {
+    void validSuccessfulExecute() throws ParseException {
         testSearchController.execute(testSearchState.getStateStationName());
         // Note: If the message displayed in the print is "If reached here, then execute successfully called"
         // Then, call has successfully ran

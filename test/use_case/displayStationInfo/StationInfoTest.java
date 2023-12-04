@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import use_case.station_general_info.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
+import java.text.ParseException;
 
 public class StationInfoTest {
 
@@ -49,6 +50,8 @@ public class StationInfoTest {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -78,7 +81,7 @@ public class StationInfoTest {
             StationGeneralInfoInputBoundary searchInteractor = new StationGeneralInfoInteractor(stationObjRepository, failurePresenter);
             searchInteractor.execute(inputData);
 
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
 
@@ -111,10 +114,9 @@ public class StationInfoTest {
             StationGeneralInfoInputBoundary searchInteractor = new StationGeneralInfoInteractor(stationObjRepository, failurePresenter);
             searchInteractor.execute(inputData);
 
-        } catch (IOException e) {
+        } catch (IOException | ParseException e ) {
             throw new RuntimeException(e);
         }
-
     }
 
 

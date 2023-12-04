@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 
 import interface_adapter.station_general_info.StationGeneralInfoController;
 import interface_adapter.station_general_info.StationGeneralInfoState;
@@ -52,9 +53,12 @@ public class StationGeneralInfoView extends JPanel implements ActionListener, Pr
                         if (e.getSource().equals(show_incoming_vehicles)) {
                             StationGeneralInfoState currentState = stationInfoViewModel.getState();
 
-                            StationGeneralInfoView.this.stationGeneralInfoController.execute(
-                                    currentState.getStateStationName()
-                            );
+                            try {
+                                StationGeneralInfoView.this.stationGeneralInfoController.execute(
+                                        currentState.getStateStationName());
+                            } catch (ParseException ex) {
+                                throw new RuntimeException(ex);
+                            };
                         }
                     }
                 }

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchState;
@@ -45,9 +46,13 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
                            currentStateOfInput.setStateStationName(stationInputField.getText());
 
                             SearchState currentState = searchViewModel.getState();
-                            searchController.execute(
-                                    currentState.getStateStationName()
-                            );
+                            try {
+                                searchController.execute(
+                                        currentState.getStateStationName()
+                                );
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 }

@@ -8,6 +8,10 @@ import entity.*;
 import use_case.station_general_info.StationGeneralInfoDataAccessInterface;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -106,7 +110,7 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
     }
 
     @Override
-    public void setIncomingVehiclesList(String stationName){
+    public void setIncomingVehiclesList(String stationName) throws ParseException {
         StationInterface stationObj = getStation(stationName);
         String stationID = stationObj.getId();
         if (!incomingVehiclesIsEmpty(stationName)) {
@@ -119,7 +123,7 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
                 String scheduledTime = vehicles.get(4);
                 String departureTime = vehicles.get(5);
                 String tripNumber = vehicles.get(6);
-                String delay = null;  //TODO: get vehicle delay
+                String delay = delayTime(scheduledTime, departureTime);
                 String latitude = vehicles.get(7);
                 String longitude = vehicles.get(8);
                 Train vehicle = trainFactory.create(lineCode, lineName, trainName, scheduledTime, departureTime,
@@ -131,7 +135,7 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
     }
 
     @Override
-    public void setStation (String stationName) {
+    public void setStation (String stationName) throws ParseException {
         // Set station amenities
         setStationAmenities(stationName);
         // Set station incoming vehicles
@@ -172,4 +176,39 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
         return (String) (amenitiesAPICallResult.get(amenitiesAPICallMetadataCode)).get(0);
     }
 
+    @Override
+    public String delayTime(String scheduled, String computed) throws ParseException {
+        String scheduleDate = scheduled.substring(11);
+        String computedDate = computed.substring(11);
+
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+        Date scheduleTime = dateFormat.parse(scheduleDate);
+        Date computedTime = dateFormat.parse(computedDate);
+
+        double difference = (computedTime.getTime() - scheduleTime.getTime()) * 0.001; // in seconds
+
+        // if cases for returning the differences in time
+        if (difference >= 3600) {
+            return MAJOR + calculated(difference) + HOURS;
+        } else if (difference >= 900) {
+            return MAJOR + calculated(difference) + MINUTES;
+        } else if (difference >= 180) {
+            return DELAY + calculated(difference) + MINUTES;
+        } else if (difference >= 60) {
+            return MINIMAL + calculated(difference) + MINUTES;
+        } return NONE + " arriving in " + difference + SECONDS;
+
+    }
+
+    @Override
+    public double calculated(double time) {
+        {
+            DecimalFormat df = new DecimalFormat("#.#");
+
+            if (time >= 3600) {
+                return Double.parseDouble(df.format(time));
+            }
+            return Double.parseDouble(df.format(time / 60));
+        }
+    }
 }

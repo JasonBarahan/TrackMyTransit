@@ -3,6 +3,7 @@ package use_case.station_general_info;
 import entity.Station;
 import entity.StationInterface;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface StationGeneralInfoDataAccessInterface {
@@ -19,7 +20,7 @@ public interface StationGeneralInfoDataAccessInterface {
 
     List<String> getStationAmenities(String inputStationName);
 
-    void setStation(String stationName);
+    void setStation(String stationName) throws ParseException;
     void setStationAmenities(String stationName);
 
 }

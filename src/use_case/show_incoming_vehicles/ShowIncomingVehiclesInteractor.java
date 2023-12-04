@@ -1,6 +1,8 @@
 package use_case.show_incoming_vehicles;
 
 import entity.*;
+
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class ShowIncomingVehiclesInteractor implements ShowIncomingVehiclesInput
     }
 
     @Override
-    public void execute(ShowIncomingVehiclesInputData showIncomingVehiclesInputData) {
+    public void execute(ShowIncomingVehiclesInputData showIncomingVehiclesInputData) throws ParseException {
         // if not empty
         if (!showIncomingVehiclesDataAccessObject.incomingVehiclesIsEmpty(showIncomingVehiclesInputData.getStationName())) {
 
@@ -50,7 +52,7 @@ public class ShowIncomingVehiclesInteractor implements ShowIncomingVehiclesInput
                 vehicleinfo.add(vehicleScheduledTime);
                 vehicleinfo.add("Computed Departure Time: ");
                 vehicleinfo.add(vehicleDepartureTime);
-                vehicleinfo.add("Delay: " + vehicleDelay);
+                vehicleinfo.add(vehicleDelay);
                 incomingVehiclesInfo.add(vehicleinfo);
             }
             sortByDateTime(incomingVehiclesInfo);

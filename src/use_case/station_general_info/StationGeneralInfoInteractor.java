@@ -1,5 +1,6 @@
 package use_case.station_general_info;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class StationGeneralInfoInteractor implements StationGeneralInfoInputBoundary {
@@ -13,7 +14,7 @@ public class StationGeneralInfoInteractor implements StationGeneralInfoInputBoun
     }
 
     @Override
-    public void execute(StationGeneralInfoInputData searchInputData) {
+    public void execute(StationGeneralInfoInputData searchInputData) throws ParseException {
         String stationName = searchInputData.getStationName();
         boolean stationExists = stationDataAccessObject.stationExist(stationName); //Returns true if the station has a name in the revisedStopData.txt. Returns False otherwise
         if (stationExists) {
