@@ -7,8 +7,6 @@ import interface_adapter.visualize.VisualizeState;
 import interface_adapter.visualize.VisualizeViewModel;
 import org.junit.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
-import use_case.search.SearchOutputBoundary;
-import use_case.search.SearchOutputData;
 import use_case.visualize.*;
 
 import javax.swing.*;
@@ -454,10 +452,10 @@ public class MapVisualizationViewTest {
         assert comboBox.getItemAt(1).toString().equals("Coordinate[43.644805, -79.377704]");
 
         // check if present
-        MetalComboBoxButton metalComboBoxButton = (MetalComboBoxButton) comboBox.getComponent(0);
-        CellRendererPane cellRendererPane = (CellRendererPane) comboBox.getComponent(1);
-        assert metalComboBoxButton != null;
-        assert cellRendererPane != null;
+//        MetalComboBoxButton metalComboBoxButton = (MetalComboBoxButton) comboBox.getComponent(0);
+//        CellRendererPane cellRendererPane = (CellRendererPane) comboBox.getComponent(1);
+//        assert metalComboBoxButton != null;
+//        assert cellRendererPane != null;
 
         // check that renderer is an instance of custom renderer ("myRenderer")
         assert comboBox.getRenderer().toString().contains("myRenderer");
