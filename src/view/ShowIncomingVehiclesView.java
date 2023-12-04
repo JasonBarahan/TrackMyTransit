@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesState;
 import interface_adapter.show_incoming_vehicles.ShowIncomingVehiclesViewModel;
+import interface_adapter.visualize.VisualizeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,13 +17,15 @@ import java.util.List;
 public class ShowIncomingVehiclesView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "show_incoming_vehicles";
     private final ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel;
+    private final VisualizeController visualizeController;
     JLabel stationName;
     JTextArea stationIncomingVehicles;
     JButton showMapButton;
 
-    public ShowIncomingVehiclesView(ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel) {
+    public ShowIncomingVehiclesView(ShowIncomingVehiclesViewModel showIncomingVehiclesViewModel, VisualizeController visualizeController) {
         this.showIncomingVehiclesViewModel = showIncomingVehiclesViewModel;
         this.showIncomingVehiclesViewModel.addPropertyChangeListener(this);
+        this.visualizeController = visualizeController;
 
         JLabel title = new JLabel("Incoming Vehicles Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -47,6 +50,21 @@ public class ShowIncomingVehiclesView extends JPanel implements ActionListener, 
         this.add(stationIncomingVehiclesLabel);
         this.add(stationIncomingVehicles);
         this.add(showMapButton);
+
+        showMapButton.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(showMapButton)) {
+                            ShowIncomingVehiclesState currentState = showIncomingVehiclesViewModel.getState();
+
+                            ShowIncomingVehiclesView.this.visualizeController.execute(
+                                    currentState.getStateIncomingVehiclesList()
+                            );
+                        }
+                    }
+                });
     }
 
     @Override

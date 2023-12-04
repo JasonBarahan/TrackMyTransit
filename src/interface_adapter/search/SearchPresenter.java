@@ -1,23 +1,23 @@
 package interface_adapter.search;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.station_info.StationInfoState;
-import interface_adapter.station_info.StationInfoViewModel;
-import use_case.search.SearchOutputBoundary;
-import use_case.search.SearchOutputData;
+import interface_adapter.station_general_info.StationGeneralInfoState;
+import interface_adapter.station_general_info.StationGeneralInfoViewModel;
+import use_case.station_general_info.StationGeneralInfoOutputBoundary;
+import use_case.station_general_info.StationGeneralInfoOutputData;
 
-public class SearchPresenter implements SearchOutputBoundary {
+public class SearchPresenter implements StationGeneralInfoOutputBoundary {
     private final SearchViewModel searchViewModel;
-    private final StationInfoViewModel stationInfoViewModel;
+    private final StationGeneralInfoViewModel stationInfoViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public SearchPresenter(SearchViewModel searchViewModel, StationInfoViewModel stationInfoViewModel, ViewManagerModel viewManagerModel) {
+    public SearchPresenter(SearchViewModel searchViewModel, StationGeneralInfoViewModel stationInfoViewModel, ViewManagerModel viewManagerModel) {
         this.searchViewModel = searchViewModel;
         this.stationInfoViewModel = stationInfoViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
-    public void prepareSuccessView(SearchOutputData response){
+    public void prepareSuccessView(StationGeneralInfoOutputData response){
         String retrieveStationName = response.getStationName();
         String retrieveStationAmenities = response.getStationAmenities();
         String retrieveParentLine = response.getStationParentLine();
@@ -34,14 +34,14 @@ public class SearchPresenter implements SearchOutputBoundary {
         // Step 2: Setting values in the SearchPanelView
 
         // Setting the station name value and updating state with change
-        StationInfoState stationInfoState = stationInfoViewModel.getState();
-        stationInfoState.setStateStationName(retrieveStationName);
+        StationGeneralInfoState stationAmenitiesInfoState = stationInfoViewModel.getState();
+        stationAmenitiesInfoState.setStateStationName(retrieveStationName);
 
         // Setting the station amenities list and updating state with change
-        stationInfoState.setStateStationAmenities(retrieveStationAmenities);
+        stationAmenitiesInfoState.setStateStationAmenities(retrieveStationAmenities);
 
         // Setting the station amenities list and updating state with change
-        stationInfoState.setStateStationParentLine(retrieveParentLine);
+        stationAmenitiesInfoState.setStateStationParentLine(retrieveParentLine);
 
         stationInfoViewModel.firePropertyChanged();
 

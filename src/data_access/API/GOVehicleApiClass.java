@@ -11,14 +11,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static data_access.API.TrainApiInterface.API_KEY;
-
-public class GOVehicleApiClass {
+public class GOVehicleApiClass implements TrainApiInterface{
     private final String PARTIAL_API_URL = "OpenDataAPI/api/V1";
     public GOVehicleApiClass() {
     }
-    public List<List<String>> retrieveVehicleInfo(String stationId){
+    public <T> T retrieveVehicleInfo(String stationId){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -40,41 +39,47 @@ public class GOVehicleApiClass {
             String trainInfoJsonData = response.body().string();
             JSONObject headerPositionJsonObj = new JSONObject(trainInfoJsonData); // This is where the header is located at
 
-            JSONObject stationServiceJsonObj = headerPositionJsonObj.getJSONObject("NextService");
-            JSONArray vehiclesJsonArray = stationServiceJsonObj.getJSONArray("Lines");
 
-            List<List<String>> vehiclesList = new ArrayList<>();
-            for (int i = 0; i < vehiclesJsonArray.length(); i++) {
-                JSONObject currtripEntry = vehiclesJsonArray.getJSONObject(i);
-                List<String> vehiclesInfoList = new ArrayList<>();
-                vehiclesInfoList.add(currtripEntry.getString("LineCode")); // parent line id
-                vehiclesInfoList.add(currtripEntry.getString("LineName")); // line full name
-                vehiclesInfoList.add(currtripEntry.getString("ServiceType"));
-                // indicates if vehicle is a train or a bus. Train is "T", Bus is "B"
-                vehiclesInfoList.add(currtripEntry.getString("DirectionName"));
-                // Vehicle direction (Departure - Destination)
-                vehiclesInfoList.add(currtripEntry.getString("ScheduledDepartureTime"));
-                // vehicle scheduled departure time from this station
-                vehiclesInfoList.add(currtripEntry.getString("ComputedDepartureTime"));
-                // vehicle actual departure time from this station
-                vehiclesInfoList.add(currtripEntry.getString("TripNumber"));
-                // We could calculate Delay based on Computed Departure time and Scheduled departure time of a Certain Vehicle
-                vehiclesInfoList.add(String.valueOf(currtripEntry.get("Latitude"))); // vehicle latitude
-                vehiclesInfoList.add(String.valueOf(currtripEntry.get("Longitude"))); // vehicle longitude
+            JSONObject metaDataJsonObj = headerPositionJsonObj.getJSONObject("Metadata");
+            String errorCode = (String) metaDataJsonObj.get("ErrorCode");
+            if (Objects.equals(errorCode, "200")) {
+                JSONObject stationServiceJsonObj = headerPositionJsonObj.getJSONObject("NextService");
+                JSONArray vehiclesJsonArray = stationServiceJsonObj.getJSONArray("Lines");
 
-                vehiclesList.add(vehiclesInfoList); //add trainInfoList in trainList
+                List<List<String>> vehiclesList = new ArrayList<>();
+                for (int i = 0; i < vehiclesJsonArray.length(); i++) {
+                    JSONObject currtripEntry = vehiclesJsonArray.getJSONObject(i);
+                    List<String> vehiclesInfoList = new ArrayList<>();
+                    vehiclesInfoList.add(currtripEntry.getString("LineCode")); // parent line id
+                    vehiclesInfoList.add(currtripEntry.getString("LineName")); // line full name
+                    vehiclesInfoList.add(currtripEntry.getString("ServiceType"));
+                    // indicates if vehicle is a train or a bus. Train is "T", Bus is "B"
+                    vehiclesInfoList.add(currtripEntry.getString("DirectionName"));
+                    // Vehicle direction (Departure - Destination)
+                    vehiclesInfoList.add(currtripEntry.getString("ScheduledDepartureTime"));
+                    // vehicle scheduled departure time from this station
+                    vehiclesInfoList.add(currtripEntry.getString("ComputedDepartureTime"));
+                    // vehicle actual departure time from this station
+                    vehiclesInfoList.add(currtripEntry.getString("TripNumber"));
+                    // We could calculate delay based on Computed Departure time and Scheduled departure time of a Certain Vehicle
+                    vehiclesInfoList.add(String.valueOf(currtripEntry.get("Latitude"))); // vehicle latitude
+                    vehiclesInfoList.add(String.valueOf(currtripEntry.get("Longitude"))); // vehicle longitude
 
-                System.out.println(vehiclesInfoList); // For debugging purposes
+                    vehiclesList.add(vehiclesInfoList); //add trainInfoList in trainList
 
-                System.out.println(httpUrl);
+                    System.out.println(vehiclesInfoList); // For debugging purposes
+
+                    System.out.println(httpUrl);
+                }
+                return (T) vehiclesList; // do not print this yet, wait for full change
             }
-            return vehiclesList; // do not print this yet, wait for full change
+            else {
+                String errorMsg = (String) metaDataJsonObj.get("ErrorMessage");
+                return (T) errorMsg;
+            }
 
         } catch (IOException | JSONException e) {
-            System.out.println("Retrieve Vehicle Info Failed...");
-//            throw new RuntimeException(e);
-            return null;
+            throw new RuntimeException(e);
         }
-
     }
 }

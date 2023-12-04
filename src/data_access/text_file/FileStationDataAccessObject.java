@@ -2,9 +2,10 @@ package data_access.text_file;
 
 import data_access.API.GOStationApiClass;
 import data_access.API.GOVehicleApiClass;
+import data_access.API.StationApiInterface;
+import data_access.API.TrainApiInterface;
 import entity.*;
-import use_case.station_info.StationInfoDataAccessInterface;
-import use_case.search.SearchDataAccessInterface;
+import use_case.station_general_info.StationGeneralInfoDataAccessInterface;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -15,17 +16,18 @@ import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
 import entity.Station;
+import use_case.show_incoming_vehicles.ShowIncomingVehiclesDataAccessInterface;
 
 // We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
 // We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
-public class FileStationDataAccessObject implements SearchDataAccessInterface, StationInfoDataAccessInterface {
+public class FileStationDataAccessObject implements StationGeneralInfoDataAccessInterface, ShowIncomingVehiclesDataAccessInterface {
     private final File stationTxtFile;
-    private final Map<String, Station> stations = new HashMap<>();
+    private final Map<String, StationInterface> stations = new HashMap<>(); // Hashmap of station objects
     private final StationFactory stationFactory;
     private final TrainFactory trainFactory;
 
-    private final GOStationApiClass goStationApiClass;
-    private final GOVehicleApiClass goVehicleApiClass;
+    private final StationApiInterface goStationApiClass;
+    private final TrainApiInterface goVehicleApiClass;
 
     public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, TrainFactory trainFactory,
                                        GOStationApiClass goStationApiClass, GOVehicleApiClass goVehicleApiClass) throws IOException {
@@ -55,7 +57,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
 
                 // For reference, here are the order of arguments in order to pass into stationFactory.create():
                 //(name, stationId, parentLine, latitude, longitude, amenitiesList, incomingVehicles)
-                Station station = stationFactory.create(parsedStationName, parsedStationID, parsedStationParentLine, parsedStationLatitude, parsedStationLongtitude, parsedStationAmenities, parsedStationVehicles);
+                StationInterface station = stationFactory.create(parsedStationName, parsedStationID, parsedStationParentLine, parsedStationLatitude, parsedStationLongtitude, parsedStationAmenities, parsedStationVehicles);
 
                 stations.put(parsedStationName, station);
             }
@@ -71,7 +73,7 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     // This method does NOT modify the contents of the Station object.
     // Modifications to Station object occurs in the setStation() method
     @Override
-    public Station getStation (String inputStationName) {
+    public StationInterface getStation (String inputStationName) {
         if (stationExist(inputStationName)) {
             return stations.get(inputStationName);
         } else {
@@ -103,65 +105,65 @@ public class FileStationDataAccessObject implements SearchDataAccessInterface, S
     }
 
     @Override
-    public List<Train> getIncomingVehicles(String inputStationName) throws ParseException {
-        //TODO: Consider moving the "construction" of the train object to a new method called setIncomingVehicles
-        if (incomingVehiclesNotEmpty(inputStationName)) {
-            String stationId = getStationID(inputStationName);
+    public List<Train> getIncomingVehicles(String inputStationName) {
+        return (stations.get(inputStationName)).getIncomingVehicles();
+    }
+
+    @Override
+    public void setIncomingVehiclesList(String stationName) throws ParseException {
+        StationInterface stationObj = getStation(stationName);
+        String stationID = stationObj.getId();
+        if (!incomingVehiclesIsEmpty(stationName)) {
+            List<List<String>> goVehicleInfo = goVehicleApiClass.retrieveVehicleInfo(stationID);
             List<Train> incomingVehiclesList = new ArrayList<>();
-            for (List<String> vehicles : goVehicleApiClass.retrieveVehicleInfo(stationId)) {
-                String lineCode = vehicles.get(0);
-                String lineName = vehicles.get(1);
+            for (List<String> vehicles : goVehicleInfo) {
+                String lineName = vehicles.get(0);
+                String lineCode = vehicles.get(1);
                 String trainName = vehicles.get(3);
                 String scheduledTime = vehicles.get(4);
                 String departureTime = vehicles.get(5);
                 String tripNumber = vehicles.get(6);
-                String delay = delayTime(scheduledTime, departureTime);  // Leave as null for error
+                String delay = delayTime(scheduledTime, departureTime);
                 String latitude = vehicles.get(7);
                 String longitude = vehicles.get(8);
                 Train vehicle = trainFactory.create(lineCode, lineName, trainName, scheduledTime, departureTime,
                         tripNumber, delay, Float.parseFloat(latitude), Float.parseFloat(longitude));
                 incomingVehiclesList.add(vehicle);
             }
-//        List<Train> incomingVehiclesList = goVehicleApiClass.retrieveVehicleInfo(stationId);
-            return incomingVehiclesList;
+            stationObj.setIncomingVehiclesList(incomingVehiclesList);
         }
-        else {return null;}
     }
 
     @Override
-    public void setStation (Station stationObj) throws ParseException {
-        //Get station name
-        String stationName = getStationName(stationObj);
-
+    public void setStation (String stationName) throws ParseException {
         // Set station amenities
-        setStationAmenities(stationObj);
-
-        // TODO: Resolve the lines below such that they follow the format above
-        List<Train> retrievedIncomingVehicles = getIncomingVehicles(stationName);
-        stationObj.setIncomingVehiclesList(retrievedIncomingVehicles);
-
+        setStationAmenities(stationName);
+        // Set station incoming vehicles
+        setIncomingVehiclesList(stationName);
     }
 
     @Override
-    public void setStationAmenities(Station stationObj){
+    public void setStationAmenities(String stationName){
+        StationInterface stationObj = getStation(stationName);
         String stationID = stationObj.getId();
         List<String> stationAmenitiesList = goStationApiClass.retrieveStationAmenities(stationID);
         stationObj.setAmenitiesList(stationAmenitiesList);
     }
 
     @Override
-    public boolean incomingVehiclesNotEmpty(String stationName) {
-        if (goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId())==(null)) {
-            return false;
-        }
-        return true;
+    public boolean incomingVehiclesIsEmpty(String stationName) {
+        return goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId()) instanceof String;
+    }
+
+    @Override
+    public String getVehicleInfoRetrievalErrorMsg(String stationName){
+        return goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId());
     }
 
     @Override
     public boolean stationExist(String identifier){
-        return stations.containsKey(identifier); //TODO: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
+        return stations.containsKey(identifier); //TODO: Limitation: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
                                                  // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
-                                                // TODO #2: What happens if the text file contains a station that the API no longer supports
     }
 
     //This is a method that returns the message associated with the attempted amenities API call

@@ -1,17 +1,17 @@
 package interface_adapter.search;
-import use_case.search.SearchInputBoundary;
-import use_case.search.SearchInputData;
+import use_case.station_general_info.StationGeneralInfoInputBoundary;
+import use_case.station_general_info.StationGeneralInfoInputData;
 
 import java.text.ParseException;
 
 public class SearchController {
-    final SearchInputBoundary userSearchUseCaseInteractor;
-    public SearchController(SearchInputBoundary userSearchUseCaseInteractor) {
+    final StationGeneralInfoInputBoundary userSearchUseCaseInteractor;
+    public SearchController(StationGeneralInfoInputBoundary userSearchUseCaseInteractor) {
         this.userSearchUseCaseInteractor = userSearchUseCaseInteractor;
     }
 
     public void execute(String stationName) throws ParseException {
-        SearchInputData searchInputData = new SearchInputData(stationName);
+        StationGeneralInfoInputData searchInputData = new StationGeneralInfoInputData(stationName);
         userSearchUseCaseInteractor.execute(searchInputData);
     }
 }
