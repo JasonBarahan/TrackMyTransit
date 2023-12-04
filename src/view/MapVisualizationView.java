@@ -64,6 +64,8 @@ public class MapVisualizationView extends JDialog implements PropertyChangeListe
             }
         });
         panelTop.add(fitButton);
+        BingAerialTileSource bingAerialTileSource = new BingAerialTileSource();
+        OsmTileSource osmTileSource = new OsmTileSource();
 
         // checkbox to show satellite imagery
         final JCheckBox showImageryCheckBox = new JCheckBox(VisualizeViewModel.SHOW_SATELLITE_IMAGERY_CHECKBOX_LABEL);
@@ -71,9 +73,9 @@ public class MapVisualizationView extends JDialog implements PropertyChangeListe
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (showImageryCheckBox.isSelected())
-                    map.setTileSource((new BingAerialTileSource()));
+                    map.setTileSource((bingAerialTileSource));
                 else if (!(showImageryCheckBox.isSelected()))
-                    map.setTileSource((new OsmTileSource.Mapnik()));
+                    map.setTileSource((osmTileSource));
             }
         });
         panelTop.add(showImageryCheckBox);
