@@ -1,23 +1,23 @@
 package interface_adapter.search;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.station_amenites_info.StationAmenitiesInfoState;
-import interface_adapter.station_amenites_info.StationAmenitiesInfoViewModel;
-import use_case.search_show_amenities.SearchShowAmenitiesOutputBoundary;
-import use_case.search_show_amenities.SearchShowAmenitiesOutputData;
+import interface_adapter.station_general_info.StationGeneralInfoState;
+import interface_adapter.station_general_info.StationGeneralInfoViewModel;
+import use_case.station_general_info.StationGeneralInfoOutputBoundary;
+import use_case.station_general_info.StationGeneralInfoOutputData;
 
-public class SearchPresenter implements SearchShowAmenitiesOutputBoundary {
+public class SearchPresenter implements StationGeneralInfoOutputBoundary {
     private final SearchViewModel searchViewModel;
-    private final StationAmenitiesInfoViewModel stationInfoViewModel;
+    private final StationGeneralInfoViewModel stationInfoViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public SearchPresenter(SearchViewModel searchViewModel, StationAmenitiesInfoViewModel stationInfoViewModel, ViewManagerModel viewManagerModel) {
+    public SearchPresenter(SearchViewModel searchViewModel, StationGeneralInfoViewModel stationInfoViewModel, ViewManagerModel viewManagerModel) {
         this.searchViewModel = searchViewModel;
         this.stationInfoViewModel = stationInfoViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
-    public void prepareSuccessView(SearchShowAmenitiesOutputData response){
+    public void prepareSuccessView(StationGeneralInfoOutputData response){
         String retrieveStationName = response.getStationName();
         String retrieveStationAmenities = response.getStationAmenities();
         String retrieveParentLine = response.getStationParentLine();
@@ -34,7 +34,7 @@ public class SearchPresenter implements SearchShowAmenitiesOutputBoundary {
         // Step 2: Setting values in the SearchPanelView
 
         // Setting the station name value and updating state with change
-        StationAmenitiesInfoState stationAmenitiesInfoState = stationInfoViewModel.getState();
+        StationGeneralInfoState stationAmenitiesInfoState = stationInfoViewModel.getState();
         stationAmenitiesInfoState.setStateStationName(retrieveStationName);
 
         // Setting the station amenities list and updating state with change
