@@ -68,7 +68,7 @@ public class Main {
 
         // Creating an instance of StationInfoView. Note: Although this view should have its own use case, for now, since we are NOT displaying other data besides the station name, there is no useCaseFactory for this case
         // This View is only linked to transition from the SearchPanelView (once the other use case are integrated into this view, this will NO LONGER be the case)
-        StationAmenitiesView stationInfoView = ShowIncomingVehiclesUseCaseFactory.create(viewManagerModel, stationInfoViewModel, stationDataAccessObject, showIncomingVehiclesViewModel);
+        StationGeneralInfoView stationInfoView = ShowIncomingVehiclesUseCaseFactory.create(viewManagerModel, stationInfoViewModel, stationDataAccessObject, showIncomingVehiclesViewModel);
         views.add(stationInfoView, stationInfoView.viewName);
 
         ShowIncomingVehiclesView showIncomingVehiclesView = new ShowIncomingVehiclesView(showIncomingVehiclesViewModel,

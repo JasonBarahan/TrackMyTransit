@@ -9,7 +9,7 @@ import use_case.show_incoming_vehicles.ShowIncomingVehiclesDataAccessInterface;
 import use_case.show_incoming_vehicles.ShowIncomingVehiclesInputBoundary;
 import use_case.show_incoming_vehicles.ShowIncomingVehiclesInteractor;
 import use_case.show_incoming_vehicles.ShowIncomingVehiclesOutputBoundary;
-import view.StationAmenitiesView;
+import view.StationGeneralInfoView;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class ShowIncomingVehiclesUseCaseFactory {
     /** Prevent instantiation. */
     private ShowIncomingVehiclesUseCaseFactory() {}
 
-    public static StationAmenitiesView create(
+    public static StationGeneralInfoView create(
             ViewManagerModel viewManagerModel,
             StationGeneralInfoViewModel stationAmenitiesInfoViewModel,
             ShowIncomingVehiclesDataAccessInterface stationAmenitiesInfoDataAccessObject,
@@ -28,7 +28,7 @@ public class ShowIncomingVehiclesUseCaseFactory {
         try {
             StationGeneralInfoController stationAmenitiesInfoController = createStationInfoUseCase(viewManagerModel,
                     stationAmenitiesInfoViewModel, stationAmenitiesInfoDataAccessObject, showIncomingVehiclesViewModel);
-            return new StationAmenitiesView(stationAmenitiesInfoViewModel, stationAmenitiesInfoController);
+            return new StationGeneralInfoView(stationAmenitiesInfoViewModel, stationAmenitiesInfoController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open station data file.");
         }
