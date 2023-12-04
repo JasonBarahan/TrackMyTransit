@@ -15,7 +15,7 @@ public interface StationGeneralInfoDataAccessInterface {
     String getStationID (String inputStationName);
     StationInterface getStation(String inputStationName);
 
-    String getStationName (Station stationObj);
+    String getStationName (StationInterface stationObj);
     String getStationParentLine(String inputStationName);
 
     List<String> getStationAmenities(String inputStationName);

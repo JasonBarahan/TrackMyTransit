@@ -82,7 +82,7 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
     }
 
     @Override
-    public String getStationName (Station stationObj) {
+    public String getStationName (StationInterface stationObj) {
         return stationObj.getName();
     }
 
