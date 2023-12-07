@@ -6,9 +6,7 @@ public class StationGeneralInfoOutputData {
     private final String stationAmenities;
 
     /**
-     * Requirement: Fail case considers the user misspells(spells the wrong letter) the station name.
-     * Incorrect capitalization is not considered in fail cases. In other words, we assume the user will not capitalize
-     * letters incorrectly.
+     * Constructor for the station info use case output data
      * @param stationName
      * @param stationParentLine
      * @param stationAmenities

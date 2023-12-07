@@ -7,6 +7,9 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface StationGeneralInfoDataAccessInterface {
+    /**
+     * Purpose: This interface contains all the shared methods for the DAO
+     */
     boolean stationExist(String identifier);
 
     String getAPIMetadataSuccessMessage();
