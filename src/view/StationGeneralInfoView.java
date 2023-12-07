@@ -24,7 +24,7 @@ public class StationGeneralInfoView extends JPanel implements ActionListener, Pr
     private final StationGeneralInfoController stationGeneralInfoController;
 
     /**
-     * A window with a title and a JButton.
+     * Creates a window displaying the station name, parent line, amenities, and a button saying "Show Incoming Vehicles".
      */
     public StationGeneralInfoView(StationGeneralInfoViewModel stationInfoViewModel,  StationGeneralInfoController stationGeneralInfoController) {
         this.stationInfoViewModel = stationInfoViewModel;
@@ -82,9 +82,13 @@ public class StationGeneralInfoView extends JPanel implements ActionListener, Pr
         System.out.println("Click " + evt.getActionCommand());
     }
 
+    /**
+     * Purpose: This propertyChange method allows the view to display station information
+     * Transitions panels to the incoming vehicle panel IF there is no get incoming vehicle error
+     * @param evt . Property change event
+     * */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        //System.out.println("Reached"); //Commented out for testing purposes
         StationGeneralInfoState state = (StationGeneralInfoState) evt.getNewValue();
         if (state.getIncomingVehiclesError() != null) {
             JOptionPane.showMessageDialog(this, state.getIncomingVehiclesError());

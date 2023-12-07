@@ -21,6 +21,11 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
     final JButton submit;
     private final SearchController searchController;
 
+    /**
+     * Purpose: This constructor creates a view object for the search station (team use case)
+     * @param searchViewModel . A search view model object.
+     * @param searchController .  A search controller object
+     * */
     public SearchPanelView(SearchViewModel searchViewModel, SearchController searchController) {
 
         this.searchViewModel = searchViewModel;
@@ -41,7 +46,7 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(submit)) {
-                            //TODO: REVIEW PROPOSED CHANGE. Liens 46 -47 fetches the current CORRECT user input from the text box, so that the correct, up-to-date user input is fetched from the search bar for processing in the controller.
+                            //Lines 46 -47 fetches the current CORRECT user input from the text box, so that the correct, up-to-date user input is fetched from the search bar for processing in the controller.
                            SearchState currentStateOfInput = searchViewModel.getState();
                            currentStateOfInput.setStateStationName(stationInputField.getText());
 
@@ -58,6 +63,7 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
                 }
         );
 
+        // Adds another key listener to "listen" in for user input
         stationInputField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -89,6 +95,12 @@ public class SearchPanelView extends JPanel implements ActionListener, PropertyC
         System.out.println("Click " + evt.getActionCommand());
     }
 
+    /**
+     * Purpose: This propertyChange method allows the view to transition between initial window.
+     * Transition if there is no state station error (ie: no station retrieval error)
+     * Otherwise, display the error as a popup dialog window
+     * @param evt . Property change event
+     * */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         SearchState state = (SearchState) evt.getNewValue();
