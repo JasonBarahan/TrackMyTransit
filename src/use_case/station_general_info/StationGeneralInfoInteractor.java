@@ -13,6 +13,15 @@ public class StationGeneralInfoInteractor implements StationGeneralInfoInputBoun
         this.stationPresenter = searchOutputBoundary;
     }
 
+    /**
+     * Purpose: The station info use case interactor takes in the input data from the search station use case...
+     * Since this execute method is only called when a user inputs a valid station name...
+     * It runs a conditional to check if the station has an "corresponding" object in the DAO based on file reading
+         * If the above check fails, the interactor will call for a prepare fail view saying that station does not exist
+     * It attempts calls the GO Station API to get the Metadata message
+        * If Metadata message indicates successful request, then retrieve both the station amenities info and prepare success view
+        * Otherwise, prepare fail view saying that API request failed.
+     * */
     @Override
     public void execute(StationGeneralInfoInputData searchInputData) throws ParseException {
         String stationName = searchInputData.getStationName();

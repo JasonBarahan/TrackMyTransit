@@ -18,18 +18,27 @@ import java.io.IOException;
 
 public class SearchStationGeneralInfoUseCaseFactory {
 
-    /** Prevent instantiation. */
+    /** Constructor */
     private SearchStationGeneralInfoUseCaseFactory() {}
 
+    /**
+     * Returns a SearchPanelView object, which is a View object responsible for displaying info
+     * for the search use case (team use case)
+     * @param  viewManagerModel  a ViewManagerModel object
+     * @param  searchViewModel a SearchViewModel object
+     * @param  stationGeneralInfoDAO a StationGeneralInfoDataAccessInterface object
+     * @param  stationGeneralInfoViewModel a StationGeneralInfoViewModel object
+     * @return a SerachPanelView object
+     */
     public static SearchPanelView create(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
-            StationGeneralInfoDataAccessInterface searchShowAmenitiesDataAccessInterface,
-            StationGeneralInfoViewModel stationAmenitiesInfoViewModel) {
+            StationGeneralInfoDataAccessInterface stationGeneralInfoDAO,
+            StationGeneralInfoViewModel stationGeneralInfoViewModel) {
 
         try {
             SearchController searchController = createSearchUseCase(viewManagerModel, searchViewModel,
-                    searchShowAmenitiesDataAccessInterface, stationAmenitiesInfoViewModel);
+                    stationGeneralInfoDAO, stationGeneralInfoViewModel);
             return new SearchPanelView(searchViewModel, searchController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open station data file.");
@@ -38,18 +47,28 @@ public class SearchStationGeneralInfoUseCaseFactory {
         return null;
     }
 
+    /**
+     * Returns a SearchPanelView object, which is a View object responsible for displaying info
+     * for the search use case (team use case)
+     * @param  viewManagerModel  a ViewManagerModel object
+     * @param  searchViewModel a SearchViewModel object
+     * @param  stationGeneralInfoDAO a StationGeneralInfoDataAccessInterface object
+     * @param  stationGeneralInfoViewModel a StationGeneralInfoViewModel object
+     * @return a SerachPanelView object
+     */
+
     private static SearchController createSearchUseCase(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
-            StationGeneralInfoDataAccessInterface searchShowAmenitiesDataAccessInterface,
-            StationGeneralInfoViewModel stationInfoViewModel) throws IOException {
+            StationGeneralInfoDataAccessInterface stationGeneralInfoDAO,
+            StationGeneralInfoViewModel stationGeneralInfoViewModel) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         StationGeneralInfoOutputBoundary searchShowAmenitiesOutputBoundary = new SearchPresenter(searchViewModel,
-                stationInfoViewModel, viewManagerModel);
+                stationGeneralInfoViewModel, viewManagerModel);
 
         StationGeneralInfoInputBoundary searchShowAmenitiesInteractor = new StationGeneralInfoInteractor(
-                searchShowAmenitiesDataAccessInterface, searchShowAmenitiesOutputBoundary);
+                stationGeneralInfoDAO, searchShowAmenitiesOutputBoundary);
 
         return new SearchController(searchShowAmenitiesInteractor);
     }

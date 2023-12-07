@@ -3,8 +3,7 @@ public class SearchState {
     //Purpose of class: Contains the information we need to have during the search state
     private String stationName;
     private String stationError;
-    
-    // Because of the previous copy constructor, the default constructor must be explicit.
+
     public SearchState() {
     }
 
