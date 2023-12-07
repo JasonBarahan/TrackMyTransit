@@ -12,6 +12,11 @@ public class StationGeneralInfoController {
         this.stationInfoUseCaseInteractor = stationInfoUseCaseInteractor;
     }
 
+    /**
+     * Purpose: This execute() methods calls the station general info use case interactor to execute the search use case
+     * @param stationName
+     * No Return
+     * */
     public void execute(String stationName) throws ParseException {
         ShowIncomingVehiclesInputData stationInfoInputData = new ShowIncomingVehiclesInputData(stationName);
         stationInfoUseCaseInteractor.execute(stationInfoInputData);
