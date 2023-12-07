@@ -18,8 +18,7 @@ import java.util.Map;
 import entity.Station;
 import use_case.show_incoming_vehicles.ShowIncomingVehiclesDataAccessInterface;
 
-// We will name it as FileStationDataAccessObject for now. When we start to implement vehicles, we will change it as requires
-// We might need to create different DA0 java files based on what data we are pulling (station, train or bus)
+
 public class FileStationDataAccessObject implements StationGeneralInfoDataAccessInterface, ShowIncomingVehiclesDataAccessInterface {
     private final File stationTxtFile;
     private final Map<String, StationInterface> stations = new HashMap<>(); // Hashmap of station objects
@@ -29,6 +28,16 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
     private final StationApiInterface goStationApiClass;
     private final TrainApiInterface goVehicleApiClass;
 
+
+    /**
+     * Constructor returning a FileStation DAO, used to access and change Station entity attribures
+     * @param  txtFilePath  string denoting the path of a text file containing station information
+     * @param  stationFactory A station Factory
+     * @param trainFactory A train factory
+     * @param goStationApiClass An GO Station API class
+     * @param goVehicleApiClass An GO vehicle API Class
+     * @return Instance of FileStationDAO
+     */
     public FileStationDataAccessObject(String txtFilePath, StationFactory stationFactory, TrainFactory trainFactory,
                                        GOStationApiClass goStationApiClass, GOVehicleApiClass goVehicleApiClass) throws IOException {
 
@@ -64,14 +73,13 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
         }
     }
 
+    /** Getter method to retrieve API Success Message. Returns: String*/
     @Override
     public String getAPIMetadataSuccessMessage() {
         return goStationApiClass.getApiMetadataSuccessMessage();
     }
 
-    // Getter method to retrieve Station object.
-    // This method does NOT modify the contents of the Station object.
-    // Modifications to Station object occurs in the setStation() method
+    /** Getter method to retrieve a station object. Returns: StationInterface*/
     @Override
     public StationInterface getStation (String inputStationName) {
         if (stationExist(inputStationName)) {
@@ -81,24 +89,25 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
         }
     }
 
+    /** Getter method to retrieve Station Name. Returns: String*/
     @Override
     public String getStationName (StationInterface stationObj) {
         return stationObj.getName();
     }
 
+    /** Getter method to retrieve Station parent line. Returns: String*/
     @Override
     public String getStationParentLine(String inputStationName) {
         return (stations.get(inputStationName)).getParentLine();
     }
 
+    /** Getter method to retrieve Station ID. Returns: String*/
     @Override
     public String getStationID (String inputStationName) {
         return (stations.get(inputStationName)).getId();
     }
 
-    // Getter method to retrieve Station Amenities list.
-    // This method does NOT modify the contents of the Station object.
-    // Modifications to Station object occurs in the setStationAmenities() method
+    /** Getter method to retrieve Station Amenities List. Returns: List<String>*/
     @Override
     public List<String> getStationAmenities(String inputStationName) {
         return (stations.get(inputStationName)).getAmenitiesList();
@@ -134,6 +143,7 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
         }
     }
 
+    /** Setter method to modify Station object.*/
     @Override
     public void setStation (String stationName) throws ParseException {
         // Set station amenities
@@ -142,6 +152,7 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
         setIncomingVehiclesList(stationName);
     }
 
+    /** Setter method to modify Station amenities.*/
     @Override
     public void setStationAmenities(String stationName){
         StationInterface stationObj = getStation(stationName);
@@ -160,14 +171,16 @@ public class FileStationDataAccessObject implements StationGeneralInfoDataAccess
         return goVehicleApiClass.retrieveVehicleInfo(stations.get(stationName).getId());
     }
 
+    /** Method returning a Boolean to check whether station exists.
+     * MASSIVE ASSUMPTION: We are assuming that the user types in correct casing for station name (needs to be exact match)*/
     @Override
     public boolean stationExist(String identifier){
-        return stations.containsKey(identifier); //TODO: Limitation: MASSIVE ASSUMPTION HERE THAT THE USER types input in correct casing
-                                                 // May need to resolve this by converting user input to lowercase -> then comparing to txt names (which will also be compared in lowercase form?)
+        return stations.containsKey(identifier);
     }
 
-    //This is a method that returns the message associated with the attempted amenities API call
-    // For more information about API messages, please see comments in file GOStationApiClass.java
+    /** Method that returns the message associated with the attempted amenities API call
+     * For more information about API messages, please see comments in file GOStationApiClass.java
+     */
     @Override
     public String amenitiesAPICallMetadataMessage(String stationName){
         String stationID = getStationID(stationName);
