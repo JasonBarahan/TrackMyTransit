@@ -17,6 +17,11 @@ public class SearchPresenter implements StationGeneralInfoOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
+    /**
+     * Purpose: prepareSuccessView() prepares a transition to the next panel, which occurs ONLY if the user types in the correct station names and presses the submit button
+     * It does this by setting the view state appropriately.
+     * @param response Consisting of the output data we wish to display
+     */
     public void prepareSuccessView(StationGeneralInfoOutputData response){
         String retrieveStationName = response.getStationName();
         String retrieveStationAmenities = response.getStationAmenities();
@@ -49,6 +54,11 @@ public class SearchPresenter implements StationGeneralInfoOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
+    /**
+     * Purpose: prepareFailView() prepares the information required to display a "failure pop up window", occuring when the user either has incorrect API key or incorrect input
+     * It does this by setting the view state appropriately.
+     * @param stationRetrievalError Consisting of the error message to display
+     */
     public void prepareFailView(String stationRetrievalError){
         SearchState searchState = searchViewModel.getState();
         searchState.setStateStationError(stationRetrievalError);
