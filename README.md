@@ -1,11 +1,12 @@
 <div align='center'>
     <!-- project title is up for debate!! -->
     <h1><b>TrackMyTransit</b></h1>
-    <div>A project by Aaron Aranda, Carmen Chau, Jacquelyn Lu, and Jason Barahan</div>
+    <div>A project by Aaron Aranda, Carmen Chau, Jacquelyn Lu, and Jason Barahan
+<br><a href="https://docs.google.com/presentation/d/11Zj77PYk7ggaJpTGcc7wBB_cS97FSSqaqtUPnrTcXIU/edit?usp=sharing">Project website</a></div>
 </div>
 
 <!-- TODO: place graphics here once a working product is established -->
-
+This README file is yet to be updated. For now, please check the <a href="https://docs.google.com/presentation/d/11Zj77PYk7ggaJpTGcc7wBB_cS97FSSqaqtUPnrTcXIU/edit?usp=sharing">project website</a> for up-to-date info.
 ## Project Domain
 Our project domain focuses on public transportation. We are developing a transit tracking application specific to the GO Transit network that allows commuters to find and receive data, so they can make well-informed decisions.
 
