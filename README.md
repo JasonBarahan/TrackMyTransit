@@ -2,7 +2,7 @@
     <!-- project title is up for debate!! -->
     <h1><b>TrackMyTransit</b></h1>
     <div>A project by Aaron Aranda, Carmen Chau, Jacquelyn Lu, and Jason Barahan
-<br><a href="https://docs.google.com/presentation/d/11Zj77PYk7ggaJpTGcc7wBB_cS97FSSqaqtUPnrTcXIU/edit?usp=sharing">Project website</a></div>
+<br><a href="https://jasonbarahan.github.io/projects/trackmytransit/main.html">Project website</a></div>
 </div>
 
 <!-- TODO: place graphics here once a working product is established -->
