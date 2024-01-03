@@ -27,9 +27,7 @@ Users can input a GO Train station name and receive information about it, such a
     <li>Visualizing those train positions on a map</li>
 </ul>
 <br>
-A visual demonstration of the program can be found in the slides posted below.
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQTt8evQ5RM4z6KbTX4TxbQOW2CbL5qalJxQywkRADR4FjGYm0s4ZMCMa742ZyDjhMV89hxUGwxmN-O/embed?start=false&loop=true&delayms=10000" frameborder="0" width="100%" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-<br> Alternatively, you can access the slides <a href="https://docs.google.com/presentation/d/11Zj77PYk7ggaJpTGcc7wBB_cS97FSSqaqtUPnrTcXIU/edit?usp=sharing">here.</a>
+A visual demonstration of the program can be found in the slides posted <a href="https://docs.google.com/presentation/d/11Zj77PYk7ggaJpTGcc7wBB_cS97FSSqaqtUPnrTcXIU/edit?usp=sharing">here.</a>
 <h2>Design elements (and the project's purpose)</h2>
 <p>CSC207 is a course on software design - which taught us various principles such as Clean Architecture, SOLID
 design principles, design patterns, and object-oriented design. The course also focused on concepts such as
